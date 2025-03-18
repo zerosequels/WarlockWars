@@ -18,5 +18,6 @@ shape = SubResource("BoxShape3D_d2cpe")
 mesh = SubResource("BoxMesh_y27fm")
 
 [node name="OmniLight3D" type="OmniLight3D" parent="."]
+visible = false
 light_color = Color(1, 0.843137, 0, 1)
 light_energy = 0.5
