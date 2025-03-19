@@ -18,8 +18,6 @@ enum BiomeType {
 @onready var world_environment = $WorldEnvironment  # Adjust path if needed
 @onready var directional_light = $DirectionalLight3D  # Adjust path if needed
 
-func _ready():
-	setup_sky()
 
 func setup_sky():
 	# Create and configure Environment
