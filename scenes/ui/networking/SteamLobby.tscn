@@ -1,0 +1,177 @@
+[gd_scene load_steps=2 format=3 uid="uid://1xsid3w1txdc"]
+
+[ext_resource type="Theme" uid="uid://xohicrx4qm47" path="res://data/themes/midnight_rune/midnight_rune.tres" id="1_t3e4y"]
+
+[node name="SteamLobby" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_t3e4y")
+
+[node name="LobbyPanel" type="Panel" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="LobbyPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 50
+theme_override_constants/margin_top = 50
+theme_override_constants/margin_right = 50
+theme_override_constants/margin_bottom = 50
+
+[node name="HBoxContainer" type="HBoxContainer" parent="LobbyPanel/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 50
+
+[node name="VBoxContainer" type="VBoxContainer" parent="LobbyPanel/MarginContainer/HBoxContainer"]
+custom_minimum_size = Vector2(400, 0)
+layout_mode = 2
+theme_override_constants/separation = 15
+alignment = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="LobbyPanel/MarginContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="TextEdit" type="TextEdit" parent="LobbyPanel/MarginContainer/HBoxContainer/VBoxContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+placeholder_text = "Lobby Name ..."
+
+[node name="CreateLobby" type="Button" parent="LobbyPanel/MarginContainer/HBoxContainer/VBoxContainer/VBoxContainer"]
+layout_mode = 2
+text = "Create Lobby"
+
+[node name="JoinLobby" type="Button" parent="LobbyPanel/MarginContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+text = "Join Lobby"
+
+[node name="Players" type="Panel" parent="LobbyPanel/MarginContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="LobbyPanel/MarginContainer/HBoxContainer/VBoxContainer/Players"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="LobbyPanel/MarginContainer/HBoxContainer/VBoxContainer/Players/VBoxContainer"]
+layout_mode = 2
+text = "Players (0)"
+horizontal_alignment = 1
+
+[node name="RichTextLabel" type="RichTextLabel" parent="LobbyPanel/MarginContainer/HBoxContainer/VBoxContainer/Players/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+horizontal_alignment = 1
+
+[node name="LeaveLobby" type="Button" parent="LobbyPanel/MarginContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+text = "Leave Lobby"
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="LobbyPanel/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="SteamName" type="Label" parent="LobbyPanel/MarginContainer/HBoxContainer/VBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 8
+text = "Steam Name"
+
+[node name="StartGame" type="Button" parent="LobbyPanel/MarginContainer/HBoxContainer/VBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 8
+text = "START GAME"
+
+[node name="LobbyName" type="Label" parent="LobbyPanel/MarginContainer/HBoxContainer/VBoxContainer2"]
+layout_mode = 2
+text = "Lobby name"
+
+[node name="RichTextLabel" type="RichTextLabel" parent="LobbyPanel/MarginContainer/HBoxContainer/VBoxContainer2"]
+layout_mode = 2
+size_flags_vertical = 3
+horizontal_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="LobbyPanel/MarginContainer/HBoxContainer/VBoxContainer2"]
+layout_mode = 2
+alignment = 2
+
+[node name="TextEdit" type="TextEdit" parent="LobbyPanel/MarginContainer/HBoxContainer/VBoxContainer2/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "Chat..."
+
+[node name="SendMessage" type="Button" parent="LobbyPanel/MarginContainer/HBoxContainer/VBoxContainer2/HBoxContainer"]
+layout_mode = 2
+text = "Send message"
+
+[node name="FindLobbyPanel" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="FindLobbyPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 300
+theme_override_constants/margin_top = 100
+theme_override_constants/margin_right = 300
+theme_override_constants/margin_bottom = 100
+
+[node name="VBoxContainer" type="VBoxContainer" parent="FindLobbyPanel/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 15
+alignment = 1
+
+[node name="Label" type="Label" parent="FindLobbyPanel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+text = "Lobby List"
+
+[node name="ScrollContainer" type="ScrollContainer" parent="FindLobbyPanel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="FindLobbyPanel/MarginContainer/VBoxContainer/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="HBoxContainer" type="HBoxContainer" parent="FindLobbyPanel/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="FindLobbyPanel/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Lobby Name: test name 
+Players:(2/12)"
+
+[node name="Button" type="Button" parent="FindLobbyPanel/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "Join Lobby"
+
+[node name="Button" type="Button" parent="FindLobbyPanel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+text = "Close"

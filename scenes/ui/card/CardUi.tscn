@@ -1,0 +1,106 @@
+[gd_scene load_steps=7 format=3 uid="uid://crk0psks2005x"]
+
+[ext_resource type="Theme" uid="uid://xohicrx4qm47" path="res://data/themes/midnight_rune/midnight_rune.tres" id="1_e1uuo"]
+[ext_resource type="Script" uid="uid://cnkr4i6y5vmwa" path="res://scripts/card_ui.gd" id="2_qtkqw"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_akmji"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_e1uuo"]
+noise = SubResource("FastNoiseLite_akmji")
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_bgsja"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_qtkqw"]
+noise = SubResource("FastNoiseLite_bgsja")
+
+[node name="CardUi" type="Control"]
+custom_minimum_size = Vector2(160, 220)
+layout_mode = 3
+anchors_preset = 0
+offset_right = 120.0
+offset_bottom = 200.0
+theme = ExtResource("1_e1uuo")
+script = ExtResource("2_qtkqw")
+
+[node name="Button" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -14.5
+offset_bottom = 14.5
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="CardContent" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 4
+alignment = 1
+
+[node name="Header" type="HBoxContainer" parent="MarginContainer/CardContent"]
+layout_mode = 2
+size_flags_vertical = 3
+mouse_filter = 2
+theme_override_constants/separation = 4
+alignment = 1
+
+[node name="Label" type="Label" parent="MarginContainer/CardContent/Header"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "Card Name"
+
+[node name="CardArtwork" type="TextureRect" parent="MarginContainer/CardContent"]
+clip_contents = true
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 2
+mouse_filter = 2
+texture = SubResource("NoiseTexture2D_e1uuo")
+expand_mode = 5
+stretch_mode = 4
+
+[node name="LevelStars" type="HBoxContainer" parent="MarginContainer/CardContent"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 2
+alignment = 1
+
+[node name="StarExample" type="TextureRect" parent="MarginContainer/CardContent/LevelStars"]
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 2
+mouse_filter = 2
+texture = SubResource("NoiseTexture2D_qtkqw")
+expand_mode = 4
+
+[node name="TypeIcons" type="HBoxContainer" parent="MarginContainer/CardContent"]
+layout_mode = 2
+size_flags_vertical = 3
+mouse_filter = 2
+alignment = 1
+
+[node name="Atk" type="Label" parent="MarginContainer/CardContent/TypeIcons"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+text = "Atk:00"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Def" type="Label" parent="MarginContainer/CardContent/TypeIcons"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+text = "Def:00"
+horizontal_alignment = 1
+vertical_alignment = 1

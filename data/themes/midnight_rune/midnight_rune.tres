@@ -1,0 +1,160 @@
+[gd_resource type="Theme" load_steps=39 format=3 uid="uid://xohicrx4qm47"]
+
+[ext_resource type="FontFile" uid="uid://cu3yp3ikyve56" path="res://assets/fonts/Pixelify_Sans/PixelifySans-VariableFont_wght.ttf" id="1_q0kyq"]
+[ext_resource type="StyleBox" uid="uid://btobjl86roua6" path="res://data/themes/midnight_rune/midnight_rune_button_disabled.tres" id="2_cngcx"]
+[ext_resource type="StyleBox" uid="uid://bo4a1pejwnrbu" path="res://data/themes/midnight_rune/midnight_rune_button_focus.tres" id="3_blv86"]
+[ext_resource type="StyleBox" uid="uid://2e281axhdb5l" path="res://data/themes/midnight_rune/midnight_rune_button_hover.tres" id="4_usbmj"]
+[ext_resource type="StyleBox" uid="uid://byiftsq1t8dgh" path="res://data/themes/midnight_rune/midnight_rune_button_hover_pressed.tres" id="5_c4lt3"]
+[ext_resource type="StyleBox" uid="uid://bxke01bwal4fu" path="res://data/themes/midnight_rune/midnight_rune_button_normal.tres" id="6_eplc2"]
+[ext_resource type="StyleBox" uid="uid://cyg7shetwukco" path="res://data/themes/midnight_rune/midnight_rune_button_pressed.tres" id="7_8e3pm"]
+[ext_resource type="StyleBox" uid="uid://bmdmjso85nq3d" path="res://data/themes/midnight_rune/midnight_rune_grabber.tres" id="8_1xvj8"]
+[ext_resource type="StyleBox" uid="uid://b1jrabcermriq" path="res://data/themes/midnight_rune/midnight_rune_label.tres" id="8_c4lt3"]
+[ext_resource type="StyleBox" uid="uid://c40w7qdbfvcd1" path="res://data/themes/midnight_rune/midnight_rune_grabber_highlight.tres" id="9_eej0l"]
+[ext_resource type="StyleBox" uid="uid://cnn4kl0bf1yug" path="res://data/themes/midnight_rune/midnight_rune_lineedit_focus.tres" id="9_eplc2"]
+[ext_resource type="StyleBox" uid="uid://6ncbsufdcol1" path="res://data/themes/midnight_rune/midnight_rune_lineedit_normal.tres" id="10_8e3pm"]
+[ext_resource type="StyleBox" uid="uid://bltx2bc0e5c3k" path="res://data/themes/midnight_rune/midnight_rune_grabber_pressed.tres" id="10_ounow"]
+[ext_resource type="StyleBox" uid="uid://bck4mf6jv1qij" path="res://data/themes/midnight_rune/midnight_rune_scroll.tres" id="11_8xy7k"]
+[ext_resource type="StyleBox" uid="uid://dfskvj1j3tiv7" path="res://data/themes/midnight_rune/midnight_rune_lineedit_read_only.tres" id="11_ppl48"]
+[ext_resource type="StyleBox" uid="uid://btpum4am3jfn1" path="res://data/themes/midnight_rune/midnight_rune_scroll_focus.tres" id="12_uj0eg"]
+[ext_resource type="StyleBox" uid="uid://ccskrpwq3bc3" path="res://data/themes/midnight_rune/midnight_rune_slider.tres" id="13_fk455"]
+[ext_resource type="StyleBox" uid="uid://c2uwvu6vn05a8" path="res://data/themes/midnight_rune/midnight_rune_popup_hover.tres" id="18_8xy7k"]
+[ext_resource type="StyleBox" uid="uid://logltq3g7roe" path="res://data/themes/midnight_rune/midnight_rune_background.tres" id="18_h2g13"]
+[ext_resource type="StyleBox" uid="uid://uqpfi4bvovog" path="res://data/themes/midnight_rune/midnight_rune_background_fill.tres" id="19_fhqlf"]
+[ext_resource type="StyleBox" uid="uid://b4lke6nv1y6u5" path="res://data/themes/midnight_rune/midnight_rune_popup_panel.tres" id="19_uj0eg"]
+[ext_resource type="StyleBox" uid="uid://bgthn1h46ur0y" path="res://data/themes/midnight_rune/midnight_rune_popup_seperator.tres" id="20_fk455"]
+[ext_resource type="StyleBox" uid="uid://bayb00vuep06c" path="res://data/themes/midnight_rune/midnight_rune_tab_disabled.tres" id="23_e572i"]
+[ext_resource type="StyleBox" uid="uid://cj3bjxem2pr7e" path="res://data/themes/midnight_rune/midnight_rune_tab_focus.tres" id="24_ngqm2"]
+[ext_resource type="StyleBox" uid="uid://c3wqvywprgyjo" path="res://data/themes/midnight_rune/midnight_rune_tab_hovered.tres" id="25_o1jbq"]
+[ext_resource type="StyleBox" uid="uid://dvk3vqep222vu" path="res://data/themes/midnight_rune/midnight_rune_tab_selected.tres" id="26_1dke2"]
+[ext_resource type="StyleBox" uid="uid://d3jqsecuhyoqd" path="res://data/themes/midnight_rune/midnight_rune_tab_unselected.tres" id="27_4eo1q"]
+[ext_resource type="StyleBox" uid="uid://bfd1fw6r4akbm" path="res://data/themes/midnight_rune/midnight_rune_cursor.tres" id="28_bnnqe"]
+[ext_resource type="StyleBox" uid="uid://bfksb0pivqfap" path="res://data/themes/midnight_rune/midnight_rune_cursor_unfocused.tres" id="29_livbc"]
+[ext_resource type="StyleBox" uid="uid://qy0deh3ejnv7" path="res://data/themes/midnight_rune/midnight_rune_custom_button.tres" id="30_i32go"]
+[ext_resource type="StyleBox" uid="uid://dcj1sld8oy603" path="res://data/themes/midnight_rune/midnight_rune_selected_focus.tres" id="31_0nmsu"]
+[ext_resource type="StyleBox" uid="uid://b1n0sumrmrpvk" path="res://data/themes/midnight_rune/midnight_rune_custom_button_hover.tres" id="31_h2xtg"]
+[ext_resource type="StyleBox" uid="uid://b6mgjds6c6y2b" path="res://data/themes/midnight_rune/midnight_rune_tab_title_button_hover.tres" id="32_h2xtg"]
+[ext_resource type="StyleBox" uid="uid://cv3g1nk8bfatj" path="res://data/themes/midnight_rune/midnight_rune_custom_button_pressed.tres" id="32_tau7b"]
+[ext_resource type="StyleBox" uid="uid://bhypee2kje4no" path="res://data/themes/midnight_rune/midnight_rune_tree_hover.tres" id="33_d4jtt"]
+[ext_resource type="StyleBox" uid="uid://c1btrgyrwyhds" path="res://data/themes/midnight_rune/midnight_rune_tab_title_button_normal.tres" id="33_tau7b"]
+[ext_resource type="StyleBox" uid="uid://hv0s0ki4vk1j" path="res://data/themes/midnight_rune/midnight_rune_tab_title_button_pressed.tres" id="34_d4jtt"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0nmsu"]
+bg_color = Color(0.0588235, 0.0705882, 0.0980392, 1)
+
+[resource]
+Button/colors/font_color = Color(0.65098, 0.541176, 0.392157, 1)
+Button/colors/font_disabled_color = Color(0.65098, 0.541176, 0.392157, 1)
+Button/colors/font_outline_color = Color(0.631373, 0, 0.631373, 1)
+Button/constants/outline_size = 1
+Button/font_sizes/font_size = 24
+Button/fonts/font = ExtResource("1_q0kyq")
+Button/styles/disabled = ExtResource("2_cngcx")
+Button/styles/focus = ExtResource("3_blv86")
+Button/styles/hover = ExtResource("4_usbmj")
+Button/styles/hover_pressed = ExtResource("5_c4lt3")
+Button/styles/normal = ExtResource("6_eplc2")
+Button/styles/pressed = ExtResource("7_8e3pm")
+HScrollBar/styles/grabber = ExtResource("8_1xvj8")
+HScrollBar/styles/grabber_highlight = ExtResource("9_eej0l")
+HScrollBar/styles/grabber_pressed = ExtResource("10_ounow")
+HScrollBar/styles/scroll = ExtResource("11_8xy7k")
+HScrollBar/styles/scroll_focus = ExtResource("12_uj0eg")
+HSlider/styles/grabber_area = ExtResource("8_1xvj8")
+HSlider/styles/grabber_area_highlight = ExtResource("9_eej0l")
+HSlider/styles/slider = ExtResource("13_fk455")
+Label/colors/font_color = Color(0.65098, 0.541176, 0.392157, 1)
+Label/colors/font_outline_color = Color(0.631373, 0, 0.631373, 1)
+Label/colors/font_shadow_color = Color(0.65098, 0.541176, 0.392157, 0.2)
+Label/constants/outline_size = 1
+Label/font_sizes/font_size = 24
+Label/fonts/font = ExtResource("1_q0kyq")
+Label/styles/normal = ExtResource("8_c4lt3")
+LineEdit/colors/caret_color = Color(0.65098, 0.541176, 0.392157, 1)
+LineEdit/colors/font_color = Color(0.65098, 0.541176, 0.392157, 1)
+LineEdit/colors/font_outline_color = Color(0.631373, 0, 0.631373, 1)
+LineEdit/colors/font_selected_color = Color(0.65098, 0.541176, 0.392157, 1)
+LineEdit/colors/font_uneditable_color = Color(0.65098, 0.541176, 0.392157, 1)
+LineEdit/constants/outline_size = 1
+LineEdit/font_sizes/font_size = 24
+LineEdit/fonts/font = ExtResource("1_q0kyq")
+LineEdit/styles/focus = ExtResource("9_eplc2")
+LineEdit/styles/normal = ExtResource("10_8e3pm")
+LineEdit/styles/read_only = ExtResource("11_ppl48")
+Panel/styles/panel = SubResource("StyleBoxFlat_0nmsu")
+PopupMenu/colors/font_color = Color(0.65098, 0.541176, 0.392157, 1)
+PopupMenu/colors/font_outline_color = Color(0.631373, 0, 0.631373, 1)
+PopupMenu/constants/outline_size = 1
+PopupMenu/font_sizes/font_separator_size = 24
+PopupMenu/font_sizes/font_size = 24
+PopupMenu/font_sizes/title_font_size = 24
+PopupMenu/fonts/font = ExtResource("1_q0kyq")
+PopupMenu/fonts/font_separator = ExtResource("1_q0kyq")
+PopupMenu/fonts/title_font = ExtResource("1_q0kyq")
+PopupMenu/styles/hover = ExtResource("18_8xy7k")
+PopupMenu/styles/panel = ExtResource("19_uj0eg")
+PopupMenu/styles/separator = ExtResource("20_fk455")
+ProgressBar/constants/outline_size = 4
+ProgressBar/font_sizes/font_size = 24
+ProgressBar/fonts/font = ExtResource("1_q0kyq")
+ProgressBar/styles/background = ExtResource("18_h2g13")
+ProgressBar/styles/fill = ExtResource("19_fhqlf")
+RichTextLabel/colors/default_color = Color(0.65098, 0.541176, 0.392157, 1)
+RichTextLabel/colors/font_outline_color = Color(0.631373, 0, 0.631373, 1)
+RichTextLabel/constants/outline_size = 1
+RichTextLabel/font_sizes/normal_font_size = 24
+RichTextLabel/fonts/normal_font = ExtResource("1_q0kyq")
+RichTextLabel/styles/normal = ExtResource("8_c4lt3")
+TabBar/font_sizes/font_size = 24
+TabBar/fonts/font = ExtResource("1_q0kyq")
+TabBar/styles/button_highlight = ExtResource("9_eej0l")
+TabBar/styles/button_pressed = ExtResource("5_c4lt3")
+TabBar/styles/tab_disabled = ExtResource("23_e572i")
+TabBar/styles/tab_focus = ExtResource("24_ngqm2")
+TabBar/styles/tab_hovered = ExtResource("25_o1jbq")
+TabBar/styles/tab_selected = ExtResource("26_1dke2")
+TabBar/styles/tab_unselected = ExtResource("27_4eo1q")
+TabContainer/font_sizes/font_size = 24
+TabContainer/fonts/font = ExtResource("1_q0kyq")
+TabContainer/styles/panel = ExtResource("18_h2g13")
+TabContainer/styles/tab_disabled = ExtResource("23_e572i")
+TabContainer/styles/tab_focus = ExtResource("24_ngqm2")
+TabContainer/styles/tab_hovered = ExtResource("25_o1jbq")
+TabContainer/styles/tab_selected = ExtResource("26_1dke2")
+TabContainer/styles/tab_unselected = ExtResource("27_4eo1q")
+TextEdit/colors/caret_color = Color(0.65098, 0.541176, 0.392157, 1)
+TextEdit/colors/font_color = Color(0.65098, 0.541176, 0.392157, 1)
+TextEdit/colors/font_outline_color = Color(0.631373, 0, 0.631373, 1)
+TextEdit/constants/outline_size = 1
+TextEdit/font_sizes/font_size = 24
+TextEdit/fonts/font = ExtResource("1_q0kyq")
+TextEdit/styles/focus = ExtResource("9_eplc2")
+TextEdit/styles/normal = ExtResource("10_8e3pm")
+TextEdit/styles/read_only = ExtResource("11_ppl48")
+Tree/colors/font_color = Color(0.65098, 0.541176, 0.392157, 1)
+Tree/colors/font_outline_color = Color(0.631373, 0, 0.631373, 1)
+Tree/font_sizes/font_size = 24
+Tree/font_sizes/title_button_font_size = 24
+Tree/fonts/font = ExtResource("1_q0kyq")
+Tree/fonts/title_button_font = ExtResource("1_q0kyq")
+Tree/styles/button_hover = ExtResource("4_usbmj")
+Tree/styles/button_pressed = ExtResource("7_8e3pm")
+Tree/styles/cursor = ExtResource("28_bnnqe")
+Tree/styles/cursor_unfocused = ExtResource("29_livbc")
+Tree/styles/custom_button = ExtResource("30_i32go")
+Tree/styles/custom_button_hover = ExtResource("31_h2xtg")
+Tree/styles/custom_button_pressed = ExtResource("32_tau7b")
+Tree/styles/hovered = ExtResource("33_d4jtt")
+Tree/styles/panel = ExtResource("18_h2g13")
+Tree/styles/selected = ExtResource("26_1dke2")
+Tree/styles/selected_focus = ExtResource("31_0nmsu")
+Tree/styles/title_button_hover = ExtResource("32_h2xtg")
+Tree/styles/title_button_normal = ExtResource("33_tau7b")
+Tree/styles/title_button_pressed = ExtResource("34_d4jtt")
+VScrollBar/styles/grabber = ExtResource("8_1xvj8")
+VScrollBar/styles/grabber_highlight = ExtResource("9_eej0l")
+VScrollBar/styles/grabber_pressed = ExtResource("10_ounow")
+VScrollBar/styles/scroll = ExtResource("11_8xy7k")
+VScrollBar/styles/scroll_focus = ExtResource("12_uj0eg")
+VSlider/styles/grabber_area = ExtResource("8_1xvj8")
+VSlider/styles/grabber_area_highlight = ExtResource("9_eej0l")
+VSlider/styles/slider = ExtResource("13_fk455")
