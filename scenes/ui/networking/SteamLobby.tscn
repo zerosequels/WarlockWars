@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://1xsid3w1txdc"]
+[gd_scene load_steps=3 format=3 uid="uid://1xsid3w1txdc"]
 
 [ext_resource type="Theme" uid="uid://xohicrx4qm47" path="res://data/themes/midnight_rune/midnight_rune.tres" id="1_t3e4y"]
+[ext_resource type="Script" uid="uid://in0vagvs7m8g" path="res://scripts/steam_lobby.gd" id="2_uci3w"]
 
 [node name="SteamLobby" type="Control"]
 layout_mode = 3
@@ -10,9 +11,9 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("1_t3e4y")
+script = ExtResource("2_uci3w")
 
 [node name="LobbyPanel" type="Panel" parent="."]
-visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -105,7 +106,6 @@ text = "Lobby name"
 [node name="RichTextLabel" type="RichTextLabel" parent="LobbyPanel/MarginContainer/HBoxContainer/VBoxContainer2"]
 layout_mode = 2
 size_flags_vertical = 3
-horizontal_alignment = 1
 
 [node name="HBoxContainer" type="HBoxContainer" parent="LobbyPanel/MarginContainer/HBoxContainer/VBoxContainer2"]
 layout_mode = 2
@@ -121,6 +121,7 @@ layout_mode = 2
 text = "Send message"
 
 [node name="FindLobbyPanel" type="Panel" parent="."]
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -175,3 +176,10 @@ text = "Join Lobby"
 layout_mode = 2
 size_flags_horizontal = 8
 text = "Close"
+
+[connection signal="pressed" from="LobbyPanel/MarginContainer/HBoxContainer/VBoxContainer/VBoxContainer/CreateLobby" to="." method="_on_create_lobby_pressed"]
+[connection signal="pressed" from="LobbyPanel/MarginContainer/HBoxContainer/VBoxContainer/JoinLobby" to="." method="_on_join_lobby_pressed"]
+[connection signal="pressed" from="LobbyPanel/MarginContainer/HBoxContainer/VBoxContainer/LeaveLobby" to="." method="_on_leave_lobby_pressed"]
+[connection signal="pressed" from="LobbyPanel/MarginContainer/HBoxContainer/VBoxContainer2/StartGame" to="." method="_on_start_game_pressed"]
+[connection signal="pressed" from="LobbyPanel/MarginContainer/HBoxContainer/VBoxContainer2/HBoxContainer/SendMessage" to="." method="_on_send_message_pressed"]
+[connection signal="pressed" from="FindLobbyPanel/MarginContainer/VBoxContainer/Button" to="." method="_on_lobby_search_exit_button_pressed"]
