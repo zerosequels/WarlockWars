@@ -83,8 +83,8 @@ func _on_Lobby_Join_Requested(lobbyID, friendID):
 	# Join Lobby
 	join_Lobby(lobbyID)
 	
-func _on_Lobby_Data_Update(success, lobbyID, memberID, key):
-	print("Success: "+str(success)+", Lobby ID: "+str(lobbyID)+", Member ID: "+str(memberID)+", Key: "+str(key))
+func _on_Lobby_Data_Update(success: int, lobby_id: int, member_id: int):
+	print("Success: "+str(success)+", Lobby ID: "+str(lobby_id)+", Member ID: "+str(member_id))
 	
 func _on_Lobby_Chat_Update(lobbyID, changedID, makingChangeID, chatState):
 	#User who made lobby change
@@ -131,7 +131,7 @@ func _on_Lobby_Match_List(lobbies):
 		LOBBY_HBOX.add_child(LOBBY_LABEL)
 		LOBBY_HBOX.add_child(LOBBY_BUTTON)
 		
-		LOBBY_BUTTON.pressed.connect(join_Lobby(LOBBY))
+		LOBBY_BUTTON.pressed.connect(join_Lobby)
 
 func _on_Lobby_Message(result, user, message,type):
 	# Sender and their message
@@ -180,6 +180,7 @@ func _on_create_lobby_pressed():
 	create_Lobby()
 
 func _on_join_lobby_pressed():
+	leave_Lobby()
 	lobbyPanel.hide()
 	lobbySearch.show()
 	display_Message("Searching for lobbies...")
