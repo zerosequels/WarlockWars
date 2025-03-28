@@ -1,0 +1,14 @@
+[gd_scene format=3 uid="uid://be4jdv0nb5t20"]
+
+[node name="HBoxContainer" type="HBoxContainer"]
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Lobby Name: test name 
+Players:(2/12)"
+
+[node name="Button" type="Button" parent="."]
+layout_mode = 2
+text = "Join Lobby"
