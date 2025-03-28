@@ -31,9 +31,9 @@ func _ready():
 	check_Command_Line()
 	
 func _process(delta):
-	
 	if Globals.LOBBY_ID > 0:
 		read_p2p_packet()
+
 #networking functions
 func create_Lobby():
 	#Check no other Lobby is running
