@@ -163,12 +163,14 @@ size_flags_horizontal = 3
 layout_mode = 2
 
 [node name="Label" type="Label" parent="FindLobbyPanel/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/HBoxContainer"]
+visible = false
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Lobby Name: test name 
 Players:(2/12)"
 
 [node name="Button" type="Button" parent="FindLobbyPanel/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/HBoxContainer"]
+visible = false
 layout_mode = 2
 text = "Join Lobby"
 
