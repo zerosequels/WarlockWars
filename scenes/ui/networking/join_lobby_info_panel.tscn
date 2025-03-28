@@ -1,14 +1,17 @@
-[gd_scene format=3 uid="uid://be4jdv0nb5t20"]
+[gd_scene load_steps=2 format=3 uid="uid://be4jdv0nb5t20"]
 
-[node name="HBoxContainer" type="HBoxContainer"]
+[ext_resource type="Script" uid="uid://b3kqpc6m7m1rv" path="res://scripts/join_lobby_info_panel.gd" id="1_7ajp0"]
+
+[node name="lobby_info_panel" type="HBoxContainer"]
 size_flags_horizontal = 3
+script = ExtResource("1_7ajp0")
 
-[node name="Label" type="Label" parent="."]
+[node name="lobby_info_label" type="Label" parent="."]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Lobby Name: test name 
 Players:(2/12)"
 
-[node name="Button" type="Button" parent="."]
+[node name="join_lobby_button" type="Button" parent="."]
 layout_mode = 2
 text = "Join Lobby"
