@@ -23,11 +23,17 @@ func _ready():
 	Steam.lobby_joined.connect(_on_Lobby_Joined)
 	Steam.lobby_chat_update.connect(_on_Lobby_Chat_Update)
 	Steam.lobby_message.connect(_on_Lobby_Message)
-	#Steam.lobby_data_update.connect(_on_Lobby_Data_Update)
-	#Steam.join_requested.connect(_on_Lobby_Join_Requested)
+	Steam.lobby_data_update.connect(_on_Lobby_Data_Update)
+	Steam.join_requested.connect(_on_Lobby_Join_Requested)
+	Steam.p2p_session_request.connect(_on_P2p_Session_Request)
+	Steam.p2p_session_connect_fail.connect(_on_p2p_session_connect_fail)
 	
 	check_Command_Line()
 	
+func _process(delta):
+	if Globals.LOBBY_ID > 0:
+		read_p2p_packet()
+
 #networking functions
 func create_Lobby():
 	#Check no other Lobby is running
@@ -66,6 +72,8 @@ func _on_Lobby_Joined(lobbyID, permissions, locked, response):
 	
 	# Get lobby members
 	get_Lobby_Members()
+	
+	make_p2p_handshake()
 
 func _on_Lobby_Join_Requested(lobbyID, friendID):
 	# Get lobby owners name
@@ -86,6 +94,7 @@ func _on_Lobby_Chat_Update(lobbyID, changedID, makingChangeID, chatState):
 	match chatState:
 		1:
 			display_Message(str(CHANGER)+ " has joined the lobby.")
+			
 		2:
 			display_Message(str(CHANGER)+ " has left the lobby.")
 		4:
@@ -128,6 +137,41 @@ func _on_Lobby_Message(result, user, message,type):
 	# Sender and their message
 	var SENDER = Steam.getFriendPersonaName(user)
 	display_Message(str(SENDER) + " : " + str(message))
+	
+	
+func _on_P2p_Session_Request(remote_steam_id: int):
+	Steam.acceptP2PSessionWithUser(remote_steam_id)
+	print("Accepted P2P session with ", Steam.getFriendPersonaName(remote_steam_id))
+	make_p2p_handshake()
+	
+func _on_p2p_session_connect_fail(steam_id: int, session_error: int):
+	# If no error was given
+	if session_error == 0:
+		print("WARNING: Session failure with %s: no error given" % steam_id)
+
+	# Else if target user was not running the same game
+	elif session_error == 1:
+		print("WARNING: Session failure with %s: target user not running the same game" % steam_id)
+
+	# Else if local user doesn't own app / game
+	elif session_error == 2:
+		print("WARNING: Session failure with %s: local user doesn't own app / game" % steam_id)
+
+	# Else if target user isn't connected to Steam
+	elif session_error == 3:
+		print("WARNING: Session failure with %s: target user isn't connected to Steam" % steam_id)
+
+	# Else if connection timed out
+	elif session_error == 4:
+		print("WARNING: Session failure with %s: connection timed out" % steam_id)
+
+	# Else if unused
+	elif session_error == 5:
+		print("WARNING: Session failure with %s: unused" % steam_id)
+
+	# Else no known error
+	else:
+		print("WARNING: Session failure with %s: unknown error %s" % [steam_id, session_error])
 	
 # Button callback functions
 func _on_create_lobby_pressed():
@@ -229,3 +273,46 @@ func leave_Lobby():
 		
 		# Clear lobby list
 		Globals.LOBBY_MEMBERS.clear()
+
+func make_p2p_handshake():
+	print("Sending P2P handshake to the lobby")
+	
+	send_p2p_packet(0,{"message":"handshake","from":Globals.STEAM_ID})
+
+func read_p2p_packet():
+	var packet_size: int = Steam.getAvailableP2PPacketSize(0)
+	
+	if packet_size > 0:
+		var this_packet: Dictionary = Steam.readP2PPacket(packet_size,0)
+		
+		if this_packet.is_empty() or this_packet == null:
+			print("Warning: Reading an empty packet with non-zero size!")
+		
+		#Get the remote user's ID
+		var packet_sender: int = this_packet['remote_steam_id']
+		
+		#Make the packet readable 
+		var packet_code: PackedByteArray = this_packet['data']
+		var readable_data: Dictionary = bytes_to_var(packet_code.decompress_dynamic(-1, FileAccess.COMPRESSION_GZIP))
+		
+		print("Packet: %s" % readable_data)
+		
+func send_p2p_packet(this_target: int, packet_data: Dictionary):
+	var send_type: int = Steam.P2P_SEND_RELIABLE
+	var channel: int = 0
+	
+	#create a data array to send the data through
+	var this_data: PackedByteArray
+	
+	var compressed_data: PackedByteArray = var_to_bytes(packet_data).compress(FileAccess.COMPRESSION_GZIP)
+	this_data.append_array(var_to_bytes(compressed_data))
+	
+	# If sending to everyone
+	if this_target == 0:
+		if Globals.LOBBY_MEMBERS.size() > 1:
+			for this_member in Globals.LOBBY_MEMBERS:
+				if this_member['steam_id'] != Globals.STEAM_ID:
+					Steam.sendP2PPacket(this_member['steam_id'], this_data, send_type, channel)
+					
+	else:
+		Steam.sendP2PPacket(this_target, this_data, send_type, channel)
