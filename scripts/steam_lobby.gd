@@ -13,7 +13,8 @@ enum search_distance {Close, Default, Far, Worldwide}
 @onready var lobbyList = $FindLobbyPanel/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer
 @onready var chatInput = $LobbyPanel/MarginContainer/HBoxContainer/VBoxContainer2/HBoxContainer/TextEdit
 @onready var chatOutput = $LobbyPanel/MarginContainer/HBoxContainer/VBoxContainer2/RichTextLabel
-
+@onready var joinLobbyButton = $LobbyPanel/MarginContainer/HBoxContainer/VBoxContainer/JoinLobby
+@onready var createLobbyButton = $LobbyPanel/MarginContainer/HBoxContainer/VBoxContainer/VBoxContainer/CreateLobby
 func _ready():
 	#Set Steam Name
 	steamName.text = Globals.STEAM_NAME
@@ -60,6 +61,7 @@ func _on_Lobby_Created(connect_status, lobbyID):
 		Steam.setLobbyData(lobbyID, "name", lobbySetName.text)
 		var lobby_name = Steam.getLobbyData(lobbyID, "name")
 		lobbyGetName.text = str(lobby_name)
+		toggle_join_lobby_button(false)
 		
 
 func _on_Lobby_Joined(lobbyID, permissions, locked, response):
@@ -69,6 +71,7 @@ func _on_Lobby_Joined(lobbyID, permissions, locked, response):
 	# Get the lobby name
 	var lobby_name = Steam.getLobbyData(lobbyID, "name")
 	lobbyGetName.text = str(lobby_name)
+	toggle_join_lobby_button(false)
 	
 	# Get lobby members
 	get_Lobby_Members()
@@ -274,6 +277,7 @@ func leave_Lobby():
 		
 		# Clear lobby list
 		Globals.LOBBY_MEMBERS.clear()
+		toggle_join_lobby_button(true)
 
 func make_p2p_handshake():
 	print("Sending P2P handshake to the lobby")
@@ -317,3 +321,12 @@ func send_p2p_packet(this_target: int, packet_data: Dictionary):
 					
 	else:
 		Steam.sendP2PPacket(this_target, this_data, send_type, channel)
+
+func toggle_join_lobby_button(is_pressable:bool):
+	if is_pressable:
+		joinLobbyButton.disabled = false
+		createLobbyButton.disabled = false
+	else:
+		createLobbyButton.disabled = true
+		joinLobbyButton.disabled = true
+	
