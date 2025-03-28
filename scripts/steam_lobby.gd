@@ -3,6 +3,8 @@ extends Control
 enum lobby_status {Private, Friends, Public, Invisible}
 enum search_distance {Close, Default, Far, Worldwide}
 
+const LOBBY_SEARCH_OPTION = preload("res://scenes/ui/networking/join_lobby_info_panel.tscn")
+
 @onready var steamName = $LobbyPanel/MarginContainer/HBoxContainer/VBoxContainer2/SteamName
 @onready var lobbySetName = $LobbyPanel/MarginContainer/HBoxContainer/VBoxContainer/VBoxContainer/TextEdit
 @onready var lobbyGetName = $LobbyPanel/MarginContainer/HBoxContainer/VBoxContainer2/LobbyName
@@ -72,7 +74,8 @@ func _on_Lobby_Joined(lobbyID, permissions, locked, response):
 	var lobby_name = Steam.getLobbyData(lobbyID, "name")
 	lobbyGetName.text = str(lobby_name)
 	toggle_join_lobby_button(false)
-	
+	lobbyPanel.show()
+	lobbySearch.hide()
 	# Get lobby members
 	get_Lobby_Members()
 	
@@ -113,28 +116,11 @@ func _on_Lobby_Chat_Update(lobbyID, changedID, makingChangeID, chatState):
 
 func _on_Lobby_Match_List(lobbies):
 	for LOBBY in lobbies:
-		#Grab desired lobby data
-		var LOBBY_NAME = Steam.getLobbyData(LOBBY, "name")
+		var lobby_join_option = LOBBY_SEARCH_OPTION.instantiate()
 		
-		# Get the current number of members
-		var LOBBY_MEMBERS = Steam.getNumLobbyMembers(LOBBY)
-		
-		# Create Label for each lobby
-		var LOBBY_LABEL = Label.new()
-		LOBBY_LABEL.set_text("Lobby Name: " + str(LOBBY_NAME) + "\nPlayers:(" + str(LOBBY_MEMBERS) + "/12)")
-		
-		# Create button for each lobby
-		var LOBBY_BUTTON = Button.new()
-		LOBBY_BUTTON.text = "Join Lobby"
-		
-		
-		var LOBBY_HBOX = HBoxContainer.new()
-		
-		lobbyList.add_child(LOBBY_HBOX)
-		LOBBY_HBOX.add_child(LOBBY_LABEL)
-		LOBBY_HBOX.add_child(LOBBY_BUTTON)
-		
-		LOBBY_BUTTON.pressed.connect(join_Lobby)
+		lobbyList.add_child(lobby_join_option)
+		lobby_join_option.join_button_setup(LOBBY)
+		lobby_join_option.lobby_search_panel_join_request.connect(join_Lobby)
 
 func _on_Lobby_Message(result, user, message,type):
 	# Sender and their message

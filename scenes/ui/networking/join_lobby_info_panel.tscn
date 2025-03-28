@@ -1,4 +1,4 @@
-[gd_scene load_steps=2 format=3 uid="uid://be4jdv0nb5t20"]
+[gd_scene load_steps=2 format=3 uid="uid://c21tv6falytfb"]
 
 [ext_resource type="Script" uid="uid://b3kqpc6m7m1rv" path="res://scripts/join_lobby_info_panel.gd" id="1_7ajp0"]
 
@@ -15,3 +15,5 @@ Players:(2/12)"
 [node name="join_lobby_button" type="Button" parent="."]
 layout_mode = 2
 text = "Join Lobby"
+
+[connection signal="pressed" from="join_lobby_button" to="." method="_on_join_lobby_button_pressed"]
