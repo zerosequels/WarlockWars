@@ -1,4 +1,4 @@
-[gd_scene load_steps=2 format=3 uid="uid://c21tv6falytfb"]
+[gd_scene load_steps=2 format=3 uid="uid://be4jdv0nb5t20"]
 
 [ext_resource type="Script" uid="uid://b3kqpc6m7m1rv" path="res://scripts/join_lobby_info_panel.gd" id="1_7ajp0"]
 

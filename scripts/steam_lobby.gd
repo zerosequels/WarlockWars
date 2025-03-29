@@ -17,6 +17,7 @@ const LOBBY_SEARCH_OPTION = preload("res://scenes/ui/networking/join_lobby_info_
 @onready var chatOutput = $LobbyPanel/MarginContainer/HBoxContainer/VBoxContainer2/RichTextLabel
 @onready var joinLobbyButton = $LobbyPanel/MarginContainer/HBoxContainer/VBoxContainer/JoinLobby
 @onready var createLobbyButton = $LobbyPanel/MarginContainer/HBoxContainer/VBoxContainer/VBoxContainer/CreateLobby
+@onready var startMatchButton = $LobbyPanel/MarginContainer/HBoxContainer/VBoxContainer2/StartGame
 func _ready():
 	#Set Steam Name
 	steamName.text = Globals.STEAM_NAME
@@ -64,6 +65,7 @@ func _on_Lobby_Created(connect_status, lobbyID):
 		var lobby_name = Steam.getLobbyData(lobbyID, "name")
 		lobbyGetName.text = str(lobby_name)
 		toggle_join_lobby_button(false)
+		toggle_start_match_button(true)
 		
 
 func _on_Lobby_Joined(lobbyID, permissions, locked, response):
@@ -113,6 +115,12 @@ func _on_Lobby_Chat_Update(lobbyID, changedID, makingChangeID, chatState):
 			display_Message(str(CHANGER)+ " has has done ... something")
 	#Get Lobby Members
 	get_Lobby_Members()
+	
+	#Check to see if the player is the new host
+	if Globals.STEAM_ID == Steam.getLobbyData(lobbyID, "SteamIDOwner"):
+		toggle_start_match_button(true)
+	else:
+		toggle_start_match_button(false)
 
 func _on_Lobby_Match_List(lobbies):
 	for LOBBY in lobbies:
@@ -264,6 +272,7 @@ func leave_Lobby():
 		# Clear lobby list
 		Globals.LOBBY_MEMBERS.clear()
 		toggle_join_lobby_button(true)
+		toggle_start_match_button(false)
 
 func make_p2p_handshake():
 	print("Sending P2P handshake to the lobby")
@@ -316,3 +325,8 @@ func toggle_join_lobby_button(is_pressable:bool):
 		createLobbyButton.disabled = true
 		joinLobbyButton.disabled = true
 	
+func toggle_start_match_button(is_pressable):
+	if is_pressable:
+		startMatchButton.disabled = false
+	else:
+		startMatchButton.disabled = true
