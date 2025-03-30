@@ -278,33 +278,35 @@ func make_p2p_handshake():
 	
 	send_p2p_packet(0,{"message":"handshake","from":Globals.STEAM_ID})
 
-func read_p2p_packet():
+func read_p2p_packet() -> void:
 	var packet_size: int = Steam.getAvailableP2PPacketSize(0)
-	
 	if packet_size > 0:
-		var this_packet: Dictionary = Steam.readP2PPacket(packet_size,0)
+		var this_packet = Steam.readP2PPacket(packet_size, 0)
+		if this_packet == null:
+			print("Error: readP2PPacket returned null!")
+			return
+			
+		var packet_dict: Dictionary = this_packet
+		var packet_sender: int = packet_dict['remote_steam_id']
+		var packet_code: PackedByteArray = packet_dict['data']
 		
-		if this_packet.is_empty() or this_packet == null:
-			print("Warning: Reading an empty packet with non-zero size!")
-		
-		#Get the remote user's ID
-		var packet_sender: int = this_packet['remote_steam_id']
-		
-		#Make the packet readable 
-		var packet_code: PackedByteArray = this_packet['data']
-		var readable_data: Dictionary = bytes_to_var(packet_code.decompress_dynamic(-1, FileAccess.COMPRESSION_GZIP))
-		
-		print("Packet: %s" % readable_data)
+		var decompressed_data: PackedByteArray = packet_code.decompress_dynamic(-1, FileAccess.COMPRESSION_GZIP)
+		if decompressed_data.is_empty():
+			print("Error: Decompression failed!")
+			return
+			
+		var readable_data = bytes_to_var(decompressed_data)
+		if readable_data == null:
+			print("Error: bytes_to_var failed! Data may not be a Godot variant.")
+			return
+			
+		print("Packet contents: %s" % readable_data)
 		
 func send_p2p_packet(this_target: int, packet_data: Dictionary):
 	var send_type: int = Steam.P2P_SEND_RELIABLE
 	var channel: int = 0
 	
-	#create a data array to send the data through
-	var this_data: PackedByteArray
-	
-	var compressed_data: PackedByteArray = var_to_bytes(packet_data).compress(FileAccess.COMPRESSION_GZIP)
-	this_data.append_array(var_to_bytes(compressed_data))
+	var this_data: PackedByteArray = var_to_bytes(packet_data).compress(FileAccess.COMPRESSION_GZIP)
 	
 	# If sending to everyone
 	if this_target == 0:
