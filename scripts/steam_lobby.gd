@@ -116,7 +116,7 @@ func _on_Lobby_Chat_Update(lobbyID, changedID, makingChangeID, chatState):
 	get_Lobby_Members()
 	
 	#Check to see if the player is the new host
-	if Globals.STEAM_ID == Steam.getLobbyData(lobbyID, "SteamIDOwner"):
+	if Globals.STEAM_ID == Steam.getLobbyData(lobbyID, "SteamIDOwner").to_int():
 		toggle_start_match_button(true)
 	else:
 		toggle_start_match_button(false)
