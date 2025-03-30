@@ -114,12 +114,6 @@ func _on_Lobby_Chat_Update(lobbyID, changedID, makingChangeID, chatState):
 			display_Message(str(CHANGER)+ " has has done ... something")
 	#Get Lobby Members
 	get_Lobby_Members()
-	
-	#Check to see if the player is the new host
-	if Globals.STEAM_ID == Steam.getLobbyData(lobbyID, "SteamIDOwner").to_int():
-		toggle_start_match_button(true)
-	else:
-		toggle_start_match_button(false)
 
 func _on_Lobby_Match_List(lobbies):
 	for LOBBY in lobbies:
