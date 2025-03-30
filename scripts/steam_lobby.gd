@@ -102,7 +102,6 @@ func _on_Lobby_Chat_Update(lobbyID, changedID, makingChangeID, chatState):
 	match chatState:
 		1:
 			display_Message(str(CHANGER)+ " has joined the lobby.")
-			
 		2:
 			display_Message(str(CHANGER)+ " has left the lobby.")
 		4:
