@@ -187,7 +187,7 @@ func _on_leave_lobby_pressed():
 	leave_Lobby()
 	
 func _on_start_game_pressed():
-	pass # Replace with function body.
+	send_p2p_packet(0,{"message":"START_MATCH","from":Steam.getFriendPersonaName(Globals.STEAM_ID)})
 	
 func _on_send_message_pressed():
 	send_Chat_Message()
@@ -276,7 +276,7 @@ func leave_Lobby():
 func make_p2p_handshake():
 	print("Sending P2P handshake to the lobby")
 	
-	send_p2p_packet(0,{"message":"handshake","from":Globals.STEAM_ID})
+	send_p2p_packet(0,{"message":"handshake","from":Steam.getFriendPersonaName(Globals.STEAM_ID)})
 
 func read_p2p_packet() -> void:
 	var packet_size: int = Steam.getAvailableP2PPacketSize(0)
