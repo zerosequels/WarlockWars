@@ -295,7 +295,11 @@ func read_p2p_packet() -> void:
 			return
 			
 		print("Packet contents: %s" % readable_data)
-		
+		# Check for START_MATCH message
+		if readable_data.has("message") and readable_data["message"] == "START_MATCH":
+			print("START_MATCH command received from %d!" % packet_sender)
+			start_match()
+			
 func send_p2p_packet(this_target: int, packet_data: Dictionary):
 	var send_type: int = Steam.P2P_SEND_RELIABLE
 	var channel: int = 0
