@@ -17,6 +17,8 @@ config/icon="res://icon.svg"
 [autoload]
 
 Globals="*res://scripts/globals.gd"
+CardLibrary="*res://scripts/card_library.gd"
+MatchState="*res://scripts/match_state.gd"
 
 [display]
 

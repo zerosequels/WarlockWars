@@ -1,0 +1,122 @@
+[gd_scene load_steps=4 format=3 uid="uid://tyuyr2mvhxw7"]
+
+[ext_resource type="Theme" uid="uid://xohicrx4qm47" path="res://data/themes/midnight_rune/midnight_rune.tres" id="1_a3biv"]
+[ext_resource type="PackedScene" uid="uid://cy3hrd7dy27rj" path="res://scenes/ui/card/Card_Effect_Ui.tscn" id="2_bi4n2"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_beeb7"]
+width = 64
+height = 64
+
+[node name="MatchUI" type="CanvasLayer"]
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_a3biv")
+
+[node name="Background" type="TextureRect" parent="Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="CardPlayArea" type="HBoxContainer" parent="Control"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.02
+anchor_top = 0.014
+anchor_right = 0.757
+anchor_bottom = 0.768
+offset_left = -0.600002
+offset_top = -0.0799999
+offset_right = -265.96
+offset_bottom = 0.039978
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 20
+
+[node name="AttackArea" type="VBoxContainer" parent="Control/CardPlayArea"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 5
+
+[node name="AttackerLabel" type="Label" parent="Control/CardPlayArea/AttackArea"]
+layout_mode = 2
+text = "Attacker Name"
+horizontal_alignment = 1
+
+[node name="Button" type="Button" parent="Control/CardPlayArea/AttackArea"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="AttackCards" type="VBoxContainer" parent="Control/CardPlayArea/AttackArea/Button"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="CardUi" parent="Control/CardPlayArea/AttackArea/Button/AttackCards" instance=ExtResource("2_bi4n2")]
+layout_mode = 2
+
+[node name="AttackStatusInidicator" type="Label" parent="Control/CardPlayArea/AttackArea"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "Attack Status Inidicator"
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="DirectionIndicator" type="VBoxContainer" parent="Control/CardPlayArea"]
+layout_mode = 2
+theme_override_constants/separation = 5
+alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="Control/CardPlayArea/DirectionIndicator"]
+layout_mode = 2
+size_flags_vertical = 6
+texture = SubResource("NoiseTexture2D_beeb7")
+stretch_mode = 3
+
+[node name="DefendArea" type="VBoxContainer" parent="Control/CardPlayArea"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 5
+
+[node name="DefenderLabel" type="Label" parent="Control/CardPlayArea/DefendArea"]
+layout_mode = 2
+text = "Defender Name"
+horizontal_alignment = 1
+
+[node name="Button" type="Button" parent="Control/CardPlayArea/DefendArea"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="DefendCards" type="VBoxContainer" parent="Control/CardPlayArea/DefendArea/Button"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="CardUi" parent="Control/CardPlayArea/DefendArea/Button/DefendCards" instance=ExtResource("2_bi4n2")]
+layout_mode = 2
+
+[node name="CardUi2" parent="Control/CardPlayArea/DefendArea/Button/DefendCards" instance=ExtResource("2_bi4n2")]
+layout_mode = 2
+
+[node name="DefenseStatusInidicator" type="Label" parent="Control/CardPlayArea/DefendArea"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "Defense Status Inidicator"
+horizontal_alignment = 1
+autowrap_mode = 2

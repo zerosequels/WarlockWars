@@ -329,3 +329,6 @@ func toggle_start_match_button(is_pressable):
 		startMatchButton.disabled = false
 	else:
 		startMatchButton.disabled = true
+		
+func start_match():
+	pass

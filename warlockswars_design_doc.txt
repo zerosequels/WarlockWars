@@ -1,0 +1,135 @@
+Warlock Wars - Game Design Document
+Warlock Wars is a multiplayer card battle game developed in Godot 4.4 with Steamworks P2P networking. Up to 12 players compete to reduce their opponents’ HP to zero or achieve special victory conditions using a variety of cards and strategic mechanics. Set in a narrative where an arch-lich has unleashed a contest of power, players take on the roles of wizards or sorceresses vying to become the next Arch Magus.
+Objective
+
+	Be the last player standing by reducing all opponents’ HP to 0 or surviving until the end of the game via special win conditions (e.g., Holy-attribute damage or "Divine Wrath").
+
+Setup
+
+	Players: Supports 2 to 12 players (multiplayer, online).
+	Starting Stats:
+		Vigor: Starts at 20 (health pool, varies slightly by mode).
+		Arcane Flux: Starts at 10 (used to cast Spell Cards).
+		Treasure ($): Starts at 20 (used for trading or card effects).
+	Deck: Players draw 9 cards randomly from a shared pool at the start. No personal deck-building; all cards are drawn from the same set.
+	Card Limit: Maximum hand size is 18. Excess cards (e.g., from forced transfers) result in random discards.
+	Mulligan Option: At the game’s start, players may discard their initial hand and redraw 9 new cards once.
+
+Gameplay Overview
+
+	Turn-Based: Players act in clockwise order (or as set by the online system).
+	Turn Structure: Perform actions (attack, defend, use cards), then draw to replenish hand up to 9 cards at turn’s end.
+	Victory Conditions:
+		Reduce all opponents’ HP to 0.
+		Deal 1+ damage with a Holy-attribute attack under specific conditions (varies by version).
+		Trigger "Divine Wrath" (instant-death effect).
+
+Elements
+
+	Non-element (NE): Defendable by any element.
+	Fire: Defended by Water.
+	Water: Defended by Fire.
+	Earth: Blocked by Air.
+	Air: Blocked by Earth.
+	Holy: Cannot be defended by any element.
+	Necromancy: Applies or worsens a Curse status instead of insta-killing; damage taken triggers Curse mechanics (see below).
+	Mixed Elements: Combining different elements results in Non-element (NE).
+	Holy Substitution: Holy can substitute for Fire, Water, Earth, or Air, but not Necromancy.
+
+Curses
+
+	Acquisition: Taking Necromancy-type damage applies a Curse or worsens an existing one (5% chance per turn to escalate).
+	Progression:
+		Life Steal: 1 damage per turn, 5% chance to worsen to Life Drain.
+		Life Drain: 2 damage per turn, 5% chance to worsen to Undeath.
+		Undeath: 5 damage per turn, 5% chance to worsen to Lich.
+		Lich: +5 Vigor per turn, 5% chance to worsen to Divine Wrath (Vigor to 0).
+		Divine Wrath: Instant HP reduction to 0.
+	Lich Special Rules:
+		Necromancy damage heals instead of harms.
+		Holy damage deals double damage (critical hit).
+		Potential card: "Lich Shield" (blocks Divine Wrath once, single-use).
+	Other Curses:
+		Darkness: Randomizes attack targets.
+		Dispel: Limits player to one attack or defense card per turn.
+		Chaos Surge: 50% chance for cards to display incorrect info.
+		Marked: Received attacks hit with 100% accuracy.
+		Charmed: Hidden from the cursed player; remaps two targets (chosen by caster), ends when one is attacked.
+		Illusion: Negates the next damage instance (self-only visibility), lost after next attack.
+
+Card Types
+
+	Cantrips (攻):
+		Deal damage (e.g., "Arcane Bolt," 14 ATK).
+		Limited to 1 attack per turn unless combined with combo cards (e.g., "+X ATK").
+		Some have unique effects (e.g., reflecting damage).
+	Abjuration (守):
+		Block damage (e.g., "Circle of Protection," 5 DEF).
+		Unlimited stacking allowed when defending.
+		Damage taken = Attack value - Total Defense value (minimum 0).
+	Magic Items:
+		Effects include healing Vigor, restoring Arcane Flux, AOE damage, forcing card trades ("Sell"), or removing curses.
+		Example: "Illustrious Gem" (1 ATK, 25 Gold cost, often traded).
+	Spell Cards:
+		Cost Arcane Flux for powerful, reusable effects (e.g., "Invisibility" for 6 Flux).
+		Mimic attack, defense, or utility roles.
+	Deck Manipulation Cards:
+		Allow peeking at the top X cards of the draw pile or reordering them (e.g., "Scry: Look at top 3 cards, reorder as desired").
+
+Special Card Subsets
+
+	Summon Cards:
+		Attach to a player after use (via Magic Items or Spells).
+		Have HP; take damage before Equipment if unblocked (unless attack specifies otherwise).
+		Act independently 25% of the time on the player’s turn with unique abilities.
+		Detach and "die" when HP reaches 0.
+		Example: "Iron Golem" (lowers incoming damage by 10 while active).
+	Curse Cards:
+		Auto-activate when drawn:
+			Deal 10, 20, or 30 damage to the drawer.
+			"Trickster": Steals 3 cards.
+			"Elixir of Life": Grants 10 HP, Flux, and Gold.
+	Equipment Cards:
+		Attach to a player, providing buffs/debuffs.
+		Have HP; take damage after Summons if unblocked.
+		Detach and "shatter" when HP reaches 0.
+	Wish Cards:
+		Triggered by "Warlock Wars" card, applying random global effects (e.g., field-wide damage or stat changes).
+
+Core Mechanics
+
+	Attacking and Defending:
+		Select an opponent and play a Cantrip. They respond with Abjuration cards. Excess damage (ATK - DEF) reduces HP.
+		Combo attack cards (e.g., "+3 ATK") boost base attacks.
+	Card Usage Limits:
+		1 attack action per turn (unless modified).
+		Unlimited defense cards when attacked.
+		Spell and Magic Item cards have specific costs/conditions.
+	Drawing Cards:
+		Replenish to 9 cards (max 18) at turn’s end from the shared pool.
+	Stat Management:
+		Freely redistribute Vigor, Arcane Flux, and Treasure (1:1:1 ratio).
+	Special Actions:
+		Sacrifice: Discard cards and draw an equal number.
+		Sell: Force an opponent to take a card (random discard if hand exceeds 18).
+		Buy: Spend Treasure to take a random card from another player’s hand.
+
+Winning and Losing
+
+	Standard Win: Reduce all opponents’ HP to 0; last player standing wins.
+	Special Wins:
+		Deal 1+ Holy damage under specific conditions.
+		Trigger "Divine Wrath" via Curse progression.
+	Loss: HP reaches 0, eliminating the player.
+
+Additional Rules
+
+	Randomness (RNG): Card draws, Summon actions, and Curse progression rely on chance for unpredictability.
+	Multiplayer Dynamics: In 3+ player games, choose targets each turn, enabling alliances or chaos.
+	Online Features:
+		Steamworks P2P networking for seamless multiplayer.
+		Bot matches and ranked modes available.
+		Cosmetic Rewards: Players unlock alt skins, shiny rare card versions (with unique animations/FX), and card backs as Steam inventory items. Earned by:
+			Playing a game (random chance).
+			Winning a match.
+			All players reaching a draw (each receives a card).
