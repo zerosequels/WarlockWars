@@ -1,12 +1,9 @@
-[gd_scene load_steps=7 format=3 uid="uid://cy3hrd7dy27rj"]
+[gd_scene load_steps=5 format=3 uid="uid://cy3hrd7dy27rj"]
 
-[ext_resource type="Theme" uid="uid://xohicrx4qm47" path="res://data/themes/midnight_rune/midnight_rune.tres" id="1_ng76a"]
-[ext_resource type="Script" uid="uid://cnkr4i6y5vmwa" path="res://scripts/card_ui.gd" id="2_jxmrc"]
-
-[sub_resource type="FastNoiseLite" id="FastNoiseLite_akmji"]
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_ng76a"]
 
 [sub_resource type="NoiseTexture2D" id="NoiseTexture2D_e1uuo"]
-noise = SubResource("FastNoiseLite_akmji")
+noise = SubResource("FastNoiseLite_ng76a")
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_bgsja"]
 
@@ -27,8 +24,7 @@ grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
-theme = ExtResource("1_ng76a")
-script = ExtResource("2_jxmrc")
+mouse_filter = 2
 
 [node name="Panel" type="Panel" parent="."]
 layout_mode = 1
@@ -37,6 +33,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 
 [node name="MarginContainer" type="MarginContainer" parent="Panel"]
 layout_mode = 1
@@ -90,6 +87,19 @@ expand_mode = 4
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Panel/MarginContainer/CardContent"]
 layout_mode = 2
+mouse_filter = 2
+
+[node name="Header" type="HBoxContainer" parent="Panel/MarginContainer/CardContent/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+mouse_filter = 2
+theme_override_constants/separation = 4
+alignment = 1
+
+[node name="Label" type="Label" parent="Panel/MarginContainer/CardContent/VBoxContainer/Header"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "Card Name"
 
 [node name="TypeIcons" type="HBoxContainer" parent="Panel/MarginContainer/CardContent/VBoxContainer"]
 layout_mode = 2
@@ -110,15 +120,3 @@ theme_override_font_sizes/font_size = 16
 text = "Def:00"
 horizontal_alignment = 1
 vertical_alignment = 1
-
-[node name="Header" type="HBoxContainer" parent="Panel/MarginContainer/CardContent/VBoxContainer"]
-layout_mode = 2
-size_flags_vertical = 3
-mouse_filter = 2
-theme_override_constants/separation = 4
-alignment = 1
-
-[node name="Label" type="Label" parent="Panel/MarginContainer/CardContent/VBoxContainer/Header"]
-layout_mode = 2
-theme_override_font_sizes/font_size = 20
-text = "Card Name"

@@ -1,0 +1,144 @@
+[gd_scene load_steps=3 format=3 uid="uid://cq1ive6qk8q0o"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_t6nlf"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_e1uuo"]
+noise = SubResource("FastNoiseLite_t6nlf")
+
+[node name="CardUi" type="Control"]
+custom_minimum_size = Vector2(260, 100)
+layout_mode = 3
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -191.5
+offset_right = 191.5
+offset_bottom = 106.0
+grow_horizontal = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+mouse_filter = 2
+
+[node name="Button" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_bottom = -2.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="CardContent" type="HBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 9
+alignment = 1
+
+[node name="TurnIndicator" type="TextureRect" parent="MarginContainer/CardContent"]
+clip_contents = true
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+mouse_filter = 2
+texture = SubResource("NoiseTexture2D_e1uuo")
+expand_mode = 2
+
+[node name="PlayerAvatar" type="TextureRect" parent="MarginContainer/CardContent"]
+clip_contents = true
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+texture = SubResource("NoiseTexture2D_e1uuo")
+expand_mode = 5
+stretch_mode = 4
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/CardContent"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+
+[node name="Header" type="HBoxContainer" parent="MarginContainer/CardContent/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+mouse_filter = 2
+theme_override_constants/separation = 4
+alignment = 1
+
+[node name="PlayerName" type="Label" parent="MarginContainer/CardContent/VBoxContainer/Header"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 20
+text = "Player Name"
+horizontal_alignment = 1
+
+[node name="TypeIcons" type="HBoxContainer" parent="MarginContainer/CardContent/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+mouse_filter = 2
+alignment = 1
+
+[node name="VIG" type="Label" parent="MarginContainer/CardContent/VBoxContainer/TypeIcons"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 16
+text = "VIG:000"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="FLUX" type="Label" parent="MarginContainer/CardContent/VBoxContainer/TypeIcons"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 16
+text = "FLX:000"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="FORT" type="Label" parent="MarginContainer/CardContent/VBoxContainer/TypeIcons"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 16
+text = "FORT:000"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -183.5
+offset_top = -10.0
+offset_right = 183.5
+offset_bottom = 6.0
+grow_horizontal = 2
+grow_vertical = 0
+mouse_filter = 2
+alignment = 2
+
+[node name="StatusIndicator" type="TextureRect" parent="HBoxContainer"]
+visible = false
+clip_contents = true
+custom_minimum_size = Vector2(32, 16)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 8
+mouse_filter = 2
+texture = SubResource("NoiseTexture2D_e1uuo")
+expand_mode = 2

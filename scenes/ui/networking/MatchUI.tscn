@@ -1,7 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://tyuyr2mvhxw7"]
+[gd_scene load_steps=6 format=3 uid="uid://tyuyr2mvhxw7"]
 
-[ext_resource type="Theme" uid="uid://xohicrx4qm47" path="res://data/themes/midnight_rune/midnight_rune.tres" id="1_a3biv"]
 [ext_resource type="PackedScene" uid="uid://cy3hrd7dy27rj" path="res://scenes/ui/card/Card_Effect_Ui.tscn" id="2_bi4n2"]
+[ext_resource type="PackedScene" uid="uid://cq1ive6qk8q0o" path="res://scenes/ui/card/PlayerIndicatorUi.tscn" id="3_bi4n2"]
+[ext_resource type="PackedScene" uid="uid://crk0psks2005x" path="res://scenes/ui/card/CardUi.tscn" id="3_drbbn"]
+[ext_resource type="PackedScene" uid="uid://doy4w0vkqover" path="res://scenes/ui/card/SpellUi.tscn" id="4_drbbn"]
 
 [sub_resource type="NoiseTexture2D" id="NoiseTexture2D_beeb7"]
 width = 64
@@ -16,7 +18,6 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme = ExtResource("1_a3biv")
 
 [node name="Background" type="TextureRect" parent="Control"]
 layout_mode = 1
@@ -26,97 +27,226 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="CardPlayArea" type="HBoxContainer" parent="Control"]
+[node name="CardPlayMargin" type="MarginContainer" parent="Control"]
 layout_mode = 1
 anchors_preset = -1
-anchor_left = 0.02
-anchor_top = 0.014
-anchor_right = 0.757
-anchor_bottom = 0.768
-offset_left = -0.600002
-offset_top = -0.0799999
-offset_right = -265.96
-offset_bottom = 0.039978
-grow_horizontal = 2
-grow_vertical = 2
+anchor_right = 0.568
+anchor_bottom = 0.672
+offset_right = -0.0400391
+offset_bottom = 0.159973
+theme_override_constants/margin_left = 24
+theme_override_constants/margin_top = 24
+theme_override_constants/margin_right = 24
+
+[node name="CardPlayArea" type="HBoxContainer" parent="Control/CardPlayMargin"]
+layout_mode = 2
 theme_override_constants/separation = 20
 
-[node name="AttackArea" type="VBoxContainer" parent="Control/CardPlayArea"]
+[node name="AttackArea" type="VBoxContainer" parent="Control/CardPlayMargin/CardPlayArea"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 5
 
-[node name="AttackerLabel" type="Label" parent="Control/CardPlayArea/AttackArea"]
+[node name="AttackerLabel" type="Label" parent="Control/CardPlayMargin/CardPlayArea/AttackArea"]
 layout_mode = 2
 text = "Attacker Name"
 horizontal_alignment = 1
 
-[node name="Button" type="Button" parent="Control/CardPlayArea/AttackArea"]
+[node name="Button" type="Button" parent="Control/CardPlayMargin/CardPlayArea/AttackArea"]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="AttackCards" type="VBoxContainer" parent="Control/CardPlayArea/AttackArea/Button"]
+[node name="ScrollContainer" type="ScrollContainer" parent="Control/CardPlayMargin/CardPlayArea/AttackArea/Button"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+
+[node name="AttackCards" type="VBoxContainer" parent="Control/CardPlayMargin/CardPlayArea/AttackArea/Button/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
 alignment = 1
 
-[node name="CardUi" parent="Control/CardPlayArea/AttackArea/Button/AttackCards" instance=ExtResource("2_bi4n2")]
+[node name="CardUi" parent="Control/CardPlayMargin/CardPlayArea/AttackArea/Button/ScrollContainer/AttackCards" instance=ExtResource("2_bi4n2")]
 layout_mode = 2
 
-[node name="AttackStatusInidicator" type="Label" parent="Control/CardPlayArea/AttackArea"]
+[node name="AttackStatusInidicator" type="Label" parent="Control/CardPlayMargin/CardPlayArea/AttackArea"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 32
 text = "Attack Status Inidicator"
 horizontal_alignment = 1
 autowrap_mode = 2
 
-[node name="DirectionIndicator" type="VBoxContainer" parent="Control/CardPlayArea"]
+[node name="DirectionIndicator" type="VBoxContainer" parent="Control/CardPlayMargin/CardPlayArea"]
 layout_mode = 2
 theme_override_constants/separation = 5
 alignment = 1
 
-[node name="TextureRect" type="TextureRect" parent="Control/CardPlayArea/DirectionIndicator"]
+[node name="TextureRect" type="TextureRect" parent="Control/CardPlayMargin/CardPlayArea/DirectionIndicator"]
 layout_mode = 2
 size_flags_vertical = 6
 texture = SubResource("NoiseTexture2D_beeb7")
 stretch_mode = 3
 
-[node name="DefendArea" type="VBoxContainer" parent="Control/CardPlayArea"]
+[node name="DefendArea" type="VBoxContainer" parent="Control/CardPlayMargin/CardPlayArea"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 5
 
-[node name="DefenderLabel" type="Label" parent="Control/CardPlayArea/DefendArea"]
+[node name="DefenderLabel" type="Label" parent="Control/CardPlayMargin/CardPlayArea/DefendArea"]
 layout_mode = 2
 text = "Defender Name"
 horizontal_alignment = 1
 
-[node name="Button" type="Button" parent="Control/CardPlayArea/DefendArea"]
+[node name="Button" type="Button" parent="Control/CardPlayMargin/CardPlayArea/DefendArea"]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="DefendCards" type="VBoxContainer" parent="Control/CardPlayArea/DefendArea/Button"]
+[node name="ScrollContainer" type="ScrollContainer" parent="Control/CardPlayMargin/CardPlayArea/DefendArea/Button"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+
+[node name="DefendCards" type="VBoxContainer" parent="Control/CardPlayMargin/CardPlayArea/DefendArea/Button/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
 alignment = 1
 
-[node name="CardUi" parent="Control/CardPlayArea/DefendArea/Button/DefendCards" instance=ExtResource("2_bi4n2")]
+[node name="CardUi" parent="Control/CardPlayMargin/CardPlayArea/DefendArea/Button/ScrollContainer/DefendCards" instance=ExtResource("2_bi4n2")]
 layout_mode = 2
 
-[node name="CardUi2" parent="Control/CardPlayArea/DefendArea/Button/DefendCards" instance=ExtResource("2_bi4n2")]
-layout_mode = 2
-
-[node name="DefenseStatusInidicator" type="Label" parent="Control/CardPlayArea/DefendArea"]
+[node name="DefenseStatusInidicator" type="Label" parent="Control/CardPlayMargin/CardPlayArea/DefendArea"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 32
 text = "Defense Status Inidicator"
 horizontal_alignment = 1
 autowrap_mode = 2
+
+[node name="PlayerInfoArea" type="MarginContainer" parent="Control"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 0.528
+offset_left = -515.0
+offset_bottom = -0.160004
+grow_horizontal = 0
+grow_vertical = 2
+theme_override_constants/margin_top = 50
+theme_override_constants/margin_right = 15
+theme_override_constants/margin_bottom = 50
+
+[node name="ScrollContainer" type="ScrollContainer" parent="Control/PlayerInfoArea"]
+layout_mode = 2
+
+[node name="PlayerList" type="VBoxContainer" parent="Control/PlayerInfoArea/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 15
+
+[node name="CardUi" parent="Control/PlayerInfoArea/ScrollContainer/PlayerList" instance=ExtResource("3_bi4n2")]
+layout_mode = 2
+size_flags_horizontal = 1
+
+[node name="HandArea" type="MarginContainer" parent="Control"]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 1.0
+anchor_right = 0.598
+anchor_bottom = 1.0
+offset_top = -192.0
+offset_right = 0.559937
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 24
+
+[node name="ScrollContainer" type="ScrollContainer" parent="Control/HandArea"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Control/HandArea/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/separation = 12
+alignment = 1
+
+[node name="CardUi" parent="Control/HandArea/ScrollContainer/HBoxContainer" instance=ExtResource("3_drbbn")]
+layout_mode = 2
+size_flags_horizontal = 1
+size_flags_vertical = 1
+
+[node name="CardUi2" parent="Control/HandArea/ScrollContainer/HBoxContainer" instance=ExtResource("3_drbbn")]
+layout_mode = 2
+size_flags_vertical = 1
+
+[node name="CardUi3" parent="Control/HandArea/ScrollContainer/HBoxContainer" instance=ExtResource("3_drbbn")]
+layout_mode = 2
+size_flags_vertical = 1
+
+[node name="CardUi4" parent="Control/HandArea/ScrollContainer/HBoxContainer" instance=ExtResource("3_drbbn")]
+layout_mode = 2
+size_flags_vertical = 1
+
+[node name="CardUi5" parent="Control/HandArea/ScrollContainer/HBoxContainer" instance=ExtResource("3_drbbn")]
+layout_mode = 2
+size_flags_vertical = 1
+
+[node name="CardUi6" parent="Control/HandArea/ScrollContainer/HBoxContainer" instance=ExtResource("3_drbbn")]
+layout_mode = 2
+size_flags_vertical = 1
+
+[node name="CardInfoArea" type="MarginContainer" parent="Control"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.605
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -0.400024
+offset_top = -319.0
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_constants/margin_bottom = 24
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Control/CardInfoArea"]
+layout_mode = 2
+alignment = 1
+
+[node name="CardInfo" parent="Control/CardInfoArea/VBoxContainer" instance=ExtResource("2_bi4n2")]
+custom_minimum_size = Vector2(260, 125)
+layout_mode = 2
+size_flags_vertical = 1
+
+[node name="ScrollContainer" type="ScrollContainer" parent="Control/CardInfoArea/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Control/CardInfoArea/VBoxContainer/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+alignment = 1
+
+[node name="CardUi" parent="Control/CardInfoArea/VBoxContainer/ScrollContainer/HBoxContainer" instance=ExtResource("4_drbbn")]
+layout_mode = 2
+
+[node name="CardUi2" parent="Control/CardInfoArea/VBoxContainer/ScrollContainer/HBoxContainer" instance=ExtResource("4_drbbn")]
+layout_mode = 2
+
+[node name="CardUi3" parent="Control/CardInfoArea/VBoxContainer/ScrollContainer/HBoxContainer" instance=ExtResource("4_drbbn")]
+layout_mode = 2
+
+[node name="CardUi4" parent="Control/CardInfoArea/VBoxContainer/ScrollContainer/HBoxContainer" instance=ExtResource("4_drbbn")]
+layout_mode = 2
+
+[node name="CardUi5" parent="Control/CardInfoArea/VBoxContainer/ScrollContainer/HBoxContainer" instance=ExtResource("4_drbbn")]
+layout_mode = 2
