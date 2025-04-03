@@ -108,6 +108,8 @@ func _on_Lobby_Data_Update(success: int, lobby_id: int, member_id: int):
 	print("Success: "+str(success)+", Lobby ID: "+str(lobby_id)+", Member ID: "+str(member_id))
 	
 func _on_Lobby_Chat_Update(lobbyID, changedID, makingChangeID, chatState):
+	#Get Lobby Members
+	get_Lobby_Members()
 	#User who made lobby change
 	var CHANGER = Steam.getFriendPersonaName(makingChangeID)
 	
@@ -129,8 +131,7 @@ func _on_Lobby_Chat_Update(lobbyID, changedID, makingChangeID, chatState):
 			display_Message(str(CHANGER)+ " has been banned from the lobby.")
 		_:
 			display_Message(str(CHANGER)+ " has has done ... something")
-	#Get Lobby Members
-	get_Lobby_Members()
+
 
 func _on_Lobby_Match_List(lobbies):
 	for LOBBY in lobbies:
