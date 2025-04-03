@@ -1,9 +1,9 @@
 [gd_scene load_steps=5 format=3 uid="uid://1xsid3w1txdc"]
 
-[ext_resource type="Theme" uid="uid://xohicrx4qm47" path="res://data/themes/midnight_rune/midnight_rune.tres" id="1_t3e4y"]
 [ext_resource type="Script" uid="uid://in0vagvs7m8g" path="res://scripts/steam_lobby.gd" id="2_uci3w"]
 [ext_resource type="PackedScene" uid="uid://be4jdv0nb5t20" path="res://scenes/ui/networking/join_lobby_info_panel.tscn" id="3_nne21"]
 [ext_resource type="Texture2D" uid="uid://br1sko5b0qq04" path="res://assets/textures/texture_00021_.png" id="3_qxe0c"]
+[ext_resource type="PackedScene" uid="uid://tyuyr2mvhxw7" path="res://scenes/ui/networking/MatchUI.tscn" id="4_qxe0c"]
 
 [node name="Control" type="Control"]
 layout_mode = 3
@@ -12,7 +12,6 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme = ExtResource("1_t3e4y")
 script = ExtResource("2_uci3w")
 
 [node name="LobbyPanel" type="Panel" parent="."]
@@ -200,6 +199,9 @@ layout_mode = 2
 layout_mode = 2
 size_flags_horizontal = 8
 text = "Close"
+
+[node name="MatchUI" parent="." instance=ExtResource("4_qxe0c")]
+visible = false
 
 [connection signal="pressed" from="LobbyPanel/MarginContainer/HBoxContainer/VBoxContainer/VBoxContainer/CreateLobby" to="." method="_on_create_lobby_pressed"]
 [connection signal="pressed" from="LobbyPanel/MarginContainer/HBoxContainer/VBoxContainer/JoinLobby" to="." method="_on_join_lobby_pressed"]

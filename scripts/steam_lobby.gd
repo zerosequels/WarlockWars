@@ -18,6 +18,7 @@ const LOBBY_SEARCH_OPTION = preload("res://scenes/ui/networking/join_lobby_info_
 @onready var joinLobbyButton = $LobbyPanel/MarginContainer/HBoxContainer/VBoxContainer/JoinLobby
 @onready var createLobbyButton = $LobbyPanel/MarginContainer/HBoxContainer/VBoxContainer/VBoxContainer/CreateLobby
 @onready var startMatchButton = $LobbyPanel/MarginContainer/HBoxContainer/VBoxContainer2/StartGame
+@onready var matchUi = $MatchUI
 func _ready():
 	#Set Steam Name
 	steamName.text = Globals.STEAM_NAME
@@ -331,4 +332,7 @@ func toggle_start_match_button(is_pressable):
 		startMatchButton.disabled = true
 		
 func start_match():
-	pass
+	lobbyPanel.hide()
+	lobbySearch.hide()
+	matchUi.show()
+	matchUi.begin_match()

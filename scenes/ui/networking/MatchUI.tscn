@@ -1,5 +1,6 @@
-[gd_scene load_steps=6 format=3 uid="uid://tyuyr2mvhxw7"]
+[gd_scene load_steps=7 format=3 uid="uid://tyuyr2mvhxw7"]
 
+[ext_resource type="Script" uid="uid://bmvclu7xdpw4o" path="res://scripts/match_ui.gd" id="1_wqdsq"]
 [ext_resource type="PackedScene" uid="uid://cy3hrd7dy27rj" path="res://scenes/ui/card/Card_Effect_Ui.tscn" id="2_bi4n2"]
 [ext_resource type="PackedScene" uid="uid://cq1ive6qk8q0o" path="res://scenes/ui/card/PlayerIndicatorUi.tscn" id="3_bi4n2"]
 [ext_resource type="PackedScene" uid="uid://crk0psks2005x" path="res://scenes/ui/card/CardUi.tscn" id="3_drbbn"]
@@ -10,6 +11,7 @@ width = 64
 height = 64
 
 [node name="MatchUI" type="CanvasLayer"]
+script = ExtResource("1_wqdsq")
 
 [node name="Control" type="Control" parent="."]
 layout_mode = 3
