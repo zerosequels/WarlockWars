@@ -13,6 +13,7 @@ var match_started: bool = false
 # Called when singleton is initialized
 func _ready():
 	print("MatchState initialized")
+	
 func start_new_match():
 	if match_started == false:
 		match_started = true

@@ -19,6 +19,10 @@ const LOBBY_SEARCH_OPTION = preload("res://scenes/ui/networking/join_lobby_info_
 @onready var createLobbyButton = $LobbyPanel/MarginContainer/HBoxContainer/VBoxContainer/VBoxContainer/CreateLobby
 @onready var startMatchButton = $LobbyPanel/MarginContainer/HBoxContainer/VBoxContainer2/StartGame
 @onready var matchUi = $MatchUI
+
+var is_host: bool = false
+var host_steam_id: int = 0
+
 func _ready():
 	#Set Steam Name
 	steamName.text = Globals.STEAM_NAME
@@ -61,22 +65,30 @@ func _on_Lobby_Created(connect_status, lobbyID):
 		Globals.LOBBY_ID = lobbyID
 		display_Message("Created lobby: " + lobbySetName.text)
 		
+		# Set yourself as the host when creating the lobby
+		is_host = true
+		host_steam_id = Globals.STEAM_ID
+		
 		#Set Lobby Data
 		Steam.setLobbyData(lobbyID, "name", lobbySetName.text)
+		Steam.setLobbyData(lobbyID, "host_id", str(host_steam_id))  # Store host ID in lobby data
 		var lobby_name = Steam.getLobbyData(lobbyID, "name")
 		lobbyGetName.text = str(lobby_name)
 		toggle_join_lobby_button(false)
 		toggle_start_match_button(true)
-		
 
 func _on_Lobby_Joined(lobbyID, permissions, locked, response):
 	# Set lobby ID
 	Globals.LOBBY_ID = lobbyID
 	
-	# Get the lobby name
+	# Get the lobby name and host ID
 	var lobby_name = Steam.getLobbyData(lobbyID, "name")
+	host_steam_id = int(Steam.getLobbyData(lobbyID, "host_id"))
+	is_host = (Globals.STEAM_ID == host_steam_id)
+	
 	lobbyGetName.text = str(lobby_name)
 	toggle_join_lobby_button(false)
+	toggle_start_match_button(is_host)  # Only host can start the game
 	lobbyPanel.show()
 	lobbySearch.hide()
 	# Get lobby members
@@ -105,8 +117,12 @@ func _on_Lobby_Chat_Update(lobbyID, changedID, makingChangeID, chatState):
 			display_Message(str(CHANGER)+ " has joined the lobby.")
 		2:
 			display_Message(str(CHANGER)+ " has left the lobby.")
+			if changedID == host_steam_id:  # Host left, need to migrate
+				migrate_host()
 		4:
 			display_Message(str(CHANGER)+ " has disconnected from the lobby.")
+			if changedID == host_steam_id:  # Host disconnected, need to migrate
+				migrate_host()
 		8:
 			display_Message(str(CHANGER)+ " has been kicked from the lobby.")
 		16:
@@ -182,10 +198,12 @@ func _on_leave_lobby_pressed():
 	leave_Lobby()
 	
 func _on_start_game_pressed():
-	MatchState
-	start_match()
-	send_p2p_packet(0,{"message":"START_MATCH","from":Steam.getFriendPersonaName(Globals.STEAM_ID)})
-	
+	if is_host:
+		start_match()
+		send_p2p_packet(0,{"message":"START_MATCH","from":Steam.getFriendPersonaName(Globals.STEAM_ID)})
+	else:
+		display_Message("Only the host can start the game.")
+
 func _on_send_message_pressed():
 	send_Chat_Message()
 
@@ -338,3 +356,20 @@ func start_match():
 	lobbySearch.hide()
 	matchUi.show()
 	matchUi.begin_match()
+
+func migrate_host():
+	if Globals.LOBBY_MEMBERS.size() > 0:
+		# Get the first remaining member as the new host
+		var new_host_id = Globals.LOBBY_MEMBERS[0]["steam_id"]
+		host_steam_id = new_host_id
+		Steam.setLobbyData(Globals.LOBBY_ID, "host_id", str(host_steam_id))
+		
+		# Update local host status
+		is_host = (Globals.STEAM_ID == host_steam_id)
+		toggle_start_match_button(is_host)
+		
+		if is_host:
+			display_Message("You are now the host of this lobby.")
+		else:
+			var host_name = Steam.getFriendPersonaName(host_steam_id)
+			display_Message(str(host_name) + " is now the host of this lobby.")
