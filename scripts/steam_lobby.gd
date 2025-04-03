@@ -117,18 +117,23 @@ func _on_Lobby_Chat_Update(lobbyID, changedID, makingChangeID, chatState):
 	match chatState:
 		1:
 			display_Message(str(CHANGER)+ " has joined the lobby.")
+			toggle_start_match_button(is_host)  # Recheck start button state
 		2:
 			display_Message(str(CHANGER)+ " has left the lobby.")
 			if changedID == host_steam_id:  # Host left, need to migrate
 				migrate_host()
+			toggle_start_match_button(is_host)  # Recheck start button state
 		4:
 			display_Message(str(CHANGER)+ " has disconnected from the lobby.")
 			if changedID == host_steam_id:  # Host disconnected, need to migrate
 				migrate_host()
+			toggle_start_match_button(is_host)  # Recheck start button state
 		8:
 			display_Message(str(CHANGER)+ " has been kicked from the lobby.")
+			toggle_start_match_button(is_host)  # Recheck start button state
 		16:
 			display_Message(str(CHANGER)+ " has been banned from the lobby.")
+			toggle_start_match_button(is_host)  # Recheck start button state
 		_:
 			display_Message(str(CHANGER)+ " has has done ... something")
 
@@ -199,11 +204,15 @@ func _on_leave_lobby_pressed():
 	leave_Lobby()
 	
 func _on_start_game_pressed():
-	if is_host:
+	var player_count = Steam.getNumLobbyMembers(Globals.LOBBY_ID)
+	if is_host and player_count >= 2:
 		start_match()
 		send_p2p_packet(0,{"message":"START_MATCH","from":Steam.getFriendPersonaName(Globals.STEAM_ID)})
 	else:
-		display_Message("Only the host can start the game.")
+		if !is_host:
+			display_Message("Only the host can start the game.")
+		else:
+			display_Message("At least 2 players are required to start the game.")
 
 func _on_send_message_pressed():
 	send_Chat_Message()
@@ -347,10 +356,9 @@ func toggle_join_lobby_button(is_pressable:bool):
 		joinLobbyButton.disabled = true
 	
 func toggle_start_match_button(is_pressable):
-	if is_pressable:
-		startMatchButton.disabled = false
-	else:
-		startMatchButton.disabled = true
+	# Only enable the button if we're the host AND have 2+ players
+	var player_count = Steam.getNumLobbyMembers(Globals.LOBBY_ID)
+	startMatchButton.disabled = !(is_pressable && player_count >= 2)
 		
 func start_match():
 	lobbyPanel.hide()
