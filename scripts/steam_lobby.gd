@@ -182,6 +182,8 @@ func _on_leave_lobby_pressed():
 	leave_Lobby()
 	
 func _on_start_game_pressed():
+	MatchState
+	start_match()
 	send_p2p_packet(0,{"message":"START_MATCH","from":Steam.getFriendPersonaName(Globals.STEAM_ID)})
 	
 func _on_send_message_pressed():

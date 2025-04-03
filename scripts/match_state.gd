@@ -8,11 +8,16 @@ var players := {}
 var current_turn := 0  # Index in turn_order
 var turn_order := []   # Array of Steam IDs from LOBBY_MEMBERS
 var cantrips_played := {}  # Tracks Cantrips played this turn per player
+var match_started: bool = false
 
 # Called when singleton is initialized
 func _ready():
 	print("MatchState initialized")
-
+func start_new_match():
+	if match_started == false:
+		match_started = true
+		reset_match()
+	
 # Reset the match state using players from Globals.LOBBY_MEMBERS
 func reset_match():
 	players.clear()
