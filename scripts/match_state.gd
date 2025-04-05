@@ -14,10 +14,16 @@ var match_started: bool = false
 func _ready():
 	print("MatchState initialized")
 	
+# At the top of the file, after extends Node
+signal populate_player_list(players: Dictionary, turn_order: Array)
+signal player_updated(player_data: Dictionary)
+
 func start_new_match():
 	if match_started == false:
 		match_started = true
 		reset_match()
+		# Emit the signal after match is reset
+		emit_signal("populate_player_list", players, turn_order)
 	
 # Reset the match state using players from Globals.LOBBY_MEMBERS
 func reset_match():
@@ -158,12 +164,14 @@ func _apply_attack(attacker_id: int, target_id: int, card_data: Dictionary):
 	else:
 		target["vigor"] -= damage
 		_check_elimination(target_id)
+		emit_signal("player_updated", target)
 	print("Player ", attacker_id, " attacks Player ", target_id, " for ", damage)
 
 # Apply magic item (placeholder for specific effects)
 func _apply_magic_item(player_id: int, target_id: int, card_data: Dictionary):
 	if card_data["name"] == "Healing Salve":
 		players[player_id]["vigor"] += 10
+		emit_signal("player_updated", players[player_id])
 	elif card_data["name"] == "Illustrious Gem" and target_id != -1:
 		_sell_card(player_id, target_id, card_data["id"])
 	print("Player ", player_id, " uses ", card_data["name"])
@@ -215,6 +223,7 @@ func _apply_or_worsen_curse(player: Dictionary):
 				"Undeath": player["curses"].append("Lich")
 				"Lich": player["curses"].append("Divine Wrath")
 	print("Curse applied/worsened for Player ", player["steam_id"])
+	emit_signal("player_updated", player)
 
 # Check if a player is eliminated
 func _check_elimination(steam_id: int):
@@ -222,6 +231,7 @@ func _check_elimination(steam_id: int):
 	if player["vigor"] <= 0 or "Divine Wrath" in player["curses"]:
 		player["eliminated"] = true
 		print("Player ", steam_id, " eliminated")
+		emit_signal("player_updated", player)
 
 # Draw a random card from CardLibrary
 func _draw_random_card() -> String:
@@ -237,5 +247,6 @@ func redistribute_stats(steam_id: int, vigor: int, arcane_flux: int, treasure: i
 		player["arcane_flux"] = arcane_flux
 		player["treasure"] = treasure
 		print("Player ", steam_id, " stats redistributed: ", vigor, "/", arcane_flux, "/", treasure)
+		emit_signal("player_updated", player)
 	else:
 		printerr("Invalid stat redistribution for Player ", steam_id)

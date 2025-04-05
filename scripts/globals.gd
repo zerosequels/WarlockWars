@@ -40,6 +40,7 @@ func _ready():
 	# Enable P2P packet relay
 	Steam.allowP2PPacketRelay(true)
 	print("P2P packet relay enabled %s" % Steam.allowP2PPacketRelay(true))
+	
 
 func _process(_delta):
 	Steam.run_callbacks()

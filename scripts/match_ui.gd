@@ -19,8 +19,12 @@ extends CanvasLayer
 @onready var card_info = $Control/CardInfoArea/VBoxContainer/CardInfo
 @onready var spell_container = $Control/CardInfoArea/VBoxContainer/ScrollContainer/HBoxContainer
 
+@onready var player_list_item_instance = preload("res://scenes/ui/card/PlayerIndicatorUi.tscn")
+
 func _ready():
 	clear_design_elements()
+	# Connect to the signal from MatchState
+	MatchState.populate_player_list.connect(_on_populate_player_list)
 
 func begin_match():
 	MatchState.start_new_match()
@@ -105,3 +109,18 @@ func update_player_labels(attacker: String, defender: String):
 func update_direction_indicator(texture: Texture2D):
 	direction_indicator.texture = texture
 
+# Add this new function
+func _on_populate_player_list(players: Dictionary, turn_order: Array):
+	# Clear existing player list first
+	for child in player_list_container.get_children():
+		child.queue_free()
+	
+	# Add players in turn order
+	for steam_id in turn_order:
+		var player_data = players[steam_id]
+		# Create a new player instance (you'll need to implement this based on your player UI element)
+		var player_instance = player_list_item_instance.instantiate()
+		# Set up the player instance with data
+		player_instance.setup(player_data)
+		# Add to the list
+		add_player_to_list(player_instance)

@@ -89,6 +89,20 @@ mouse_filter = 2
 texture = SubResource("NoiseTexture2D_qtkqw")
 expand_mode = 4
 
+[node name="StarExample2" type="TextureRect" parent="MarginContainer/CardContent/LevelStars"]
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 2
+mouse_filter = 2
+texture = SubResource("NoiseTexture2D_qtkqw")
+expand_mode = 4
+
+[node name="StarExample3" type="TextureRect" parent="MarginContainer/CardContent/LevelStars"]
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 2
+mouse_filter = 2
+texture = SubResource("NoiseTexture2D_qtkqw")
+expand_mode = 4
+
 [node name="TypeIcons" type="HBoxContainer" parent="MarginContainer/CardContent"]
 layout_mode = 2
 size_flags_vertical = 3

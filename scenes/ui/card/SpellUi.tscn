@@ -11,17 +11,17 @@ noise = SubResource("FastNoiseLite_akmji")
 noise = SubResource("FastNoiseLite_bgsja")
 
 [node name="CardUi" type="Control"]
-custom_minimum_size = Vector2(125, 150)
+custom_minimum_size = Vector2(100, 150)
 layout_mode = 3
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -71.0
-offset_top = -102.0
-offset_right = 74.0
-offset_bottom = 79.0
+offset_left = -50.0
+offset_top = -76.0
+offset_right = 50.0
+offset_bottom = 74.0
 grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 4
@@ -46,8 +46,6 @@ mouse_filter = 2
 
 [node name="CardContent" type="VBoxContainer" parent="MarginContainer"]
 layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 4
 mouse_filter = 2
 theme_override_constants/separation = 4
 alignment = 1
@@ -67,7 +65,9 @@ text = "Card Name"
 
 [node name="CardArtwork" type="TextureRect" parent="MarginContainer/CardContent"]
 clip_contents = true
+custom_minimum_size = Vector2(100, 64)
 layout_mode = 2
+size_flags_horizontal = 4
 size_flags_vertical = 4
 mouse_filter = 2
 texture = SubResource("NoiseTexture2D_e1uuo")
@@ -86,22 +86,35 @@ mouse_filter = 2
 texture = SubResource("NoiseTexture2D_qtkqw")
 expand_mode = 4
 
+[node name="StarExample2" type="TextureRect" parent="MarginContainer/CardContent/LevelStars"]
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 2
+mouse_filter = 2
+texture = SubResource("NoiseTexture2D_qtkqw")
+expand_mode = 4
+
+[node name="StarExample3" type="TextureRect" parent="MarginContainer/CardContent/LevelStars"]
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 2
+mouse_filter = 2
+texture = SubResource("NoiseTexture2D_qtkqw")
+expand_mode = 4
+
 [node name="TypeIcons" type="HBoxContainer" parent="MarginContainer/CardContent"]
 layout_mode = 2
-size_flags_vertical = 3
 mouse_filter = 2
 alignment = 1
 
 [node name="Atk" type="Label" parent="MarginContainer/CardContent/TypeIcons"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 16
+theme_override_font_sizes/font_size = 12
 text = "Atk:00"
 horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="Def" type="Label" parent="MarginContainer/CardContent/TypeIcons"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 16
+theme_override_font_sizes/font_size = 12
 text = "Def:00"
 horizontal_alignment = 1
 vertical_alignment = 1

@@ -1,9 +1,8 @@
-[gd_scene load_steps=7 format=3 uid="uid://tyuyr2mvhxw7"]
+[gd_scene load_steps=6 format=3 uid="uid://tyuyr2mvhxw7"]
 
 [ext_resource type="Script" uid="uid://bmvclu7xdpw4o" path="res://scripts/match_ui.gd" id="1_wqdsq"]
 [ext_resource type="PackedScene" uid="uid://cy3hrd7dy27rj" path="res://scenes/ui/card/Card_Effect_Ui.tscn" id="2_bi4n2"]
 [ext_resource type="PackedScene" uid="uid://cq1ive6qk8q0o" path="res://scenes/ui/card/PlayerIndicatorUi.tscn" id="3_bi4n2"]
-[ext_resource type="PackedScene" uid="uid://crk0psks2005x" path="res://scenes/ui/card/CardUi.tscn" id="3_drbbn"]
 [ext_resource type="PackedScene" uid="uid://doy4w0vkqover" path="res://scenes/ui/card/SpellUi.tscn" id="4_drbbn"]
 
 [sub_resource type="NoiseTexture2D" id="NoiseTexture2D_beeb7"]
@@ -33,9 +32,9 @@ grow_vertical = 2
 layout_mode = 1
 anchors_preset = -1
 anchor_right = 0.568
-anchor_bottom = 0.672
+anchor_bottom = 0.703
 offset_right = -0.0400391
-offset_bottom = 0.159973
+offset_bottom = -0.160004
 theme_override_constants/margin_left = 24
 theme_override_constants/margin_top = 24
 theme_override_constants/margin_right = 24
@@ -135,15 +134,15 @@ autowrap_mode = 2
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 1.0
-anchor_right = 1.0
-anchor_bottom = 0.528
+anchor_right = 1.01
+anchor_bottom = 0.644
 offset_left = -515.0
-offset_bottom = -0.160004
+offset_right = -12.8
+offset_bottom = 0.319946
 grow_horizontal = 0
 grow_vertical = 2
-theme_override_constants/margin_top = 50
+theme_override_constants/margin_top = 15
 theme_override_constants/margin_right = 15
-theme_override_constants/margin_bottom = 50
 
 [node name="ScrollContainer" type="ScrollContainer" parent="Control/PlayerInfoArea"]
 layout_mode = 2
@@ -157,19 +156,47 @@ theme_override_constants/separation = 15
 layout_mode = 2
 size_flags_horizontal = 1
 
+[node name="CardUi2" parent="Control/PlayerInfoArea/ScrollContainer/PlayerList" instance=ExtResource("3_bi4n2")]
+layout_mode = 2
+size_flags_horizontal = 1
+
+[node name="CardUi3" parent="Control/PlayerInfoArea/ScrollContainer/PlayerList" instance=ExtResource("3_bi4n2")]
+layout_mode = 2
+size_flags_horizontal = 1
+
+[node name="CardUi4" parent="Control/PlayerInfoArea/ScrollContainer/PlayerList" instance=ExtResource("3_bi4n2")]
+layout_mode = 2
+size_flags_horizontal = 1
+
+[node name="CardUi5" parent="Control/PlayerInfoArea/ScrollContainer/PlayerList" instance=ExtResource("3_bi4n2")]
+layout_mode = 2
+size_flags_horizontal = 1
+
+[node name="CardUi6" parent="Control/PlayerInfoArea/ScrollContainer/PlayerList" instance=ExtResource("3_bi4n2")]
+layout_mode = 2
+size_flags_horizontal = 1
+
+[node name="CardUi7" parent="Control/PlayerInfoArea/ScrollContainer/PlayerList" instance=ExtResource("3_bi4n2")]
+layout_mode = 2
+size_flags_horizontal = 1
+
+[node name="CardUi8" parent="Control/PlayerInfoArea/ScrollContainer/PlayerList" instance=ExtResource("3_bi4n2")]
+layout_mode = 2
+size_flags_horizontal = 1
+
 [node name="HandArea" type="MarginContainer" parent="Control"]
 layout_mode = 1
 anchors_preset = -1
 anchor_top = 1.0
 anchor_right = 0.598
 anchor_bottom = 1.0
-offset_top = -192.0
-offset_right = 0.559937
+offset_top = -179.0
+offset_right = 0.559998
 grow_horizontal = 2
 grow_vertical = 0
 theme_override_constants/margin_left = 12
 theme_override_constants/margin_right = 12
-theme_override_constants/margin_bottom = 24
+theme_override_constants/margin_bottom = 12
 
 [node name="ScrollContainer" type="ScrollContainer" parent="Control/HandArea"]
 layout_mode = 2
@@ -178,33 +205,28 @@ layout_mode = 2
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-theme_override_constants/separation = 12
 alignment = 1
 
-[node name="CardUi" parent="Control/HandArea/ScrollContainer/HBoxContainer" instance=ExtResource("3_drbbn")]
+[node name="CardUi" parent="Control/HandArea/ScrollContainer/HBoxContainer" instance=ExtResource("4_drbbn")]
 layout_mode = 2
-size_flags_horizontal = 1
-size_flags_vertical = 1
 
-[node name="CardUi2" parent="Control/HandArea/ScrollContainer/HBoxContainer" instance=ExtResource("3_drbbn")]
+[node name="CardUi2" parent="Control/HandArea/ScrollContainer/HBoxContainer" instance=ExtResource("4_drbbn")]
 layout_mode = 2
-size_flags_vertical = 1
 
-[node name="CardUi3" parent="Control/HandArea/ScrollContainer/HBoxContainer" instance=ExtResource("3_drbbn")]
+[node name="CardUi3" parent="Control/HandArea/ScrollContainer/HBoxContainer" instance=ExtResource("4_drbbn")]
 layout_mode = 2
-size_flags_vertical = 1
 
-[node name="CardUi4" parent="Control/HandArea/ScrollContainer/HBoxContainer" instance=ExtResource("3_drbbn")]
+[node name="CardUi4" parent="Control/HandArea/ScrollContainer/HBoxContainer" instance=ExtResource("4_drbbn")]
 layout_mode = 2
-size_flags_vertical = 1
 
-[node name="CardUi5" parent="Control/HandArea/ScrollContainer/HBoxContainer" instance=ExtResource("3_drbbn")]
+[node name="CardUi5" parent="Control/HandArea/ScrollContainer/HBoxContainer" instance=ExtResource("4_drbbn")]
 layout_mode = 2
-size_flags_vertical = 1
 
-[node name="CardUi6" parent="Control/HandArea/ScrollContainer/HBoxContainer" instance=ExtResource("3_drbbn")]
+[node name="CardUi6" parent="Control/HandArea/ScrollContainer/HBoxContainer" instance=ExtResource("4_drbbn")]
 layout_mode = 2
-size_flags_vertical = 1
+
+[node name="CardUi7" parent="Control/HandArea/ScrollContainer/HBoxContainer" instance=ExtResource("4_drbbn")]
+layout_mode = 2
 
 [node name="CardInfoArea" type="MarginContainer" parent="Control"]
 layout_mode = 1
@@ -214,19 +236,17 @@ anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = -0.400024
-offset_top = -319.0
+offset_top = -241.0
 grow_horizontal = 0
 grow_vertical = 0
-theme_override_constants/margin_bottom = 24
+theme_override_constants/margin_bottom = 18
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Control/CardInfoArea"]
 layout_mode = 2
 alignment = 1
 
 [node name="CardInfo" parent="Control/CardInfoArea/VBoxContainer" instance=ExtResource("2_bi4n2")]
-custom_minimum_size = Vector2(260, 125)
 layout_mode = 2
-size_flags_vertical = 1
 
 [node name="ScrollContainer" type="ScrollContainer" parent="Control/CardInfoArea/VBoxContainer"]
 layout_mode = 2
@@ -238,12 +258,6 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 alignment = 1
 
-[node name="CardUi" parent="Control/CardInfoArea/VBoxContainer/ScrollContainer/HBoxContainer" instance=ExtResource("4_drbbn")]
-layout_mode = 2
-
-[node name="CardUi2" parent="Control/CardInfoArea/VBoxContainer/ScrollContainer/HBoxContainer" instance=ExtResource("4_drbbn")]
-layout_mode = 2
-
 [node name="CardUi3" parent="Control/CardInfoArea/VBoxContainer/ScrollContainer/HBoxContainer" instance=ExtResource("4_drbbn")]
 layout_mode = 2
 
@@ -251,4 +265,7 @@ layout_mode = 2
 layout_mode = 2
 
 [node name="CardUi5" parent="Control/CardInfoArea/VBoxContainer/ScrollContainer/HBoxContainer" instance=ExtResource("4_drbbn")]
+layout_mode = 2
+
+[node name="CardUi6" parent="Control/CardInfoArea/VBoxContainer/ScrollContainer/HBoxContainer" instance=ExtResource("4_drbbn")]
 layout_mode = 2
