@@ -246,6 +246,7 @@ layout_mode = 2
 alignment = 1
 
 [node name="CardInfo" parent="Control/CardInfoArea/VBoxContainer" instance=ExtResource("2_bi4n2")]
+visible = false
 layout_mode = 2
 
 [node name="ScrollContainer" type="ScrollContainer" parent="Control/CardInfoArea/VBoxContainer"]

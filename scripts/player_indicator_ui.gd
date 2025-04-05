@@ -43,7 +43,7 @@ func update_player_indicator(player_data: Dictionary):
 		push_error("PlayerIndicatorUI: Trying to update with null nodes")
 		return
 		
-	print(player_data)
+	#print(player_data)
 	var steam_id: int = player_data["steam_id"]["steam_id"]
 	player_name.text = Steam.getFriendPersonaName(steam_id)
 	
