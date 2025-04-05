@@ -14,6 +14,8 @@ extends Control
 @onready var charmed_indicator = $MarginContainer/CardContent/Indicators/CharmedIndicator
 @onready var illusion_indicator = $MarginContainer/CardContent/Indicators/IllusionIndicator
 
+var current_player_data
+
 func _ready():
 	# Add error checking to verify nodes are found
 	if !player_name:
@@ -32,15 +34,14 @@ func _ready():
 	
 	# Connect to signal only if all nodes are properly loaded
 	MatchState.player_updated.connect(update_player_indicator)
+	update_player_indicator(current_player_data)
 
 func setup(player_data: Dictionary):
-	# Add null check before updating
-	if !player_name:
-		push_error("PlayerIndicatorUI: Trying to setup with null nodes")
-		return
-	update_player_indicator(player_data)
+	current_player_data = player_data
+	
 
 func update_player_indicator(player_data: Dictionary):
+	current_player_data = player_data
 	# Add null checks
 	if !player_name || !vigor_label || !flux_label || !fort_label:
 		push_error("PlayerIndicatorUI: Trying to update with null nodes")
