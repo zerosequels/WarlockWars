@@ -14,11 +14,38 @@ extends Control
 @onready var charmed_indicator = $MarginContainer/CardContent/Indicators/CharmedIndicator
 @onready var illusion_indicator = $MarginContainer/CardContent/Indicators/IllusionIndicator
 
+func _ready():
+	# Add error checking to verify nodes are found
+	if !player_name:
+		push_error("PlayerIndicatorUI: player_name node not found")
+		return
+		
+	if !vigor_label || !flux_label || !fort_label:
+		push_error("PlayerIndicatorUI: stat labels not found")
+		return
+		
+	if !necromancy_indicator || !darkness_indicator || !dispel_indicator || \
+	   !chaos_surge_indicator || !marked_indicator || !charmed_indicator || \
+	   !illusion_indicator:
+		push_error("PlayerIndicatorUI: status indicators not found")
+		return
+	
+	# Connect to signal only if all nodes are properly loaded
+	MatchState.player_updated.connect(update_player_indicator)
+
 func setup(player_data: Dictionary):
+	# Add null check before updating
+	if !player_name:
+		push_error("PlayerIndicatorUI: Trying to setup with null nodes")
+		return
 	update_player_indicator(player_data)
 
 func update_player_indicator(player_data: Dictionary):
-	# Set player name using Steam persona name - convert steam_id to int
+	# Add null checks
+	if !player_name || !vigor_label || !flux_label || !fort_label:
+		push_error("PlayerIndicatorUI: Trying to update with null nodes")
+		return
+		
 	print(player_data)
 	var steam_id: int = player_data["steam_id"]["steam_id"]
 	player_name.text = Steam.getFriendPersonaName(steam_id)
@@ -32,6 +59,13 @@ func update_player_indicator(player_data: Dictionary):
 	update_status_indicators(player_data["curses"])
 
 func update_status_indicators(curses: Array):
+	# Add null checks
+	if !necromancy_indicator || !darkness_indicator || !dispel_indicator || \
+	   !chaos_surge_indicator || !marked_indicator || !charmed_indicator || \
+	   !illusion_indicator:
+		push_error("PlayerIndicatorUI: Trying to update indicators with null nodes")
+		return
+		
 	# Reset all indicators to hidden first
 	necromancy_indicator.visible = false
 	darkness_indicator.visible = false
@@ -58,6 +92,3 @@ func update_status_indicators(curses: Array):
 				charmed_indicator.visible = true
 			"Illusion":
 				illusion_indicator.visible = true
-
-func _ready():
-	MatchState.player_updated.connect(update_player_indicator)

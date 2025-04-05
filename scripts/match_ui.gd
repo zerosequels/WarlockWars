@@ -118,9 +118,9 @@ func _on_populate_player_list(players: Dictionary, turn_order: Array):
 	# Add players in turn order
 	for steam_id in turn_order:
 		var player_data = players[steam_id]
-		# Create a new player instance (you'll need to implement this based on your player UI element)
+		# Create a new player instance
 		var player_instance = player_list_item_instance.instantiate()
-		# Set up the player instance with data
-		player_instance.setup(player_data)
-		# Add to the list
 		add_player_to_list(player_instance)
+		# Wait for the instance to be ready before setup
+		await player_instance.ready
+		player_instance.setup(player_data)
