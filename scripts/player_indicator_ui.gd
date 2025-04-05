@@ -6,13 +6,13 @@ extends Control
 @onready var fort_label = $MarginContainer/CardContent/VBoxContainer/TypeIcons/FORT
 
 # Status indicators for curses
-@onready var necromancy_indicator = $MarginContainer/CardContent/HBoxContainer/NecromancyIndicator
-@onready var darkness_indicator = $MarginContainer/CardContent/HBoxContainer/DarknessIndicator
-@onready var dispel_indicator = $MarginContainer/CardContent/HBoxContainer/DispelIndicator
-@onready var chaos_surge_indicator = $MarginContainer/CardContent/HBoxContainer/ChaosSurgeIndicator
-@onready var marked_indicator = $MarginContainer/CardContent/HBoxContainer/MarkedIndicator
-@onready var charmed_indicator = $MarginContainer/CardContent/HBoxContainer/CharmedIndicator
-@onready var illusion_indicator = $MarginContainer/CardContent/HBoxContainer/IllusionIndicator
+@onready var necromancy_indicator = $MarginContainer/CardContent/Indicators/NecromancyIndicator
+@onready var darkness_indicator = $MarginContainer/CardContent/Indicators/DarknessIndicator
+@onready var dispel_indicator = $MarginContainer/CardContent/Indicators/DispelIndicator
+@onready var chaos_surge_indicator = $MarginContainer/CardContent/Indicators/ChaosSurgeIndicator
+@onready var marked_indicator = $MarginContainer/CardContent/Indicators/MarkedIndicator
+@onready var charmed_indicator = $MarginContainer/CardContent/Indicators/CharmedIndicator
+@onready var illusion_indicator = $MarginContainer/CardContent/Indicators/IllusionIndicator
 
 func setup(player_data: Dictionary):
 	update_player_indicator(player_data)
