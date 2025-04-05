@@ -19,7 +19,8 @@ func setup(player_data: Dictionary):
 
 func update_player_indicator(player_data: Dictionary):
 	# Set player name using Steam persona name - convert steam_id to int
-	var steam_id: int = int(player_data["steam_id"])
+	print(player_data)
+	var steam_id: int = player_data["steam_id"]["steam_id"]
 	player_name.text = Steam.getFriendPersonaName(steam_id)
 	
 	# Update stats
