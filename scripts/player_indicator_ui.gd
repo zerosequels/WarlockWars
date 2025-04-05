@@ -18,8 +18,9 @@ func setup(player_data: Dictionary):
 	update_player_indicator(player_data)
 
 func update_player_indicator(player_data: Dictionary):
-	# Set player name using Steam persona name
-	player_name.text = Steam.getFriendPersonaName(player_data["steam_id"])
+	# Set player name using Steam persona name - ensure steam_id is passed as int
+	var steam_id: int = player_data["steam_id"]
+	player_name.text = Steam.getFriendPersonaName(steam_id)
 	
 	# Update stats
 	vigor_label.text = "VIG:" + str(player_data["vigor"])
