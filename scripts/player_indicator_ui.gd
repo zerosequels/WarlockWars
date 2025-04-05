@@ -34,10 +34,6 @@ func _ready():
 	
 	# Connect to signal only if all nodes are properly loaded
 	MatchState.player_updated.connect(update_player_indicator)
-	update_player_indicator(current_player_data)
-
-func setup(player_data: Dictionary):
-	current_player_data = player_data
 	
 
 func update_player_indicator(player_data: Dictionary):

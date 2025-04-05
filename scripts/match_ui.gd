@@ -22,7 +22,7 @@ extends CanvasLayer
 @onready var player_list_item_instance = preload("res://scenes/ui/card/PlayerIndicatorUi.tscn")
 
 func _ready():
-	clear_design_elements()
+	#clear_design_elements()
 	# Connect to the signal from MatchState
 	MatchState.populate_player_list.connect(_on_populate_player_list)
 
@@ -121,4 +121,4 @@ func _on_populate_player_list(players: Dictionary, turn_order: Array):
 		# Create a new player instance
 		var player_instance = player_list_item_instance.instantiate()
 		add_player_to_list(player_instance)
-		player_instance.setup(player_data)
+		player_instance.update_player_indicator(player_data)
