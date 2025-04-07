@@ -8,14 +8,14 @@
 noise = SubResource("FastNoiseLite_t6nlf")
 
 [node name="PlayerIndicator" type="Control"]
-custom_minimum_size = Vector2(320, 80)
+custom_minimum_size = Vector2(320, 42)
 layout_mode = 3
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -161.0
-offset_right = 159.0
-offset_bottom = 80.0
+offset_left = -168.0
+offset_right = 191.0
+offset_bottom = 42.0
 grow_horizontal = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
@@ -35,6 +35,8 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_top = -8.0
+offset_bottom = 8.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
@@ -72,7 +74,9 @@ stretch_mode = 4
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/CardContent"]
 layout_mode = 2
 size_flags_horizontal = 3
+size_flags_vertical = 4
 mouse_filter = 2
+theme_override_constants/separation = -4
 
 [node name="Header" type="HBoxContainer" parent="MarginContainer/CardContent/VBoxContainer"]
 layout_mode = 2
@@ -84,7 +88,7 @@ alignment = 1
 [node name="PlayerName" type="Label" parent="MarginContainer/CardContent/VBoxContainer/Header"]
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_font_sizes/font_size = 20
+theme_override_font_sizes/font_size = 18
 text = "Player Name"
 horizontal_alignment = 1
 
@@ -123,10 +127,11 @@ layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 mouse_filter = 2
-theme_override_constants/separation = 4
+theme_override_constants/separation = 1
 alignment = 1
 
 [node name="NecromancyIndicator" type="TextureRect" parent="MarginContainer/CardContent/Indicators"]
+visible = false
 clip_contents = true
 custom_minimum_size = Vector2(16, 8)
 layout_mode = 2
@@ -137,6 +142,7 @@ texture = SubResource("NoiseTexture2D_e1uuo")
 expand_mode = 2
 
 [node name="DarknessIndicator" type="TextureRect" parent="MarginContainer/CardContent/Indicators"]
+visible = false
 clip_contents = true
 custom_minimum_size = Vector2(16, 8)
 layout_mode = 2
@@ -147,6 +153,7 @@ texture = SubResource("NoiseTexture2D_e1uuo")
 expand_mode = 2
 
 [node name="DispelIndicator" type="TextureRect" parent="MarginContainer/CardContent/Indicators"]
+visible = false
 clip_contents = true
 custom_minimum_size = Vector2(16, 8)
 layout_mode = 2
@@ -157,6 +164,7 @@ texture = SubResource("NoiseTexture2D_e1uuo")
 expand_mode = 2
 
 [node name="ChaosSurgeIndicator" type="TextureRect" parent="MarginContainer/CardContent/Indicators"]
+visible = false
 clip_contents = true
 custom_minimum_size = Vector2(16, 8)
 layout_mode = 2
@@ -167,6 +175,7 @@ texture = SubResource("NoiseTexture2D_e1uuo")
 expand_mode = 2
 
 [node name="MarkedIndicator" type="TextureRect" parent="MarginContainer/CardContent/Indicators"]
+visible = false
 clip_contents = true
 custom_minimum_size = Vector2(16, 8)
 layout_mode = 2
@@ -177,6 +186,7 @@ texture = SubResource("NoiseTexture2D_e1uuo")
 expand_mode = 2
 
 [node name="CharmedIndicator" type="TextureRect" parent="MarginContainer/CardContent/Indicators"]
+visible = false
 clip_contents = true
 custom_minimum_size = Vector2(16, 8)
 layout_mode = 2
@@ -187,6 +197,7 @@ texture = SubResource("NoiseTexture2D_e1uuo")
 expand_mode = 2
 
 [node name="IllusionIndicator" type="TextureRect" parent="MarginContainer/CardContent/Indicators"]
+visible = false
 clip_contents = true
 custom_minimum_size = Vector2(16, 8)
 layout_mode = 2

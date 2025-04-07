@@ -121,4 +121,4 @@ func _on_populate_player_list(players: Dictionary, turn_order: Array):
 		# Create a new player instance
 		var player_instance = player_list_item_instance.instantiate()
 		add_player_to_list(player_instance)
-		player_instance.update_player_indicator(player_data)
+		player_instance.setup(player_data)
