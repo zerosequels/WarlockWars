@@ -37,6 +37,9 @@ func replenish_hand(player: Dictionary):
 
 # Reset the match state using players from Globals.LOBBY_MEMBERS
 func reset_match():
+	if not is_host:
+		return
+		
 	players.clear()
 	turn_order.clear()
 	current_turn = 0
@@ -70,6 +73,9 @@ func reset_match():
 
 # Add a player mid-game (for testing or dynamic joins)
 func add_player(steam_id: int):
+	if not is_host:
+		return false
+		
 	if steam_id in players:
 		printerr("Player with Steam ID ", steam_id, " already exists")
 		return false
@@ -95,6 +101,9 @@ func get_current_player() -> Dictionary:
 
 # Advance to the next turn
 func next_turn():
+	if not is_host:
+		return
+		
 	current_turn = (current_turn + 1) % turn_order.size()
 	while players[turn_order[current_turn]]["eliminated"]:
 		current_turn = (current_turn + 1) % turn_order.size()
@@ -105,6 +114,9 @@ func next_turn():
 
 # Play a card from hand
 func play_card(steam_id: int, card_id: String, target_steam_id: int = -1):
+	if not is_host:
+		return false
+		
 	var player = players[steam_id]
 	var card_data = CardLibrary.get_card_data(card_id)
 	
@@ -246,6 +258,9 @@ func _draw_random_card() -> String:
 
 # Redistribute stats (1:1:1 ratio)
 func redistribute_stats(steam_id: int, vigor: int, arcane_flux: int, treasure: int):
+	if not is_host:
+		return
+		
 	var player = players[steam_id]
 	var total = player["vigor"] + player["arcane_flux"] + player["treasure"]
 	if vigor + arcane_flux + treasure == total and vigor >= 0 and arcane_flux >= 0 and treasure >= 0:
