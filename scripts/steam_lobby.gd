@@ -20,7 +20,6 @@ const LOBBY_SEARCH_OPTION = preload("res://scenes/ui/networking/join_lobby_info_
 @onready var startMatchButton = $LobbyPanel/MarginContainer/HBoxContainer/VBoxContainer2/StartGame
 @onready var matchUi = $MatchUI
 
-var is_host: bool = false
 var host_steam_id: int = 0
 
 func _ready():
@@ -36,6 +35,9 @@ func _ready():
 	Steam.join_requested.connect(_on_Lobby_Join_Requested)
 	Steam.p2p_session_request.connect(_on_P2p_Session_Request)
 	Steam.p2p_session_connect_fail.connect(_on_p2p_session_connect_fail)
+	
+	# Connect to MatchState signals
+	MatchState.replenish_player_hand.connect(_on_replenish_player_hand)
 	
 	check_Command_Line()
 	
@@ -66,7 +68,7 @@ func _on_Lobby_Created(connect_status, lobbyID):
 		display_Message("Created lobby: " + lobbySetName.text)
 		
 		# Set yourself as the host when creating the lobby
-		is_host = true
+		MatchState.is_host = true
 		host_steam_id = Globals.STEAM_ID
 		
 		#Set Lobby Data
@@ -84,11 +86,11 @@ func _on_Lobby_Joined(lobbyID, permissions, locked, response):
 	# Get the lobby name and host ID
 	var lobby_name = Steam.getLobbyData(lobbyID, "name")
 	host_steam_id = int(Steam.getLobbyData(lobbyID, "host_id"))
-	is_host = (Globals.STEAM_ID == host_steam_id)
+	MatchState.is_host = (Globals.STEAM_ID == host_steam_id)
 	
 	lobbyGetName.text = str(lobby_name)
 	toggle_join_lobby_button(false)
-	toggle_start_match_button(is_host)  # Only host can start the game
+	toggle_start_match_button(MatchState.is_host)  # Only host can start the game
 	lobbyPanel.show()
 	lobbySearch.hide()
 	# Get lobby members
@@ -117,23 +119,23 @@ func _on_Lobby_Chat_Update(lobbyID, changedID, makingChangeID, chatState):
 	match chatState:
 		1:
 			display_Message(str(CHANGER)+ " has joined the lobby.")
-			toggle_start_match_button(is_host)  # Recheck start button state
+			toggle_start_match_button(MatchState.is_host)  # Recheck start button state
 		2:
 			display_Message(str(CHANGER)+ " has left the lobby.")
 			if changedID == host_steam_id:  # Host left, need to migrate
 				migrate_host()
-			toggle_start_match_button(is_host)  # Recheck start button state
+			toggle_start_match_button(MatchState.is_host)  # Recheck start button state
 		4:
 			display_Message(str(CHANGER)+ " has disconnected from the lobby.")
 			if changedID == host_steam_id:  # Host disconnected, need to migrate
 				migrate_host()
-			toggle_start_match_button(is_host)  # Recheck start button state
+			toggle_start_match_button(MatchState.is_host)  # Recheck start button state
 		8:
 			display_Message(str(CHANGER)+ " has been kicked from the lobby.")
-			toggle_start_match_button(is_host)  # Recheck start button state
+			toggle_start_match_button(MatchState.is_host)  # Recheck start button state
 		16:
 			display_Message(str(CHANGER)+ " has been banned from the lobby.")
-			toggle_start_match_button(is_host)  # Recheck start button state
+			toggle_start_match_button(MatchState.is_host)  # Recheck start button state
 		_:
 			display_Message(str(CHANGER)+ " has has done ... something")
 
@@ -205,11 +207,11 @@ func _on_leave_lobby_pressed():
 	
 func _on_start_game_pressed():
 	var player_count = Steam.getNumLobbyMembers(Globals.LOBBY_ID)
-	if is_host and player_count >= 2:
+	if MatchState.is_host and player_count >= 2:
 		start_match()
 		send_p2p_packet(0,{"message":"START_MATCH","from":Steam.getFriendPersonaName(Globals.STEAM_ID)})
 	else:
-		if !is_host:
+		if !MatchState.is_host:
 			display_Message("Only the host can start the game.")
 		else:
 			display_Message("At least 2 players are required to start the game.")
@@ -374,11 +376,17 @@ func migrate_host():
 		Steam.setLobbyData(Globals.LOBBY_ID, "host_id", str(host_steam_id))
 		
 		# Update local host status
-		is_host = (Globals.STEAM_ID == host_steam_id)
-		toggle_start_match_button(is_host)
+		MatchState.is_host = (Globals.STEAM_ID == host_steam_id)
+		toggle_start_match_button(MatchState.is_host)
 		
-		if is_host:
+		if MatchState.is_host:
 			display_Message("You are now the host of this lobby.")
 		else:
 			var host_name = Steam.getFriendPersonaName(host_steam_id)
 			display_Message(str(host_name) + " is now the host of this lobby.")
+
+func _on_replenish_player_hand(player_id: int, new_cards: Array):
+	if player_id == host_steam_id:
+		matchUi.replenish_hand(new_cards)
+	else:
+		pass  # Non-host case
