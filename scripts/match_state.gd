@@ -42,7 +42,7 @@ func replenish_hand(player: Dictionary):
 	
 	if not new_cards.is_empty():
 		print("Emitting replenish_player_hand signal for player ", player["steam_id"], " with cards: ", new_cards)
-		emit_signal("replenish_player_hand", player["steam_id"], new_cards)
+		emit_signal("replenish_player_hand", player["steam_id"]["steam_id"], new_cards)
 
 # Reset the match state using players from Globals.LOBBY_MEMBERS
 func reset_match():
