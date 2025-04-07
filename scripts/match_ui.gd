@@ -58,6 +58,9 @@ func remove_card_from_hand(card_instance):
 		hand_container.remove_child(card_instance)
 		card_instance.queue_free()
 
+func replenish_hand(new_cards: Array):
+	print("Replenishing hand with new cards: ", new_cards)
+
 # Attack/Defend area management
 func add_card_to_attack(card_instance):
 	attack_cards_container.add_child(card_instance)

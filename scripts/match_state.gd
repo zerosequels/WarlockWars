@@ -3,21 +3,27 @@
 
 extends Node
 
+# Constants
+const MAX_HAND_SIZE: int = 7
+const MAX_HAND_SIZE_ABSOLUTE: int = 18  # Absolute maximum to prevent hand overflow
+
 # Player data stored as a dictionary with Steam IDs as keys
 var players := {}
 var current_turn := 0  # Index in turn_order
 var turn_order := []   # Array of Steam IDs from LOBBY_MEMBERS
 var cantrips_played := {}  # Tracks Cantrips played this turn per player
 var match_started: bool = false
+var is_host: bool = false  # Tracks if this player is the host of the current match
+
+# Signals
+signal populate_player_list(players: Dictionary, turn_order: Array)
+signal player_updated(player_data: Dictionary)
+signal replenish_player_hand(player_id: int, new_cards: Array)
 
 # Called when singleton is initialized
 func _ready():
 	print("MatchState initialized")
 	
-# At the top of the file, after extends Node
-signal populate_player_list(players: Dictionary, turn_order: Array)
-signal player_updated(player_data: Dictionary)
-
 func start_new_match():
 	if match_started == false:
 		match_started = true
@@ -25,8 +31,22 @@ func start_new_match():
 		# Emit the signal after match is reset
 		emit_signal("populate_player_list", players, turn_order)
 	
+# Replenish a player's hand up to MAX_HAND_SIZE
+func replenish_hand(player: Dictionary):
+	var new_cards := []
+	while player["hand"].size() < MAX_HAND_SIZE and player["hand"].size() < MAX_HAND_SIZE_ABSOLUTE:
+		var card = _draw_random_card()
+		player["hand"].append(card)
+		new_cards.append(card)
+	
+	if not new_cards.is_empty():
+		emit_signal("replenish_player_hand", player["steam_id"], new_cards)
+
 # Reset the match state using players from Globals.LOBBY_MEMBERS
 func reset_match():
+	if not is_host:
+		return
+		
 	players.clear()
 	turn_order.clear()
 	current_turn = 0
@@ -49,9 +69,8 @@ func reset_match():
 			"curses": [],
 			"eliminated": false
 		}
-		# Draw initial hand (9 cards)
-		for j in range(9):
-			player["hand"].append(_draw_random_card())
+		# Draw initial hand
+		replenish_hand(player)
 		players[steam_id] = player
 		turn_order.append(steam_id)
 	
@@ -61,6 +80,9 @@ func reset_match():
 
 # Add a player mid-game (for testing or dynamic joins)
 func add_player(steam_id: int):
+	if not is_host:
+		return false
+		
 	if steam_id in players:
 		printerr("Player with Steam ID ", steam_id, " already exists")
 		return false
@@ -75,8 +97,7 @@ func add_player(steam_id: int):
 		"curses": [],
 		"eliminated": false
 	}
-	for i in range(9):
-		player["hand"].append(_draw_random_card())
+	replenish_hand(player)
 	players[steam_id] = player
 	turn_order.append(steam_id)
 	return true
@@ -87,18 +108,22 @@ func get_current_player() -> Dictionary:
 
 # Advance to the next turn
 func next_turn():
+	if not is_host:
+		return
+		
 	current_turn = (current_turn + 1) % turn_order.size()
 	while players[turn_order[current_turn]]["eliminated"]:
 		current_turn = (current_turn + 1) % turn_order.size()
 	# Reset Cantrips played for the new turn
 	cantrips_played[get_current_player()["steam_id"]] = 0
-	# Replenish hand to 9 cards
-	var player = get_current_player()
-	while player["hand"].size() < 9 and player["hand"].size() < 18:
-		player["hand"].append(_draw_random_card())
+	# Replenish hand
+	replenish_hand(get_current_player())
 
 # Play a card from hand
 func play_card(steam_id: int, card_id: String, target_steam_id: int = -1):
+	if not is_host:
+		return false
+		
 	var player = players[steam_id]
 	var card_data = CardLibrary.get_card_data(card_id)
 	
@@ -240,6 +265,9 @@ func _draw_random_card() -> String:
 
 # Redistribute stats (1:1:1 ratio)
 func redistribute_stats(steam_id: int, vigor: int, arcane_flux: int, treasure: int):
+	if not is_host:
+		return
+		
 	var player = players[steam_id]
 	var total = player["vigor"] + player["arcane_flux"] + player["treasure"]
 	if vigor + arcane_flux + treasure == total and vigor >= 0 and arcane_flux >= 0 and treasure >= 0:
