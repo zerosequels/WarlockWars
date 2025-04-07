@@ -70,7 +70,7 @@ var default_cards := {
 		"description": "Deals 10 damage to a target.",
 		"texture_path": "res://assets/textures/cantrips/arcane_bolt.png",
 		"rarity": Rarity.DEFAULT
-	},
+	}
 	# "002": {
 	# 	"id": "002",
 	# 	"name": "Fire Lance",

@@ -9,6 +9,7 @@ var current_turn := 0  # Index in turn_order
 var turn_order := []   # Array of Steam IDs from LOBBY_MEMBERS
 var cantrips_played := {}  # Tracks Cantrips played this turn per player
 var match_started: bool = false
+var is_host: bool = false  # Tracks if this player is the host of the current match
 
 # Called when singleton is initialized
 func _ready():
