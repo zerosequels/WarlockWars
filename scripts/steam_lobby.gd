@@ -328,11 +328,18 @@ func read_p2p_packet() -> void:
 			return
 			
 		print("Packet contents: %s" % readable_data)
-		# Check for START_MATCH message
-		if readable_data.has("message") and readable_data["message"] == "START_MATCH":
-			print("START_MATCH command received from %d!" % packet_sender)
-			start_match()
-			
+		
+		# Handle different message types
+		if readable_data.has("message"):
+			match readable_data["message"]:
+				"START_MATCH":
+					print("START_MATCH command received from %d!" % packet_sender)
+					start_match()
+				"REPLENISH_HAND":
+					if readable_data.has("cards"):
+						print("Received cards to replenish hand: ", readable_data["cards"])
+						matchUi.replenish_hand(readable_data["cards"])
+
 func send_p2p_packet(this_target: int, packet_data: Dictionary):
 	var send_type: int = Steam.P2P_SEND_RELIABLE
 	var channel: int = 0
@@ -390,4 +397,8 @@ func _on_replenish_player_hand(player_id: int, new_cards: Array):
 	if player_id == host_steam_id:
 		matchUi.replenish_hand(new_cards)
 	else:
-		pass  # Non-host case
+		# Send the cards to the specific player
+		send_p2p_packet(player_id, {
+			"message": "REPLENISH_HAND",
+			"cards": new_cards
+		})
