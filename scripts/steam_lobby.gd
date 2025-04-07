@@ -387,6 +387,6 @@ func migrate_host():
 
 func _on_replenish_player_hand(player_id: int, new_cards: Array):
 	if player_id == host_steam_id:
-		pass  # Host case
+		matchUi.replenish_hand(new_cards)
 	else:
 		pass  # Non-host case
