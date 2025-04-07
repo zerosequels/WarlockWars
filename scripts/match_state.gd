@@ -3,6 +3,10 @@
 
 extends Node
 
+# Constants
+const MAX_HAND_SIZE: int = 7
+const MAX_HAND_SIZE_ABSOLUTE: int = 18  # Absolute maximum to prevent hand overflow
+
 # Player data stored as a dictionary with Steam IDs as keys
 var players := {}
 var current_turn := 0  # Index in turn_order
@@ -26,6 +30,11 @@ func start_new_match():
 		# Emit the signal after match is reset
 		emit_signal("populate_player_list", players, turn_order)
 	
+# Replenish a player's hand up to MAX_HAND_SIZE
+func replenish_hand(player: Dictionary):
+	while player["hand"].size() < MAX_HAND_SIZE and player["hand"].size() < MAX_HAND_SIZE_ABSOLUTE:
+		player["hand"].append(_draw_random_card())
+
 # Reset the match state using players from Globals.LOBBY_MEMBERS
 func reset_match():
 	players.clear()
@@ -50,9 +59,8 @@ func reset_match():
 			"curses": [],
 			"eliminated": false
 		}
-		# Draw initial hand (9 cards)
-		for j in range(9):
-			player["hand"].append(_draw_random_card())
+		# Draw initial hand
+		replenish_hand(player)
 		players[steam_id] = player
 		turn_order.append(steam_id)
 	
@@ -76,8 +84,7 @@ func add_player(steam_id: int):
 		"curses": [],
 		"eliminated": false
 	}
-	for i in range(9):
-		player["hand"].append(_draw_random_card())
+	replenish_hand(player)
 	players[steam_id] = player
 	turn_order.append(steam_id)
 	return true
@@ -93,10 +100,8 @@ func next_turn():
 		current_turn = (current_turn + 1) % turn_order.size()
 	# Reset Cantrips played for the new turn
 	cantrips_played[get_current_player()["steam_id"]] = 0
-	# Replenish hand to 9 cards
-	var player = get_current_player()
-	while player["hand"].size() < 9 and player["hand"].size() < 18:
-		player["hand"].append(_draw_random_card())
+	# Replenish hand
+	replenish_hand(get_current_player())
 
 # Play a card from hand
 func play_card(steam_id: int, card_id: String, target_steam_id: int = -1):
