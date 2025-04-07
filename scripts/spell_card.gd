@@ -38,31 +38,47 @@ func _ready():
 	update_card_ui()
 	card_button.connect("pressed", _on_card_clicked)
 
+func is_ui_initialized() -> bool:
+	return (
+		card_name_label != null and
+		attibute_icons != null and
+		star != null and
+		card_artwork != null and
+		atk_label != null and
+		def_label != null and
+		card_button != null
+	)
 
 func update_card_ui():
+	if not is_ui_initialized():
+		return
+		
 	# Card Name
 	card_name_label.text = card_data["name"]
 
 	# Elemental Attribute Star
-	if card_data["attribute"] in attribute_star_textures:
-		star.texture = attribute_star_textures[card_data["attribute"]]
+	var element = card_data.get("element", "Non-element")
+	if element in attribute_star_textures:
+		star.texture = attribute_star_textures[element]
 		star.modulate = {
-			"normal": Color("#A68A64"),  # Arcane gold (default)
-			"fire": Color("#B04A5A"),    # Crimson (fire)
-			"air": Color("#6A8299"),     # Mystical blue (wind)
-			"earth": Color("#4A3C2F"),   # Parchment brown (earth)
-			"water": Color("#3F5A3C"),   # Muted green (water)
-			"darkness": Color("#2A1B1F"),  # Dark crimson-tinged black
-			"holy": Color("#D9A66F")     # Warm arcane amber (light)
-		}[card_data["attribute"]]
+			"Non-element": Color("#A68A64"),  # Arcane gold (default)
+			"Fire": Color("#B04A5A"),    # Crimson (fire)
+			"Air": Color("#6A8299"),     # Mystical blue (wind)
+			"Earth": Color("#4A3C2F"),   # Parchment brown (earth)
+			"Water": Color("#3F5A3C"),   # Muted green (water)
+			"Necromancy": Color("#2A1B1F"),  # Dark crimson-tinged black
+			"Holy": Color("#D9A66F")     # Warm arcane amber (light)
+		}[element]
 
 	# Card Artwork
-	if card_data["artwork"]:
-		card_artwork.texture = load(card_data["artwork"])
+	if card_data.get("texture_path"):
+		card_artwork.texture = load(card_data["texture_path"])
 
 	# Attack and Defense
-	atk_label.text = "Atk: %d" % card_data["attack"]
-	def_label.text = "Def: %d" % card_data["defense"]
+	if card_data.get("atk"):
+		atk_label.text = "Atk: %d" % card_data["atk"]
+	if card_data.get("def"):
+		def_label.text = "Def: %d" % card_data["def"]
 
 func set_card_data(data: Dictionary):
 	card_data = data
