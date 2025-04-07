@@ -386,6 +386,7 @@ func migrate_host():
 			display_Message(str(host_name) + " is now the host of this lobby.")
 
 func _on_replenish_player_hand(player_id: int, new_cards: Array):
+	print("Received replenish_player_hand signal for player ", player_id, " with cards: ", new_cards)
 	if player_id == host_steam_id:
 		matchUi.replenish_hand(new_cards)
 	else:

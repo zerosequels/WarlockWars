@@ -33,6 +33,7 @@ func start_new_match():
 	
 # Replenish a player's hand up to MAX_HAND_SIZE
 func replenish_hand(player: Dictionary):
+	print("Replenishing hand for player ", player["steam_id"])
 	var new_cards := []
 	while player["hand"].size() < MAX_HAND_SIZE and player["hand"].size() < MAX_HAND_SIZE_ABSOLUTE:
 		var card = _draw_random_card()
@@ -40,6 +41,7 @@ func replenish_hand(player: Dictionary):
 		new_cards.append(card)
 	
 	if not new_cards.is_empty():
+		print("Emitting replenish_player_hand signal for player ", player["steam_id"], " with cards: ", new_cards)
 		emit_signal("replenish_player_hand", player["steam_id"], new_cards)
 
 # Reset the match state using players from Globals.LOBBY_MEMBERS
