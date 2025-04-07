@@ -20,6 +20,7 @@ extends CanvasLayer
 @onready var spell_container = $Control/CardInfoArea/VBoxContainer/ScrollContainer/HBoxContainer
 
 @onready var player_list_item_instance = preload("res://scenes/ui/card/PlayerIndicatorUi.tscn")
+@onready var card = preload("res://scenes/ui/card/SpellUi.tscn")
 
 func _ready():
 	clear_design_elements()
@@ -60,6 +61,10 @@ func remove_card_from_hand(card_instance):
 
 func replenish_hand(new_cards: Array):
 	print("Replenishing hand with new cards: ", new_cards)
+	for card_id in new_cards:
+		var card_instance = card.instantiate()
+		card_instance.update_card_by_id(card_id)
+		add_card_to_hand(card_instance)
 
 # Attack/Defend area management
 func add_card_to_attack(card_instance):

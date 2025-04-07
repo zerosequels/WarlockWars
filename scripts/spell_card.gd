@@ -68,6 +68,13 @@ func set_card_data(data: Dictionary):
 	card_data = data
 	update_card_ui()
 
+func update_card_by_id(card_id: String):
+	var card_data = CardLibrary.get_card_data(card_id)
+	if card_data:
+		set_card_data(card_data)
+	else:
+		printerr("Card ID not found: ", card_id)
+
 func _on_card_clicked():
 	print(card_data)
 	emit_signal("card_clicked", card_data)
