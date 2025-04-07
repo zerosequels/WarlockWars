@@ -15,14 +15,15 @@ var cantrips_played := {}  # Tracks Cantrips played this turn per player
 var match_started: bool = false
 var is_host: bool = false  # Tracks if this player is the host of the current match
 
+# Signals
+signal populate_player_list(players: Dictionary, turn_order: Array)
+signal player_updated(player_data: Dictionary)
+signal replenish_player_hand(player_id: int, new_cards: Array)
+
 # Called when singleton is initialized
 func _ready():
 	print("MatchState initialized")
 	
-# At the top of the file, after extends Node
-signal populate_player_list(players: Dictionary, turn_order: Array)
-signal player_updated(player_data: Dictionary)
-
 func start_new_match():
 	if match_started == false:
 		match_started = true
@@ -32,8 +33,14 @@ func start_new_match():
 	
 # Replenish a player's hand up to MAX_HAND_SIZE
 func replenish_hand(player: Dictionary):
+	var new_cards := []
 	while player["hand"].size() < MAX_HAND_SIZE and player["hand"].size() < MAX_HAND_SIZE_ABSOLUTE:
-		player["hand"].append(_draw_random_card())
+		var card = _draw_random_card()
+		player["hand"].append(card)
+		new_cards.append(card)
+	
+	if not new_cards.is_empty():
+		emit_signal("replenish_player_hand", player["steam_id"], new_cards)
 
 # Reset the match state using players from Globals.LOBBY_MEMBERS
 func reset_match():

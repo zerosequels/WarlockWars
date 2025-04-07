@@ -36,6 +36,9 @@ func _ready():
 	Steam.p2p_session_request.connect(_on_P2p_Session_Request)
 	Steam.p2p_session_connect_fail.connect(_on_p2p_session_connect_fail)
 	
+	# Connect to MatchState signals
+	MatchState.replenish_player_hand.connect(_on_replenish_player_hand)
+	
 	check_Command_Line()
 	
 func _process(delta):
@@ -381,3 +384,9 @@ func migrate_host():
 		else:
 			var host_name = Steam.getFriendPersonaName(host_steam_id)
 			display_Message(str(host_name) + " is now the host of this lobby.")
+
+func _on_replenish_player_hand(player_id: int, new_cards: Array):
+	if player_id == host_steam_id:
+		pass  # Host case
+	else:
+		pass  # Non-host case
