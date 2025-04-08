@@ -11,29 +11,25 @@ extends Control
 @onready var card_button: Button = $Button
 
 # Card Data
-var card_data: Dictionary = {
-	"name": "test",
-	"attribute": "fire",  # Elemental attribute: normal, fire, air, earth, water, darkness, holy
-	"attack": 20,
-	"defense": 20,
-	"artwork": "res://assets/textures/texture_00021_.png"
-}
+var card_data: Dictionary
 
 # Elemental Attribute Star Textures (Replace with your assets)
 var attribute_star_textures: Dictionary = {
-	"normal": preload("res://assets/textures/texture_00021_.png"),
-	"fire": preload("res://assets/textures/texture_00021_.png"),
-	"air": preload("res://assets/textures/texture_00021_.png"),
-	"earth": preload("res://assets/textures/texture_00021_.png"),
-	"water": preload("res://assets/textures/texture_00021_.png"),
-	"darkness": preload("res://assets/textures/texture_00021_.png"),
-	"holy": preload("res://assets/textures/texture_00021_.png")
+	"Non-element": preload("res://assets/textures/elements/non_element.png"),
+	"Fire": preload("res://assets/textures/elements/fire_element.png"),
+	"Water": preload("res://assets/textures/elements/water_element.png"),
+	"Earth": preload("res://assets/textures/elements/earth_element.png"),
+	"Air": preload("res://assets/textures/elements/air_element.png"),
+	"Necromancy": preload("res://assets/textures/elements/necromancy.png"),
+	"Holy": preload("res://assets/textures/elements/holy.png")
 }
 
 # Signals
 signal card_clicked(card_data)
 
 func _ready():
+	card_data = CardLibrary.get_card_data("001")
+	print(CardLibrary.get_all_card_ids())
 	# Ensure only one star exists in LevelStars
 	update_card_ui()
 	card_button.connect("pressed", _on_card_clicked)
@@ -52,6 +48,7 @@ func is_ui_initialized() -> bool:
 func update_card_ui():
 	if not is_ui_initialized():
 		return
+	print(card_data)
 		
 	# Card Name
 	card_name_label.text = card_data["name"]
@@ -60,15 +57,14 @@ func update_card_ui():
 	var element = card_data.get("element", "Non-element")
 	if element in attribute_star_textures:
 		star.texture = attribute_star_textures[element]
-		star.modulate = {
-			"Non-element": Color("#A68A64"),  # Arcane gold (default)
-			"Fire": Color("#B04A5A"),    # Crimson (fire)
-			"Air": Color("#6A8299"),     # Mystical blue (wind)
-			"Earth": Color("#4A3C2F"),   # Parchment brown (earth)
-			"Water": Color("#3F5A3C"),   # Muted green (water)
-			"Necromancy": Color("#2A1B1F"),  # Dark crimson-tinged black
-			"Holy": Color("#D9A66F")     # Warm arcane amber (light)
-		}[element]
+		star.visible = true
+		# Add purple modulation for Non-element
+		if element == "Non-element":
+			star.modulate = Color(0.8, 0.2, 1.0)  # Bright, energetic purple with blue tint
+		else:
+			star.modulate = Color(1, 1, 1)  # Reset to white for other elements
+	else:
+		star.visible = false
 
 	# Card Artwork
 	if card_data.get("texture_path"):
@@ -85,7 +81,7 @@ func set_card_data(data: Dictionary):
 	update_card_ui()
 
 func update_card_by_id(card_id: String):
-	var card_data = CardLibrary.get_card_data(card_id)
+	card_data = CardLibrary.get_card_data(card_id)
 	if card_data:
 		set_card_data(card_data)
 	else:
