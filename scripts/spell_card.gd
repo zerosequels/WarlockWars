@@ -28,7 +28,7 @@ var attribute_star_textures: Dictionary = {
 signal card_clicked(card_data)
 
 func _ready():
-	card_data = CardLibrary.get_card_data("001")
+	card_data = CardLibrary.get_card_data("010")
 	print(CardLibrary.get_all_card_ids())
 	# Ensure only one star exists in LevelStars
 	update_card_ui()
@@ -60,7 +60,7 @@ func update_card_ui():
 		star.visible = true
 		# Add purple modulation for Non-element
 		if element == "Non-element":
-			star.modulate = Color(0.8, 0.2, 1.0)  # Bright, energetic purple with blue tint
+			star.modulate = Color(1.0, 0.4, 1.0)  # Electric magenta-purple with bright core
 		else:
 			star.modulate = Color(1, 1, 1)  # Reset to white for other elements
 	else:
