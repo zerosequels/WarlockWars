@@ -87,7 +87,7 @@ var default_cards := {
 	"003": {
 		"id": "003",
 		"name": "Flame Cloak",
-		"type": "spell",
+		"type": "abjuration",
 		"element": "Fire",
 		"def": 7,
 		"atk": 0,
@@ -187,6 +187,45 @@ var default_cards := {
 		"description": "Creates a swirling shield of wind providing 7 defense.",
 		"texture_path": "res://assets/textures/cantrips/wind_shield.png",
 		"rarity": Rarity.DEFAULT
+	},
+	"011": {
+		"id": "011",
+		"name": "Death Touch",
+		"type": "cantrip",
+		"element": "Necromancy",
+		"atk": 1,
+		"def": 0,
+		"treasure_cost": 1,
+		"flux_cost": 0,
+		"description": "A touch of death dealing 1 necromantic damage.",
+		"texture_path": "res://assets/textures/cantrips/curse_touch.png",
+		"rarity": Rarity.DEFAULT
+	},
+	"012": {
+		"id": "012",
+		"name": "Blessed Blade",
+		"type": "cantrip",
+		"element": "Holy",
+		"atk": 3,
+		"def": 0,
+		"treasure_cost": 1,
+		"flux_cost": 0,
+		"description": "A blade of holy light dealing 3 holy damage.",
+		"texture_path": "res://assets/textures/cantrips/blessed_blade.png",
+		"rarity": Rarity.DEFAULT
+	},
+	"013": {
+		"id": "013",
+		"name": "Barrier of Faith",
+		"type": "abjuration",
+		"element": "Holy",
+		"def": 9,
+		"atk": 0,
+		"treasure_cost": 1,
+		"flux_cost": 0,
+		"description": "A radiant barrier providing 9 holy defense.",
+		"texture_path": "res://assets/textures/cantrips/barrier_of_faith.png",
+		"rarity": Rarity.DEFAULT
 	}
 }
 
@@ -197,7 +236,7 @@ func _ready():
 	# Initialize with default cards
 	_initialize_default_cards()
 	# Load Steam inventory cards
-	_load_steam_inventory_cards()
+	#_load_steam_inventory_cards()
 
 # Initialize the default card set
 func _initialize_default_cards():

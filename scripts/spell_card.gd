@@ -28,7 +28,7 @@ var attribute_star_textures: Dictionary = {
 signal card_clicked(card_data)
 
 func _ready():
-	#card_data = CardLibrary.get_card_data("010")
+	#card_data = CardLibrary.get_card_data("013")
 	#print(CardLibrary.get_all_card_ids())
 	# Ensure only one star exists in LevelStars
 	update_card_ui()
