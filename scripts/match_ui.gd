@@ -73,7 +73,7 @@ func remove_card_from_hand(card_instance):
 		card_instance.queue_free()
 
 func replenish_hand(new_cards: Array):
-	print("Replenishing hand with new cards: ", new_cards)
+	#print("Replenishing hand with new cards: ", new_cards)
 	for card_id in new_cards:
 		var card_instance = card.instantiate()
 		card_instance.update_card_by_id(card_id)
@@ -146,16 +146,16 @@ func _on_populate_player_list(players: Dictionary, turn_order: Array):
 		player_instance.set_player_id(steam_id["steam_id"])  # Set the player ID
 
 func update_turn_indicators(current_player_id: int):
-	print("\n=== Updating Turn Indicators ===")
-	print("Current player ID: ", current_player_id)
-	print("Number of player indicators: ", player_list_container.get_child_count())
+	#print("\n=== Updating Turn Indicators ===")
+	#print("Current player ID: ", current_player_id)
+	#print("Number of player indicators: ", player_list_container.get_child_count())
 	
 	for child in player_list_container.get_children():
-		print("\nChecking player indicator...")
+		#print("\nChecking player indicator...")
 		if child.has_method("toggle_turn_indicator_by_id"):
-			print("  Found valid player indicator")
+			#print("  Found valid player indicator")
 			child.toggle_turn_indicator_by_id(current_player_id)
 		else:
 			print("  Not a valid player indicator")
 	
-	print("=== Finished Updating Turn Indicators ===\n")
+	#print("=== Finished Updating Turn Indicators ===\n")

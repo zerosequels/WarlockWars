@@ -358,7 +358,7 @@ func read_p2p_packet() -> void:
 						matchUi._on_populate_player_list(readable_data["players"], readable_data["turn_order"])
 
 func send_p2p_packet(this_target: int, packet_data: Dictionary):
-	print("Sending P2P packet as host")
+	print("Sending P2P packet")
 	print(packet_data)
 	var send_type: int = Steam.P2P_SEND_RELIABLE
 	var channel: int = 0
@@ -423,9 +423,9 @@ func _on_replenish_player_hand(player_id: int, new_cards: Array):
 		})
 
 func _on_current_player_turn(steam_id: int):
-	print("on current player turn")
-	print(steam_id)
-	print(Globals.STEAM_ID)
+	#print("on current player turn")
+	#print(steam_id)
+	#print(Globals.STEAM_ID)
 	matchUi.update_turn_indicators(steam_id)
 	if steam_id == Globals.STEAM_ID:
 		# This is our turn - we'll build out the turn handling logic later
