@@ -87,7 +87,7 @@ func reset_match():
 	turn_order.shuffle()
 	print("Match reset with ", turn_order.size(), " players from LOBBY_MEMBERS")
 	# Emit current player's turn
-	emit_signal("current_player_turn", turn_order[current_turn])
+	emit_signal("current_player_turn", turn_order[current_turn]["steam_id"])
 
 # Add a player mid-game (for testing or dynamic joins)
 func add_player(steam_id: int):
