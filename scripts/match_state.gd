@@ -29,10 +29,13 @@ func start_new_match():
 	if not is_host:
 		return
 	if match_started == false:
+		print("MatchState: Starting new match as host")
 		match_started = true
 		reset_match()
 		# Emit the signal after match is reset
+		print("MatchState: Emitting populate_player_list signal")
 		emit_signal("populate_player_list", players, turn_order)
+		print("MatchState: Emitting current_player_turn signal")
 		emit_signal("current_player_turn", turn_order[current_turn])
 	
 # Replenish a player's hand up to MAX_HAND_SIZE
