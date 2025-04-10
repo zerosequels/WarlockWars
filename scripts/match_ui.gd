@@ -19,8 +19,20 @@ extends CanvasLayer
 @onready var card_info = $Control/CardInfoArea/VBoxContainer/CardInfo
 @onready var spell_container = $Control/CardInfoArea/VBoxContainer/ScrollContainer/HBoxContainer
 
+# Turn and Targeting State
+var is_player_turn: bool = false
+var is_targeted: bool = false
+
 @onready var player_list_item_instance = preload("res://scenes/ui/card/PlayerIndicatorUi.tscn")
 @onready var card = preload("res://scenes/ui/card/SpellUi.tscn")
+
+func set_is_player_turn(value: bool):
+	is_player_turn = value
+	# We'll add UI updates here later
+
+func set_is_targeted(value: bool):
+	is_targeted = value
+	# We'll add UI updates here later
 
 func _ready():
 	clear_design_elements()

@@ -14,6 +14,8 @@ extends Control
 @onready var charmed_indicator = $MarginContainer/CardContent/Indicators/CharmedIndicator
 @onready var illusion_indicator = $MarginContainer/CardContent/Indicators/IllusionIndicator
 
+@onready var turn_indicator = $MarginContainer/CardContent/TurnIndicator
+
 var current_player_data
 
 func _ready():

@@ -19,6 +19,7 @@ var is_host: bool = false  # Tracks if this player is the host of the current ma
 signal populate_player_list(players: Dictionary, turn_order: Array)
 signal player_updated(player_data: Dictionary)
 signal replenish_player_hand(player_id: int, new_cards: Array)
+signal current_player_turn(steam_id: int)  # New signal for current player's turn
 
 # Called when singleton is initialized
 func _ready():
@@ -79,6 +80,8 @@ func reset_match():
 	# Shuffle turn order
 	turn_order.shuffle()
 	print("Match reset with ", turn_order.size(), " players from LOBBY_MEMBERS")
+	# Emit current player's turn
+	emit_signal("current_player_turn", turn_order[current_turn])
 
 # Add a player mid-game (for testing or dynamic joins)
 func add_player(steam_id: int):
@@ -120,6 +123,8 @@ func next_turn():
 	cantrips_played[get_current_player()["steam_id"]] = 0
 	# Replenish hand
 	replenish_hand(get_current_player())
+	# Emit current player's turn
+	emit_signal("current_player_turn", turn_order[current_turn])
 
 # Play a card from hand
 func play_card(steam_id: int, card_id: String, target_steam_id: int = -1):

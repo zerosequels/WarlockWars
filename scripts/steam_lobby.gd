@@ -38,6 +38,7 @@ func _ready():
 	
 	# Connect to MatchState signals
 	MatchState.replenish_player_hand.connect(_on_replenish_player_hand)
+	MatchState.current_player_turn.connect(_on_current_player_turn)
 	
 	check_Command_Line()
 	
@@ -339,6 +340,13 @@ func read_p2p_packet() -> void:
 					if readable_data.has("cards"):
 						print("Received cards to replenish hand: ", readable_data["cards"])
 						matchUi.replenish_hand(readable_data["cards"])
+				"PLAYER_TURN":
+					if readable_data.has("steam_id"):
+						var turn_steam_id = readable_data["steam_id"]
+						if turn_steam_id == Globals.STEAM_ID:
+							matchUi.set_is_player_turn(true)
+						else:
+							matchUi.set_is_player_turn(false)
 
 func send_p2p_packet(this_target: int, packet_data: Dictionary):
 	var send_type: int = Steam.P2P_SEND_RELIABLE
@@ -401,4 +409,17 @@ func _on_replenish_player_hand(player_id: int, new_cards: Array):
 		send_p2p_packet(player_id, {
 			"message": "REPLENISH_HAND",
 			"cards": new_cards
+		})
+
+func _on_current_player_turn(steam_id: int):
+	if steam_id == Globals.STEAM_ID:
+		# This is our turn - we'll build out the turn handling logic later
+		matchUi.set_is_player_turn(true)
+	else:
+		# This is another player's turn - we'll build out the opponent turn handling logic later
+		matchUi.set_is_player_turn(false)
+		# Send P2P packet to all players about whose turn it is
+		send_p2p_packet(0, {
+			"message": "PLAYER_TURN",
+			"steam_id": steam_id
 		})
