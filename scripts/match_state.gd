@@ -36,7 +36,7 @@ func start_new_match():
 		print("MatchState: Emitting populate_player_list signal")
 		emit_signal("populate_player_list", players, turn_order)
 		print("MatchState: Emitting current_player_turn signal")
-		emit_signal("current_player_turn", turn_order[current_turn])
+		emit_signal("current_player_turn", turn_order[current_turn]["steam_id"])
 	
 # Replenish a player's hand up to MAX_HAND_SIZE
 func replenish_hand(player: Dictionary):
