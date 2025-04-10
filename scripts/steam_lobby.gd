@@ -39,6 +39,7 @@ func _ready():
 	# Connect to MatchState signals
 	MatchState.replenish_player_hand.connect(_on_replenish_player_hand)
 	MatchState.current_player_turn.connect(_on_current_player_turn)
+	MatchState.populate_player_list.connect(_on_populate_player_list)
 	
 	check_Command_Line()
 	
@@ -349,6 +350,10 @@ func read_p2p_packet() -> void:
 						else:
 							print("It's not my turn!")
 							matchUi.set_is_player_turn(false)
+				"POPULATE_PLAYER_LIST":
+					if readable_data.has("players") and readable_data.has("turn_order"):
+						print("Received player list update from host")
+						matchUi._on_populate_player_list(readable_data["players"], readable_data["turn_order"])
 
 func send_p2p_packet(this_target: int, packet_data: Dictionary):
 	var send_type: int = Steam.P2P_SEND_RELIABLE
@@ -425,3 +430,12 @@ func _on_current_player_turn(steam_id: int):
 		"message": "PLAYER_TURN",
 		"steam_id": steam_id
 	})
+
+func _on_populate_player_list(players: Dictionary, turn_order: Array):
+	# Only the host should send this packet
+	if MatchState.is_host:
+		send_p2p_packet(0, {
+			"message": "POPULATE_PLAYER_LIST",
+			"players": players,
+			"turn_order": turn_order
+		})
