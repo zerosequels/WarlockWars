@@ -165,3 +165,9 @@ func update_turn_indicators(current_player_id: int):
 
 func _on_card_hovered(card_data: Dictionary):
 	card_info.set_card_data(card_data)
+
+func update_attacker_label(text: String):
+	attacker_label.text = text
+
+func update_defender_label(text: String):
+	defender_label.text = text
