@@ -344,8 +344,10 @@ func read_p2p_packet() -> void:
 					if readable_data.has("steam_id"):
 						var turn_steam_id = readable_data["steam_id"]
 						if turn_steam_id == Globals.STEAM_ID:
+							print("It's my turn!")
 							matchUi.set_is_player_turn(true)
 						else:
+							print("It's not my turn!")
 							matchUi.set_is_player_turn(false)
 
 func send_p2p_packet(this_target: int, packet_data: Dictionary):
