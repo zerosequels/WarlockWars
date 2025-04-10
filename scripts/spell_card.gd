@@ -26,6 +26,7 @@ var attribute_star_textures: Dictionary = {
 
 # Signals
 signal card_clicked(card_data)
+signal card_hovered(card_data)
 
 func _ready():
 	#card_data = CardLibrary.get_card_data("013")
@@ -90,3 +91,9 @@ func update_card_by_id(card_id: String):
 func _on_card_clicked():
 	print(card_data)
 	emit_signal("card_clicked", card_data)
+
+func _on_button_mouse_entered():
+	emit_signal("card_hovered", card_data)
+
+func _on_button_mouse_exited():
+	pass # Replace with function body.

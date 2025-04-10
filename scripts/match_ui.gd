@@ -77,6 +77,7 @@ func replenish_hand(new_cards: Array):
 	for card_id in new_cards:
 		var card_instance = card.instantiate()
 		card_instance.update_card_by_id(card_id)
+		card_instance.card_hovered.connect(_on_card_hovered)  # Connect to the hover signal
 		add_card_to_hand(card_instance)
 
 # Attack/Defend area management
@@ -159,3 +160,6 @@ func update_turn_indicators(current_player_id: int):
 			print("  Not a valid player indicator")
 	
 	#print("=== Finished Updating Turn Indicators ===\n")
+
+func _on_card_hovered(card_data: Dictionary):
+	card_info.set_card_data(card_data)
