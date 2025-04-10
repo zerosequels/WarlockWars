@@ -419,7 +419,7 @@ func _on_current_player_turn(steam_id: int):
 		# This is another player's turn - we'll build out the opponent turn handling logic later
 		matchUi.set_is_player_turn(false)
 		# Send P2P packet to all players about whose turn it is
-		send_p2p_packet(0, {
-			"message": "PLAYER_TURN",
-			"steam_id": steam_id
-		})
+	send_p2p_packet(0, {
+		"message": "PLAYER_TURN",
+		"steam_id": steam_id
+	})

@@ -31,6 +31,7 @@ func start_new_match():
 		reset_match()
 		# Emit the signal after match is reset
 		emit_signal("populate_player_list", players, turn_order)
+		emit_signal("current_player_turn", turn_order[current_turn])
 	
 # Replenish a player's hand up to MAX_HAND_SIZE
 func replenish_hand(player: Dictionary):
