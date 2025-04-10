@@ -42,7 +42,9 @@ func _ready():
 func begin_match():
 	MatchState.start_new_match()
 	# Update turn indicators with the current player's ID
-	update_turn_indicators(MatchState.turn_order[MatchState.current_turn])
+	var current_player = MatchState.turn_order[MatchState.current_turn]
+	print(current_player)
+	update_turn_indicators(current_player["steam_id"])
 
 # Helper function to clear design elements
 func clear_design_elements():
