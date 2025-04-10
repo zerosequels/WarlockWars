@@ -146,6 +146,16 @@ func _on_populate_player_list(players: Dictionary, turn_order: Array):
 		player_instance.set_player_id(steam_id["steam_id"])  # Set the player ID
 
 func update_turn_indicators(current_player_id: int):
+	print("\n=== Updating Turn Indicators ===")
+	print("Current player ID: ", current_player_id)
+	print("Number of player indicators: ", player_list_container.get_child_count())
+	
 	for child in player_list_container.get_children():
-		if child.has_method("toggle_turn_indicator"):  # Check if it's a PlayerIndicatorUi by checking for the method
-			child.toggle_turn_indicator(child.player_steam_id == current_player_id)
+		print("\nChecking player indicator...")
+		if child.has_method("toggle_turn_indicator_by_id"):
+			print("  Found valid player indicator")
+			child.toggle_turn_indicator_by_id(current_player_id)
+		else:
+			print("  Not a valid player indicator")
+	
+	print("=== Finished Updating Turn Indicators ===\n")

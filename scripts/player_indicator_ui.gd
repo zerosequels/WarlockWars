@@ -98,9 +98,15 @@ func update_status_indicators(curses: Array):
 				illusion_indicator.visible = true
 
 func toggle_turn_indicator(is_active: bool):
-	
 	if turn_indicator:
 		turn_indicator.texture = active_turn_texture if is_active else inactive_turn_texture
+
+func toggle_turn_indicator_by_id(steam_id: int):
+	print("Toggle turn indicator by ID:")
+	print("  My Steam ID: ", player_steam_id)
+	print("  Current turn Steam ID: ", steam_id)
+	print("  Is my turn? ", player_steam_id == steam_id)
+	toggle_turn_indicator(player_steam_id == steam_id)
 
 func set_player_id(steam_id: int):
 	player_steam_id = steam_id
