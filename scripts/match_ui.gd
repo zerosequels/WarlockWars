@@ -78,7 +78,9 @@ func replenish_hand(new_cards: Array):
 		var card_instance = card.instantiate()
 		card_instance.update_card_by_id(card_id)
 		card_instance.card_hovered.connect(_on_card_hovered)  # Connect to the hover signal
+		
 		add_card_to_hand(card_instance)
+		card_info.set_card_data(card_instance.card_data)
 
 # Attack/Defend area management
 func add_card_to_attack(card_instance):

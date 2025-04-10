@@ -1,9 +1,10 @@
-[gd_scene load_steps=6 format=3 uid="uid://tyuyr2mvhxw7"]
+[gd_scene load_steps=7 format=3 uid="uid://tyuyr2mvhxw7"]
 
 [ext_resource type="Script" uid="uid://bmvclu7xdpw4o" path="res://scripts/match_ui.gd" id="1_wqdsq"]
 [ext_resource type="PackedScene" uid="uid://cy3hrd7dy27rj" path="res://scenes/ui/card/Card_Effect_Ui.tscn" id="2_bi4n2"]
 [ext_resource type="PackedScene" uid="uid://cq1ive6qk8q0o" path="res://scenes/ui/card/PlayerIndicatorUi.tscn" id="3_bi4n2"]
 [ext_resource type="PackedScene" uid="uid://doy4w0vkqover" path="res://scenes/ui/card/SpellUi.tscn" id="4_drbbn"]
+[ext_resource type="PackedScene" uid="uid://cbvg6dc2owfi8" path="res://scenes/ui/card/Card_Info_Ui.tscn" id="5_wqdsq"]
 
 [sub_resource type="NoiseTexture2D" id="NoiseTexture2D_beeb7"]
 width = 64
@@ -237,6 +238,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = -0.400024
 offset_top = -241.0
+offset_right = -18.0
 grow_horizontal = 0
 grow_vertical = 0
 theme_override_constants/margin_bottom = 18
@@ -245,8 +247,9 @@ theme_override_constants/margin_bottom = 18
 layout_mode = 2
 alignment = 2
 
-[node name="CardInfo" parent="Control/CardInfoArea/VBoxContainer" instance=ExtResource("2_bi4n2")]
+[node name="CardInfo" parent="Control/CardInfoArea/VBoxContainer" instance=ExtResource("5_wqdsq")]
 layout_mode = 2
+size_flags_horizontal = 1
 
 [node name="ScrollContainer" type="ScrollContainer" parent="Control/CardInfoArea/VBoxContainer"]
 layout_mode = 2
