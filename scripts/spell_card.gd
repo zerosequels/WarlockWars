@@ -49,7 +49,6 @@ func is_ui_initialized() -> bool:
 func update_card_ui():
 	if not is_ui_initialized():
 		return
-	print(card_data)
 		
 	# Card Name
 	card_name_label.text = card_data["name"]
