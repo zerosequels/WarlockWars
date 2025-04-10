@@ -1,4 +1,6 @@
-[gd_scene load_steps=5 format=3 uid="uid://cy3hrd7dy27rj"]
+[gd_scene load_steps=6 format=3 uid="uid://cy3hrd7dy27rj"]
+
+[ext_resource type="Script" uid="uid://b0hqqxwil5pbu" path="res://scripts/card_effect_ui.gd" id="1_8o6o4"]
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_ng76a"]
 
@@ -10,7 +12,7 @@ noise = SubResource("FastNoiseLite_ng76a")
 [sub_resource type="NoiseTexture2D" id="NoiseTexture2D_qtkqw"]
 noise = SubResource("FastNoiseLite_bgsja")
 
-[node name="CardUi" type="Control"]
+[node name="CardEffectUi" type="Control"]
 custom_minimum_size = Vector2(260, 64)
 layout_mode = 3
 anchors_preset = 8
@@ -27,8 +29,17 @@ grow_vertical = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 mouse_filter = 2
+script = ExtResource("1_8o6o4")
 
-[node name="Panel" type="Panel" parent="."]
+[node name="Panel2" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="MarginContainer" parent="."]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -36,35 +47,15 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
+theme_override_constants/margin_right = 50
 
-[node name="MarginContainer" type="MarginContainer" parent="Panel"]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -121.5
-offset_top = -48.0
-offset_right = 121.5
-offset_bottom = 48.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-theme_override_constants/margin_left = 8
-theme_override_constants/margin_top = 8
-theme_override_constants/margin_right = 8
-theme_override_constants/margin_bottom = 8
-
-[node name="CardContent" type="HBoxContainer" parent="Panel/MarginContainer"]
+[node name="CardContent" type="HBoxContainer" parent="Panel"]
 layout_mode = 2
-size_flags_horizontal = 4
 size_flags_vertical = 4
 mouse_filter = 2
 theme_override_constants/separation = 16
-alignment = 1
 
-[node name="CardArtwork" type="TextureRect" parent="Panel/MarginContainer/CardContent"]
+[node name="CardArtwork" type="TextureRect" parent="Panel/CardContent"]
 clip_contents = true
 custom_minimum_size = Vector2(64, 64)
 layout_mode = 2
@@ -73,13 +64,13 @@ texture = SubResource("NoiseTexture2D_e1uuo")
 expand_mode = 5
 stretch_mode = 4
 
-[node name="LevelStars" type="VBoxContainer" parent="Panel/MarginContainer/CardContent"]
+[node name="AttributeIcons" type="VBoxContainer" parent="Panel/CardContent"]
 layout_mode = 2
 mouse_filter = 2
 theme_override_constants/separation = 2
 alignment = 1
 
-[node name="StarExample" type="TextureRect" parent="Panel/MarginContainer/CardContent/LevelStars"]
+[node name="AttributeIcon" type="TextureRect" parent="Panel/CardContent/AttributeIcons"]
 custom_minimum_size = Vector2(16, 16)
 layout_mode = 2
 size_flags_vertical = 4
@@ -87,54 +78,47 @@ mouse_filter = 2
 texture = SubResource("NoiseTexture2D_qtkqw")
 expand_mode = 4
 
-[node name="StarExample2" type="TextureRect" parent="Panel/MarginContainer/CardContent/LevelStars"]
-custom_minimum_size = Vector2(16, 16)
-layout_mode = 2
-size_flags_vertical = 4
-mouse_filter = 2
-texture = SubResource("NoiseTexture2D_qtkqw")
-expand_mode = 4
-
-[node name="StarExample3" type="TextureRect" parent="Panel/MarginContainer/CardContent/LevelStars"]
-custom_minimum_size = Vector2(16, 16)
-layout_mode = 2
-size_flags_vertical = 4
-mouse_filter = 2
-texture = SubResource("NoiseTexture2D_qtkqw")
-expand_mode = 4
-
-[node name="VBoxContainer" type="VBoxContainer" parent="Panel/MarginContainer/CardContent"]
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel/CardContent"]
 layout_mode = 2
 mouse_filter = 2
 
-[node name="Header" type="HBoxContainer" parent="Panel/MarginContainer/CardContent/VBoxContainer"]
+[node name="Header" type="HBoxContainer" parent="Panel/CardContent/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
 mouse_filter = 2
 theme_override_constants/separation = 4
 alignment = 1
 
-[node name="Label" type="Label" parent="Panel/MarginContainer/CardContent/VBoxContainer/Header"]
+[node name="Label" type="Label" parent="Panel/CardContent/VBoxContainer/Header"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 20
 text = "Card Name"
 
-[node name="TypeIcons" type="HBoxContainer" parent="Panel/MarginContainer/CardContent/VBoxContainer"]
+[node name="TypeIcons" type="HBoxContainer" parent="Panel/CardContent/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
 mouse_filter = 2
 alignment = 1
 
-[node name="Atk" type="Label" parent="Panel/MarginContainer/CardContent/VBoxContainer/TypeIcons"]
+[node name="Atk" type="Label" parent="Panel/CardContent/VBoxContainer/TypeIcons"]
+visible = false
 layout_mode = 2
 theme_override_font_sizes/font_size = 16
 text = "Atk:00"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Def" type="Label" parent="Panel/MarginContainer/CardContent/VBoxContainer/TypeIcons"]
+[node name="Def" type="Label" parent="Panel/CardContent/VBoxContainer/TypeIcons"]
+visible = false
 layout_mode = 2
 theme_override_font_sizes/font_size = 16
 text = "Def:00"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Desciption" type="Label" parent="Panel/CardContent/VBoxContainer/TypeIcons"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+text = "description"
 horizontal_alignment = 1
 vertical_alignment = 1
