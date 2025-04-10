@@ -16,7 +16,12 @@ extends Control
 
 @onready var turn_indicator = $MarginContainer/CardContent/TurnIndicator
 
+# Turn indicator textures
+var active_turn_texture = preload("res://assets/textures/turn_indicators/is_turn.png")
+var inactive_turn_texture = preload("res://assets/textures/turn_indicators/is_not_turn.png")
+
 var current_player_data
+var player_steam_id: int = 0  # New variable to store player ID
 
 func _ready():
 	# Add error checking to verify nodes are found
@@ -91,3 +96,10 @@ func update_status_indicators(curses: Array):
 				charmed_indicator.visible = true
 			"Illusion":
 				illusion_indicator.visible = true
+
+func toggle_turn_indicator(is_active: bool):
+	if turn_indicator:
+		turn_indicator.texture = active_turn_texture if is_active else inactive_turn_texture
+
+func set_player_id(steam_id: int):
+	player_steam_id = steam_id
