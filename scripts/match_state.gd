@@ -26,6 +26,8 @@ func _ready():
 	print("MatchState initialized")
 	
 func start_new_match():
+	if not is_host:
+		return
 	if match_started == false:
 		match_started = true
 		reset_match()
