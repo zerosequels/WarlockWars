@@ -41,6 +41,8 @@ func _ready():
 
 func begin_match():
 	MatchState.start_new_match()
+	# Update turn indicators with the current player's ID
+	update_turn_indicators(MatchState.turn_order[MatchState.current_turn])
 
 # Helper function to clear design elements
 func clear_design_elements():
@@ -142,9 +144,10 @@ func _on_populate_player_list(players: Dictionary, turn_order: Array):
 		var player_instance = player_list_item_instance.instantiate()
 		add_player_to_list(player_instance)
 		player_instance.update_player_indicator(player_data)
-		player_instance.set_player_id(steam_id)  # Set the player ID
+		player_instance.set_player_id(steam_id["steam_id"])  # Set the player ID
 
 func update_turn_indicators(current_player_id: int):
+	print("Updating turn indicators for player: ", current_player_id)
 	for child in player_list_container.get_children():
 		if child.has_method("toggle_turn_indicator"):  # Check if it's a PlayerIndicatorUi by checking for the method
 			child.toggle_turn_indicator(child.player_steam_id == current_player_id)
