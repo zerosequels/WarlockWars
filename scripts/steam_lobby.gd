@@ -410,7 +410,7 @@ func migrate_host():
 			display_Message(str(host_name) + " is now the host of this lobby.")
 
 func _on_replenish_player_hand(player_id: int, new_cards: Array):
-	print("Received replenish_player_hand signal for player ", player_id, " with cards: ", new_cards)
+	#print("Received replenish_player_hand signal for player ", player_id, " with cards: ", new_cards)
 	if player_id == host_steam_id:
 		matchUi.replenish_hand(new_cards)
 	else:
@@ -421,7 +421,9 @@ func _on_replenish_player_hand(player_id: int, new_cards: Array):
 		})
 
 func _on_current_player_turn(steam_id: int):
-	print("on current player turn signal from match state")
+	print("on current player turn")
+	print(steam_id)
+	print(Globals.STEAM_ID)
 	if steam_id == Globals.STEAM_ID:
 		# This is our turn - we'll build out the turn handling logic later
 		matchUi.set_is_player_turn(true)
@@ -429,10 +431,10 @@ func _on_current_player_turn(steam_id: int):
 		# This is another player's turn - we'll build out the opponent turn handling logic later
 		matchUi.set_is_player_turn(false)
 		# Send P2P packet to all players about whose turn it is
-	send_p2p_packet(0, {
-		"message": "PLAYER_TURN",
-		"steam_id": steam_id
-	})
+		send_p2p_packet(0, {
+			"message": "PLAYER_TURN",
+			"steam_id": steam_id
+		})
 
 func _on_populate_player_list(players: Dictionary, turn_order: Array):
 	# Only the host should send this packet
