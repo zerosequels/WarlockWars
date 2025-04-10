@@ -98,6 +98,7 @@ func update_status_indicators(curses: Array):
 				illusion_indicator.visible = true
 
 func toggle_turn_indicator(is_active: bool):
+	
 	if turn_indicator:
 		turn_indicator.texture = active_turn_texture if is_active else inactive_turn_texture
 

@@ -210,8 +210,8 @@ func _on_leave_lobby_pressed():
 func _on_start_game_pressed():
 	var player_count = Steam.getNumLobbyMembers(Globals.LOBBY_ID)
 	if MatchState.is_host and player_count >= 2:
-		start_match()
 		send_p2p_packet(0,{"message":"START_MATCH","from":Steam.getFriendPersonaName(Globals.STEAM_ID)})
+		start_match()
 	else:
 		if !MatchState.is_host:
 			display_Message("Only the host can start the game.")
@@ -347,9 +347,11 @@ func read_p2p_packet() -> void:
 						if turn_steam_id == Globals.STEAM_ID:
 							print("It's my turn!")
 							matchUi.set_is_player_turn(true)
+							
 						else:
 							print("It's not my turn!")
 							matchUi.set_is_player_turn(false)
+						matchUi.update_turn_indicators(turn_steam_id)
 				"POPULATE_PLAYER_LIST":
 					if readable_data.has("players") and readable_data.has("turn_order"):
 						print("Received player list update from host")
@@ -424,6 +426,7 @@ func _on_current_player_turn(steam_id: int):
 	print("on current player turn")
 	print(steam_id)
 	print(Globals.STEAM_ID)
+	matchUi.update_turn_indicators(steam_id)
 	if steam_id == Globals.STEAM_ID:
 		# This is our turn - we'll build out the turn handling logic later
 		matchUi.set_is_player_turn(true)
