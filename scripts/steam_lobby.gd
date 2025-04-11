@@ -427,9 +427,7 @@ func _on_replenish_player_hand(player_id: int, new_cards: Array):
 		})
 
 func _on_current_player_turn(steam_id: int):
-	#print("on current player turn")
-	#print(steam_id)
-	#print(Globals.STEAM_ID)
+	print("_on_current_player_turn called with steam_id: ", steam_id)
 	var player_name = Steam.getFriendPersonaName(steam_id)
 	matchUi.update_turn_indicators(steam_id)
 	matchUi.update_attacker_label(player_name)
