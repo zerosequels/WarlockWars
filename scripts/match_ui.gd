@@ -239,7 +239,7 @@ func can_add_card_to_defense_area() -> bool:
 	return true
 
 func _on_card_clicked(card_data: Dictionary, hand_order_index: int):
-	if not is_player_turn or is_attack_locked:
+	if is_attack_locked:
 		return
 		
 	# Check if this card is already in the attack/defense area
@@ -273,7 +273,7 @@ func _on_card_clicked(card_data: Dictionary, hand_order_index: int):
 			card_effect_instance.set_card_data(card_data)
 			card_effect_instance.hand_order_index = hand_order_index
 			add_card_to_attack(card_effect_instance)
-	else:
+	elif is_targeted:
 		# Handle defense cards (abjurations)
 		if card_data["type"] == "abjuration":
 			print("Selecting abjuration: ", card_data, " at position: ", hand_order_index)
