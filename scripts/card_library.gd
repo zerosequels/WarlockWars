@@ -74,7 +74,7 @@ var default_cards := {
 	"002": {
 		"id": "002",
 		"name": "Arcane Shield",
-		"type": "cantrip",
+		"type": "abjuration",
 		"element": "Non-element",
 		"def": 10,
 		"atk": 0,
