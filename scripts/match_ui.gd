@@ -174,12 +174,42 @@ func update_attacker_label(text: String):
 func update_defender_label(text: String):
 	defender_label.text = text
 
+func validate_attack_cards_limit() -> bool:
+	return attack_cards_container.get_child_count() == 0
+
+func can_add_card_to_attack_area() -> bool:
+	var action_count = 0
+	for child in attack_cards_container.get_children():
+		if child.card_data["type"] == "spell":
+			action_count += 1
+		elif child.card_data["type"] == "cantrip":
+			# If it's a combo cantrip (must explicitly have combo=true), don't count it
+			# All other cantrips (no combo field or combo=false) should be counted
+			if not child.card_data.has("combo") or not child.card_data["combo"]:
+				action_count += 1
+	return action_count == 0
+
 func _on_card_clicked(card_data: Dictionary, hand_order_index: int):
 	if not is_player_turn:
 		return
 		
 	if card_data["type"] == "cantrip":
+		# If it's a combo cantrip, allow it regardless of other cards
+		if card_data.has("combo") and card_data["combo"]:
+			print("Playing combo cantrip: ", card_data, " at position: ", hand_order_index)
+			var card_effect_instance = card_effect.instantiate()
+			card_effect_instance.set_card_data(card_data)
+			card_effect_instance.hand_order_index = hand_order_index
+			add_card_to_attack(card_effect_instance)
+			return
+			
+		# For non-combo cantrips, check if we can add it
+		if not can_add_card_to_attack_area():
+			print("Cannot play another cantrip, attack area already has a cantrip")
+			return
+			
 		print("Selecting cantrip: ", card_data, " at position: ", hand_order_index)
 		var card_effect_instance = card_effect.instantiate()
 		card_effect_instance.set_card_data(card_data)
+		card_effect_instance.hand_order_index = hand_order_index
 		add_card_to_attack(card_effect_instance)

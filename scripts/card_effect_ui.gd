@@ -11,6 +11,7 @@ extends Control
 
 # Card Data
 var card_data: Dictionary
+var hand_order_index: int = -1  # Default to -1 to indicate not from hand
 
 # Elemental Attribute Star Textures (Replace with your assets)
 var attribute_star_textures: Dictionary = {
