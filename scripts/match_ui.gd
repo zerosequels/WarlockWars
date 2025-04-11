@@ -36,9 +36,12 @@ func set_current_target_randomly():
 				possible_targets.append(member["steam_id"])
 		if not possible_targets.is_empty():
 			current_target = possible_targets[randi() % possible_targets.size()]
+			defender_label.text = Steam.getFriendPersonaName(current_target)
 
 func set_is_player_turn(value: bool):
 	is_player_turn = value
+	if value:
+		set_current_target_randomly()
 	# We'll add UI updates here later
 
 func set_is_targeted(value: bool):
