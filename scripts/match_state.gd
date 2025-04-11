@@ -21,6 +21,7 @@ signal player_updated(player_data: Dictionary)
 signal replenish_player_hand(player_id: int, new_cards: Array)
 signal current_player_turn(steam_id: int)  # New signal for current player's turn
 signal forward_attack_lock_in_to_host(steam_id: int, target_steam_id: int, attack_cards: Array)
+signal update_player_area_with_locked_in_attack(steam_id: int, target_steam_id: int, attack_cards: Array)
 
 # Called when singleton is initialized
 func _ready():
@@ -289,6 +290,8 @@ func lock_in_attack(steam_id: int, target_steam_id: int, attack_cards: Array):
 	# This is where we'll handle the attack logic
 	# For now, just print the cards
 	print("Attack cards: ", attack_cards)
+	# Emit the new signal to update the UI
+	emit_signal("update_player_area_with_locked_in_attack", steam_id, target_steam_id, attack_cards)
 
 # Redistribute stats (1:1:1 ratio)
 func redistribute_stats(steam_id: int, vigor: int, arcane_flux: int, treasure: int):

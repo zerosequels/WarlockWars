@@ -41,6 +41,7 @@ func _ready():
 	MatchState.current_player_turn.connect(_on_current_player_turn)
 	MatchState.populate_player_list.connect(_on_populate_player_list)
 	MatchState.forward_attack_lock_in_to_host.connect(_on_forward_attack_lock_in_to_host)
+	MatchState.update_player_area_with_locked_in_attack.connect(_on_update_player_area_with_locked_in_attack)
 	
 	check_Command_Line()
 	
@@ -368,6 +369,14 @@ func read_p2p_packet() -> void:
 							MatchState.lock_in_attack(readable_data["steam_id"], readable_data["target_steam_id"], readable_data["attack_cards"])
 						else:
 							print("Non-host received forwarded attack lock-in data: ", readable_data)
+				"UPDATE_PLAYER_AREA_ON_ATTACK":
+					if readable_data.has("steam_id") and readable_data.has("target_steam_id") and readable_data.has("attack_cards"):
+						print("Updating player area with attack data")
+						matchUi._on_update_player_area_with_locked_in_attack(
+							readable_data["steam_id"],
+							readable_data["target_steam_id"],
+							readable_data["attack_cards"]
+						)
 
 func send_p2p_packet(this_target: int, packet_data: Dictionary):
 	print("Sending P2P packet")
@@ -467,6 +476,15 @@ func _on_forward_attack_lock_in_to_host(steam_id: int, target_steam_id: int, att
 	print("Forwarding attack lock-in to host")
 	send_p2p_packet(0, {
 		"message": "FORWARD_ATTACK_LOCK_IN",
+		"steam_id": steam_id,
+		"target_steam_id": target_steam_id,
+		"attack_cards": attack_cards
+	})
+
+func _on_update_player_area_with_locked_in_attack(steam_id: int, target_steam_id: int, attack_cards: Array):
+	print("Sending update player area packet for attack")
+	send_p2p_packet(0, {
+		"message": "UPDATE_PLAYER_AREA_ON_ATTACK",
 		"steam_id": steam_id,
 		"target_steam_id": target_steam_id,
 		"attack_cards": attack_cards

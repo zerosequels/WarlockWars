@@ -64,6 +64,7 @@ func _ready():
 	clear_design_elements()
 	# Connect to the signal from MatchState
 	MatchState.populate_player_list.connect(_on_populate_player_list)
+	MatchState.update_player_area_with_locked_in_attack.connect(_on_update_player_area_with_locked_in_attack)
 	
 	# Set initial target to a random other player
 	set_current_target_randomly()
@@ -294,6 +295,9 @@ func update_attack_and_defend_area_by_attack_lock_in(steam_id: int, target_steam
 	attacker_label.text = Steam.getFriendPersonaName(steam_id)
 	defender_label.text = Steam.getFriendPersonaName(target_steam_id)
 	
+	# Check if we are the target
+	is_targeted = (target_steam_id == Globals.STEAM_ID)
+	
 	# Clear any existing cards in the attack area
 	clear_attack_area()
 	
@@ -302,3 +306,6 @@ func update_attack_and_defend_area_by_attack_lock_in(steam_id: int, target_steam
 		var card_effect_instance = card_effect.instantiate()
 		card_effect_instance.set_card_data(card_data)
 		add_card_to_attack(card_effect_instance)
+
+func _on_update_player_area_with_locked_in_attack(steam_id: int, target_steam_id: int, attack_cards: Array):
+	update_attack_and_defend_area_by_attack_lock_in(steam_id, target_steam_id, attack_cards)
