@@ -40,6 +40,7 @@ func _ready():
 	MatchState.replenish_player_hand.connect(_on_replenish_player_hand)
 	MatchState.current_player_turn.connect(_on_current_player_turn)
 	MatchState.populate_player_list.connect(_on_populate_player_list)
+	MatchState.forward_attack_lock_in_to_host.connect(_on_forward_attack_lock_in_to_host)
 	
 	check_Command_Line()
 	
@@ -360,6 +361,13 @@ func read_p2p_packet() -> void:
 					if readable_data.has("players") and readable_data.has("turn_order"):
 						print("Received player list update from host")
 						matchUi._on_populate_player_list(readable_data["players"], readable_data["turn_order"])
+				"FORWARD_ATTACK_LOCK_IN":
+					if readable_data.has("steam_id") and readable_data.has("target_steam_id") and readable_data.has("attack_cards"):
+						if MatchState.is_host:
+							print("Host processing forwarded attack lock-in")
+							MatchState.lock_in_attack(readable_data["steam_id"], readable_data["target_steam_id"], readable_data["attack_cards"])
+						else:
+							print("Non-host received forwarded attack lock-in data: ", readable_data)
 
 func send_p2p_packet(this_target: int, packet_data: Dictionary):
 	print("Sending P2P packet")
@@ -454,3 +462,12 @@ func _on_populate_player_list(players: Dictionary, turn_order: Array):
 			"players": players,
 			"turn_order": turn_order
 		})
+
+func _on_forward_attack_lock_in_to_host(steam_id: int, target_steam_id: int, attack_cards: Array):
+	print("Forwarding attack lock-in to host")
+	send_p2p_packet(0, {
+		"message": "FORWARD_ATTACK_LOCK_IN",
+		"steam_id": steam_id,
+		"target_steam_id": target_steam_id,
+		"attack_cards": attack_cards
+	})

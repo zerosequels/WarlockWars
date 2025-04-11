@@ -229,7 +229,7 @@ func can_add_card_to_attack_area() -> bool:
 	return action_count == 0
 
 func _on_card_clicked(card_data: Dictionary, hand_order_index: int):
-	if not is_player_turn:
+	if not is_player_turn or is_attack_locked:
 		return
 		
 	# Check if this card is already in the attack area
@@ -288,3 +288,17 @@ func _on_attack_area_button_pressed():
 
 func _on_defense_button_pressed():
 	pass # Replace with function body.
+
+func update_attack_and_defend_area_by_attack_lock_in(steam_id: int, target_steam_id: int, hand_data: Array):
+	# Update the attacker and defender labels with personalized names
+	attacker_label.text = Steam.getFriendPersonaName(steam_id)
+	defender_label.text = Steam.getFriendPersonaName(target_steam_id)
+	
+	# Clear any existing cards in the attack area
+	clear_attack_area()
+	
+	# Create and add new card effects for each card in hand_data
+	for card_data in hand_data:
+		var card_effect_instance = card_effect.instantiate()
+		card_effect_instance.set_card_data(card_data)
+		add_card_to_attack(card_effect_instance)
