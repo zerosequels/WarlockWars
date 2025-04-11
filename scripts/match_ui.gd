@@ -193,6 +193,14 @@ func _on_card_clicked(card_data: Dictionary, hand_order_index: int):
 	if not is_player_turn:
 		return
 		
+	# Check if this card is already in the attack area
+	for child in attack_cards_container.get_children():
+		if child.hand_order_index == hand_order_index:
+			print("Removing card from attack area, hand index: ", hand_order_index)
+			attack_cards_container.remove_child(child)
+			child.queue_free()
+			return
+		
 	if card_data["type"] == "cantrip":
 		# If it's a combo cantrip, allow it regardless of other cards
 		if card_data.has("combo") and card_data["combo"]:
