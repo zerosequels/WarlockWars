@@ -90,6 +90,12 @@ func clear_design_elements():
 	# Clear spell area
 	for child in spell_container.get_children():
 		child.queue_free()
+	
+	# Clear all labels
+	attacker_label.text = ""
+	defender_label.text = ""
+	attack_status_indicator.text = ""
+	defense_status_indicator.text = ""
 
 # Hand management
 func add_card_to_hand(card_instance):
@@ -272,11 +278,7 @@ func _on_attack_area_button_pressed():
 	print("Attack area cards: ", hand_data)
 	print("Total attack damage: ", attack_damage_value)
 	
-	# Clear all labels
-	attacker_label.text = ""
-	defender_label.text = ""
-	attack_status_indicator.text = ""
-	defense_status_indicator.text = ""
+	
 
 
 func _on_defense_button_pressed():
