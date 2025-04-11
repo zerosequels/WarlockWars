@@ -24,7 +24,7 @@ var attribute_star_textures: Dictionary = {
 }
 
 func _ready():
-	#card_data = CardLibrary.get_card_data("001")
+	card_data = CardLibrary.get_card_data("011")
 	#print(card_data)
 	update_card_ui()
 

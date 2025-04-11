@@ -25,6 +25,7 @@ var is_targeted: bool = false
 
 @onready var player_list_item_instance = preload("res://scenes/ui/card/PlayerIndicatorUi.tscn")
 @onready var card = preload("res://scenes/ui/card/SpellUi.tscn")
+@onready var card_effect = preload("res://scenes/ui/card/Card_Effect_Ui.tscn")
 
 func set_is_player_turn(value: bool):
 	is_player_turn = value
@@ -74,11 +75,12 @@ func remove_card_from_hand(card_instance):
 
 func replenish_hand(new_cards: Array):
 	#print("Replenishing hand with new cards: ", new_cards)
-	for card_id in new_cards:
+	for i in range(new_cards.size()):
 		var card_instance = card.instantiate()
-		card_instance.update_card_by_id(card_id)
+		card_instance.update_card_by_id(new_cards[i])
+		card_instance.hand_order_index = i  # Set the index based on position
 		card_instance.card_hovered.connect(_on_card_hovered)  # Connect to the hover signal
-		
+		card_instance.card_clicked.connect(_on_card_clicked)
 		add_card_to_hand(card_instance)
 		card_info.set_card_data(card_instance.card_data)
 
@@ -171,3 +173,13 @@ func update_attacker_label(text: String):
 
 func update_defender_label(text: String):
 	defender_label.text = text
+
+func _on_card_clicked(card_data: Dictionary, hand_order_index: int):
+	if not is_player_turn:
+		return
+		
+	if card_data["type"] == "cantrip":
+		print("Selecting cantrip: ", card_data, " at position: ", hand_order_index)
+		var card_effect_instance = card_effect.instantiate()
+		card_effect_instance.set_card_data(card_data)
+		add_card_to_attack(card_effect_instance)

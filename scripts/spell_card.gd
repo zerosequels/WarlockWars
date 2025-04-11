@@ -12,6 +12,7 @@ extends Control
 
 # Card Data
 var card_data: Dictionary
+var hand_order_index: int = -1  # Default to -1 to indicate not in hand
 
 # Elemental Attribute Star Textures (Replace with your assets)
 var attribute_star_textures: Dictionary = {
@@ -25,7 +26,7 @@ var attribute_star_textures: Dictionary = {
 }
 
 # Signals
-signal card_clicked(card_data)
+signal card_clicked(card_data, hand_order_index)
 signal card_hovered(card_data)
 
 func _ready():
@@ -90,7 +91,7 @@ func update_card_by_id(card_id: String):
 
 func _on_card_clicked():
 	print(card_data)
-	emit_signal("card_clicked", card_data)
+	emit_signal("card_clicked", card_data, hand_order_index)
 
 func _on_button_mouse_entered():
 	emit_signal("card_hovered", card_data)
