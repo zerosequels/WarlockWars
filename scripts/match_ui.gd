@@ -234,39 +234,53 @@ func can_add_card_to_attack_area() -> bool:
 				action_count += 1
 	return action_count == 0
 
+func can_add_card_to_defense_area() -> bool:
+	# Defense area can have unlimited abjuration cards
+	return true
+
 func _on_card_clicked(card_data: Dictionary, hand_order_index: int):
 	if not is_player_turn or is_attack_locked:
 		return
 		
-	# Check if this card is already in the attack area
-	for child in attack_cards_container.get_children():
+	# Check if this card is already in the attack/defense area
+	var container = attack_cards_container if is_player_turn else defend_cards_container
+	for child in container.get_children():
 		if child.hand_order_index == hand_order_index:
-			print("Removing card from attack area, hand index: ", hand_order_index)
-			attack_cards_container.remove_child(child)
+			print("Removing card from area, hand index: ", hand_order_index)
+			container.remove_child(child)
 			child.queue_free()
 			return
 		
-	if card_data["type"] == "cantrip":
-		# If it's a combo cantrip, allow it regardless of other cards
-		if card_data.has("combo") and card_data["combo"]:
-			print("Playing combo cantrip: ", card_data, " at position: ", hand_order_index)
+	if is_player_turn:
+		# Handle attack cards (cantrips)
+		if card_data["type"] == "cantrip":
+			# If it's a combo cantrip, allow it regardless of other cards
+			if card_data.has("combo") and card_data["combo"]:
+				print("Playing combo cantrip: ", card_data, " at position: ", hand_order_index)
+				var card_effect_instance = card_effect.instantiate()
+				card_effect_instance.set_card_data(card_data)
+				card_effect_instance.hand_order_index = hand_order_index
+				add_card_to_attack(card_effect_instance)
+				return
+				
+			# For non-combo cantrips, check if we can add it
+			if not can_add_card_to_attack_area():
+				print("Cannot play another cantrip, attack area already has a cantrip")
+				return
+				
+			print("Selecting cantrip: ", card_data, " at position: ", hand_order_index)
 			var card_effect_instance = card_effect.instantiate()
 			card_effect_instance.set_card_data(card_data)
 			card_effect_instance.hand_order_index = hand_order_index
 			add_card_to_attack(card_effect_instance)
-			return
-			
-		# For non-combo cantrips, check if we can add it
-		if not can_add_card_to_attack_area():
-			print("Cannot play another cantrip, attack area already has a cantrip")
-			return
-			
-		print("Selecting cantrip: ", card_data, " at position: ", hand_order_index)
-		var card_effect_instance = card_effect.instantiate()
-		card_effect_instance.set_card_data(card_data)
-		card_effect_instance.hand_order_index = hand_order_index
-		add_card_to_attack(card_effect_instance)
-
+	else:
+		# Handle defense cards (abjurations)
+		if card_data["type"] == "abjuration":
+			print("Selecting abjuration: ", card_data, " at position: ", hand_order_index)
+			var card_effect_instance = card_effect.instantiate()
+			card_effect_instance.set_card_data(card_data)
+			card_effect_instance.hand_order_index = hand_order_index
+			add_card_to_defense(card_effect_instance)
 
 func _on_attack_area_button_pressed():
 	if is_attack_locked:
