@@ -41,6 +41,7 @@ func set_current_target_randomly():
 		if not possible_targets.is_empty():
 			current_target = possible_targets[randi() % possible_targets.size()]
 			print("Selected target: ", current_target)
+			print(Steam.getFriendPersonaName(current_target))
 			defender_label.text = Steam.getFriendPersonaName(current_target)
 			print("Defender label set to: ", defender_label.text)
 		else:
