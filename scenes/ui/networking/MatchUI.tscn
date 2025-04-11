@@ -272,3 +272,6 @@ layout_mode = 2
 
 [node name="CardUi6" parent="Control/CardInfoArea/VBoxContainer/ScrollContainer/HBoxContainer" instance=ExtResource("4_drbbn")]
 layout_mode = 2
+
+[connection signal="pressed" from="Control/CardPlayMargin/CardPlayArea/AttackArea/Button" to="." method="_on_attack_area_button_pressed"]
+[connection signal="pressed" from="Control/CardPlayMargin/CardPlayArea/DefendArea/Button" to="." method="_on_defense_button_pressed"]

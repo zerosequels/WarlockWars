@@ -221,3 +221,14 @@ func _on_card_clicked(card_data: Dictionary, hand_order_index: int):
 		card_effect_instance.set_card_data(card_data)
 		card_effect_instance.hand_order_index = hand_order_index
 		add_card_to_attack(card_effect_instance)
+
+
+func _on_attack_area_button_pressed():
+	var hand_data = []
+	for child in attack_cards_container.get_children():
+		hand_data.append(child.card_data)
+	print("Attack area cards: ", hand_data)
+
+
+func _on_defense_button_pressed():
+	pass # Replace with function body.
