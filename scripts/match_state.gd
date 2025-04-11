@@ -20,6 +20,7 @@ signal populate_player_list(players: Dictionary, turn_order: Array)
 signal player_updated(player_data: Dictionary)
 signal replenish_player_hand(player_id: int, new_cards: Array)
 signal current_player_turn(steam_id: int)  # New signal for current player's turn
+signal forward_attack_lock_in_to_host(steam_id: int, target_steam_id: int, attack_cards: Array)
 
 # Called when singleton is initialized
 func _ready():
@@ -275,6 +276,19 @@ func _check_elimination(steam_id: int):
 func _draw_random_card() -> String:
 	var card_ids = CardLibrary.get_all_card_ids()
 	return card_ids[randi() % card_ids.size()]
+
+# Lock in the current attack and process it
+func lock_in_attack(steam_id: int, target_steam_id: int, attack_cards: Array):
+	if not is_host:
+		print("Forwarding attack lock-in to host")
+		emit_signal("forward_attack_lock_in_to_host", steam_id, target_steam_id, attack_cards)
+		return
+		
+	print("Locking in attack for player ", steam_id, " targeting player ", target_steam_id)
+	# Process the attack cards here
+	# This is where we'll handle the attack logic
+	# For now, just print the cards
+	print("Attack cards: ", attack_cards)
 
 # Redistribute stats (1:1:1 ratio)
 func redistribute_stats(steam_id: int, vigor: int, arcane_flux: int, treasure: int):

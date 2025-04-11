@@ -23,6 +23,7 @@ extends CanvasLayer
 var is_player_turn: bool = false
 var is_targeted: bool = false
 var current_target: int = -1  # Default to -1 until set
+var is_attack_locked: bool = false
 
 @onready var player_list_item_instance = preload("res://scenes/ui/card/PlayerIndicatorUi.tscn")
 @onready var card = preload("res://scenes/ui/card/SpellUi.tscn")
@@ -262,6 +263,10 @@ func _on_card_clicked(card_data: Dictionary, hand_order_index: int):
 
 
 func _on_attack_area_button_pressed():
+	if is_attack_locked:
+		print("Attack area is locked, cannot play cards")
+		return
+		
 	var hand_data = []
 	for child in attack_cards_container.get_children():
 		hand_data.append(child.card_data)
@@ -278,8 +283,8 @@ func _on_attack_area_button_pressed():
 	print("Attack area cards: ", hand_data)
 	print("Total attack damage: ", attack_damage_value)
 	
-	
-
+	is_attack_locked = true
+	MatchState.lock_in_attack(Globals.STEAM_ID, current_target, hand_data)
 
 func _on_defense_button_pressed():
 	pass # Replace with function body.
