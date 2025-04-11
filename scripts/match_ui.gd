@@ -281,23 +281,3 @@ func _on_attack_area_button_pressed():
 
 func _on_defense_button_pressed():
 	pass # Replace with function body.
-
-func _on_current_player_turn(steam_id: int):
-	print("_on_current_player_turn called with steam_id: ", steam_id)
-	var player_name = Steam.getFriendPersonaName(steam_id)
-	matchUi.update_turn_indicators(steam_id)
-	matchUi.update_attacker_label(player_name)
-	matchUi.update_defender_label("")  # Clear defender label until target is selected
-	
-	if steam_id == Globals.STEAM_ID:
-		# This is our turn - we'll build out the turn handling logic later
-		matchUi.set_is_player_turn(true)
-	else:
-		# This is another player's turn - we'll build out the opponent turn handling logic later
-		matchUi.set_is_player_turn(false)
-		
-	# Send P2P packet to all players about whose turn it is
-	send_p2p_packet(0, {
-		"message": "PLAYER_TURN",
-		"steam_id": steam_id
-	})
