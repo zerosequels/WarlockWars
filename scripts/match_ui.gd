@@ -227,7 +227,18 @@ func _on_attack_area_button_pressed():
 	var hand_data = []
 	for child in attack_cards_container.get_children():
 		hand_data.append(child.card_data)
+		
+	if hand_data.is_empty():
+		print("Empty attack area")
+		return
+		
+	var attack_damage_value = 0
+	for card in hand_data:
+		if card["type"] == "cantrip":
+			attack_damage_value += card["atk"]
+			
 	print("Attack area cards: ", hand_data)
+	print("Total attack damage: ", attack_damage_value)
 
 
 func _on_defense_button_pressed():
