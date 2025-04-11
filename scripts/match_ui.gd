@@ -188,6 +188,10 @@ func _on_populate_player_list(players: Dictionary, turn_order: Array):
 		player_instance.player_indicator_selected.connect(_on_player_indicator_selected)
 
 func _on_player_indicator_selected(player_data: Dictionary):
+	if not is_player_turn:
+		print("Cannot select target - not your turn")
+		return
+		
 	current_target = player_data["steam_id"]["steam_id"]
 	defender_label.text = Steam.getFriendPersonaName(current_target)
 
