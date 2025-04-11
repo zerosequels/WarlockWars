@@ -161,7 +161,12 @@ func _on_populate_player_list(players: Dictionary, turn_order: Array):
 		var player_instance = player_list_item_instance.instantiate()
 		add_player_to_list(player_instance)
 		player_instance.update_player_indicator(player_data)
-		player_instance.set_player_id(steam_id["steam_id"])  # Set the player ID
+		player_instance.set_player_id(steam_id["steam_id"])
+		player_instance.player_indicator_selected.connect(_on_player_indicator_selected)
+
+func _on_player_indicator_selected(player_data: Dictionary):
+	current_target = player_data["steam_id"]["steam_id"]
+	defender_label.text = Steam.getFriendPersonaName(current_target)
 
 func update_turn_indicators(current_player_id: int):
 	#print("\n=== Updating Turn Indicators ===")

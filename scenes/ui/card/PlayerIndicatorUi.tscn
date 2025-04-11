@@ -206,3 +206,5 @@ size_flags_vertical = 8
 mouse_filter = 2
 texture = SubResource("NoiseTexture2D_e1uuo")
 expand_mode = 2
+
+[connection signal="pressed" from="Button" to="." method="_on_button_pressed"]

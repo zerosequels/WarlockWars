@@ -14,6 +14,8 @@ extends Control
 @onready var charmed_indicator = $MarginContainer/CardContent/Indicators/CharmedIndicator
 @onready var illusion_indicator = $MarginContainer/CardContent/Indicators/IllusionIndicator
 
+signal player_indicator_selected(player_data: Dictionary)
+
 @onready var turn_indicator = $MarginContainer/CardContent/TurnIndicator
 
 # Turn indicator textures
@@ -106,3 +108,6 @@ func toggle_turn_indicator_by_id(steam_id: int):
 
 func set_player_id(steam_id: int):
 	player_steam_id = steam_id
+
+func _on_button_pressed():
+	emit_signal("player_indicator_selected", current_player_data)
