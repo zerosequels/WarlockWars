@@ -22,10 +22,20 @@ extends CanvasLayer
 # Turn and Targeting State
 var is_player_turn: bool = false
 var is_targeted: bool = false
+var current_target: int = -1  # Default to -1 until set
 
 @onready var player_list_item_instance = preload("res://scenes/ui/card/PlayerIndicatorUi.tscn")
 @onready var card = preload("res://scenes/ui/card/SpellUi.tscn")
 @onready var card_effect = preload("res://scenes/ui/card/Card_Effect_Ui.tscn")
+
+func set_current_target_randomly():
+	if Globals.LOBBY_MEMBERS.size() > 1:
+		var possible_targets = []
+		for member in Globals.LOBBY_MEMBERS:
+			if member["steam_id"] != Globals.STEAM_ID:
+				possible_targets.append(member["steam_id"])
+		if not possible_targets.is_empty():
+			current_target = possible_targets[randi() % possible_targets.size()]
 
 func set_is_player_turn(value: bool):
 	is_player_turn = value
@@ -39,6 +49,9 @@ func _ready():
 	clear_design_elements()
 	# Connect to the signal from MatchState
 	MatchState.populate_player_list.connect(_on_populate_player_list)
+	
+	# Set initial target to a random other player
+	set_current_target_randomly()
 
 func begin_match():
 	MatchState.start_new_match()
@@ -239,6 +252,12 @@ func _on_attack_area_button_pressed():
 			
 	print("Attack area cards: ", hand_data)
 	print("Total attack damage: ", attack_damage_value)
+	
+	# Clear all labels
+	attacker_label.text = ""
+	defender_label.text = ""
+	attack_status_indicator.text = ""
+	defense_status_indicator.text = ""
 
 
 func _on_defense_button_pressed():
