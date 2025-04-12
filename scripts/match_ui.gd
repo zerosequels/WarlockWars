@@ -24,6 +24,7 @@ var is_player_turn: bool = false
 var is_targeted: bool = false
 var current_target: int = -1  # Default to -1 until set
 var is_attack_locked: bool = false
+var is_defense_locked: bool = false
 
 @onready var player_list_item_instance = preload("res://scenes/ui/card/PlayerIndicatorUi.tscn")
 @onready var card = preload("res://scenes/ui/card/SpellUi.tscn")
@@ -66,6 +67,7 @@ func _ready():
 	# Connect to the signal from MatchState
 	MatchState.populate_player_list.connect(_on_populate_player_list)
 	MatchState.update_player_area_with_locked_in_attack.connect(_on_update_player_area_with_locked_in_attack)
+	MatchState.update_player_area_with_locked_in_defense.connect(_on_update_player_area_with_locked_in_defense)
 	
 	# Set initial target to a random other player
 	set_current_target_randomly()
@@ -307,7 +309,28 @@ func _on_attack_area_button_pressed():
 	MatchState.lock_in_attack(Globals.STEAM_ID, current_target, hand_data)
 
 func _on_defense_button_pressed():
-	pass # Replace with function body.
+	if is_defense_locked:
+		print("Defense area is locked, cannot play cards")
+		return
+		
+	var hand_data = []
+	for child in defend_cards_container.get_children():
+		hand_data.append(child.card_data)
+		
+	if hand_data.is_empty():
+		print("Empty defense area")
+		return
+		
+	var defense_block_value = 0
+	for card in hand_data:
+		if card["type"] == "abjuration":
+			defense_block_value += card["def"]
+			
+	print("Defense area cards: ", hand_data)
+	print("Total defense block: ", defense_block_value)
+	
+	is_defense_locked = true
+	MatchState.lock_in_defense(Globals.STEAM_ID, current_target, hand_data)
 
 func update_attack_and_defend_area_by_attack_lock_in(steam_id: int, target_steam_id: int, hand_data: Array):
 	# Update the attacker and defender labels with personalized names
@@ -328,3 +351,6 @@ func update_attack_and_defend_area_by_attack_lock_in(steam_id: int, target_steam
 
 func _on_update_player_area_with_locked_in_attack(steam_id: int, target_steam_id: int, attack_cards: Array):
 	update_attack_and_defend_area_by_attack_lock_in(steam_id, target_steam_id, attack_cards)
+
+func _on_update_player_area_with_locked_in_defense(steam_id: int, target_steam_id: int, defense_cards: Array):
+	update_attack_and_defend_area_by_attack_lock_in(steam_id, target_steam_id, defense_cards)

@@ -22,6 +22,8 @@ signal replenish_player_hand(player_id: int, new_cards: Array)
 signal current_player_turn(steam_id: int)  # New signal for current player's turn
 signal forward_attack_lock_in_to_host(steam_id: int, target_steam_id: int, attack_cards: Array)
 signal update_player_area_with_locked_in_attack(steam_id: int, target_steam_id: int, attack_cards: Array)
+signal forward_defense_lock_in_to_host(steam_id: int, target_steam_id: int, defense_cards: Array)
+signal update_player_area_with_locked_in_defense(steam_id: int, target_steam_id: int, defense_cards: Array)
 
 # Called when singleton is initialized
 func _ready():
@@ -292,6 +294,21 @@ func lock_in_attack(steam_id: int, target_steam_id: int, attack_cards: Array):
 	print("Attack cards: ", attack_cards)
 	# Emit the new signal to update the UI
 	emit_signal("update_player_area_with_locked_in_attack", steam_id, target_steam_id, attack_cards)
+
+# Lock in the current defense and process it
+func lock_in_defense(steam_id: int, target_steam_id: int, defense_cards: Array):
+	if not is_host:
+		print("Forwarding defense lock-in to host")
+		emit_signal("forward_defense_lock_in_to_host", steam_id, target_steam_id, defense_cards)
+		return
+		
+	print("Locking in defense for player ", steam_id, " targeting player ", target_steam_id)
+	# Process the defense cards here
+	# This is where we'll handle the defense logic
+	# For now, just print the cards
+	print("Defense cards: ", defense_cards)
+	# Emit the new signal to update the UI
+	emit_signal("update_player_area_with_locked_in_defense", steam_id, target_steam_id, defense_cards)
 
 # Redistribute stats (1:1:1 ratio)
 func redistribute_stats(steam_id: int, vigor: int, arcane_flux: int, treasure: int):
