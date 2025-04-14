@@ -40,21 +40,10 @@ func _ready():
 	   !illusion_indicator:
 		push_error("PlayerIndicatorUI: status indicators not found")
 		return
-	
-	# Connect to signal only if all nodes are properly loaded
-	MatchState.player_updated.connect(update_player_indicator)
-	
 
 func update_player_indicator(player_data: Dictionary):
 	print("Updating player indicator with: " + str(player_data))
 	print("Previous player data: " + str(current_player_data))
-	
-	# Only update if the steam_id matches
-	var incoming_steam_id = player_data["steam_id"]["steam_id"]
-	if incoming_steam_id != player_steam_id:
-		print("Skipping update - steam_id mismatch (incoming: ", incoming_steam_id, ", current: ", player_steam_id, ")")
-		return
-		
 	current_player_data = player_data
 	# Add null checks
 	if !player_name || !vigor_label || !flux_label || !fort_label:
