@@ -30,6 +30,7 @@ signal forward_attack_lock_in_to_host(steam_id: int, target_steam_id: int, attac
 signal update_player_area_with_locked_in_attack(steam_id: int, target_steam_id: int, attack_cards: Array)
 signal forward_defense_lock_in_to_host(steam_id: int, target_steam_id: int, defense_cards: Array)
 signal update_player_area_with_locked_in_defense(steam_id: int, target_steam_id: int, defense_cards: Array)
+signal update_damage_indicator(attack_value: int, attack_type: String)
 
 # Called when singleton is initialized
 func _ready():
@@ -336,6 +337,8 @@ func process_attack_and_defense():
 				total_damage += card["atk"]
 		print("Defender accepts attack")
 		print("Attack deals ", total_damage, " ", attack_element, " damage")
+		emit_signal("update_damage_indicator", total_damage, attack_element)
+		apply_damage_to_player(defender, total_damage)
 		return
 	
 	# Calculate attack and defense elements
@@ -360,8 +363,11 @@ func process_attack_and_defense():
 		var final_damage = total_attack - total_defense
 		if final_damage <= 0:
 			print("Attack was completely blocked!")
+			emit_signal("update_damage_indicator", 0, attack_element)
 		else:
 			print("Attack deals ", final_damage, " ", attack_element, " damage after defense")
+			emit_signal("update_damage_indicator", final_damage, attack_element)
+			apply_damage_to_player(defender, final_damage)
 	else:
 		# If defense can't block the attack, calculate total damage
 		var total_damage = 0
@@ -369,6 +375,8 @@ func process_attack_and_defense():
 			if card.has("atk"):
 				total_damage += card["atk"]
 		print("Defense ineffective! Attack deals ", total_damage, " ", attack_element, " damage")
+		emit_signal("update_damage_indicator", total_damage, attack_element)
+		apply_damage_to_player(defender, total_damage)
 		
 	# Clear the variables after processing
 	attacker = -1
@@ -479,3 +487,23 @@ func can_defend_against_attack(attack_element: String, defense_element: String) 
 		_:
 			# Default case (shouldn't happen with current elements)
 			return false
+
+func apply_damage_to_player(player_id: int, damage: int):
+	if not is_host:
+		return
+		
+	if not player_id in players:
+		printerr("Player ID not found: ", player_id)
+		return
+		
+	var player = players[player_id]
+	player["vigor"] -= damage
+	
+	# Check if player is eliminated
+	if player["vigor"] <= 0:
+		player["vigor"] = 0
+		player["eliminated"] = true
+		print("Player ", player_id, " has been eliminated!")
+	
+	# Emit signal to update player data
+	emit_signal("player_updated", player)

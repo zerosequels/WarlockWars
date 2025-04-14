@@ -44,6 +44,7 @@ func _ready():
 	MatchState.forward_defense_lock_in_to_host.connect(_on_forward_defense_lock_in_to_host)
 	MatchState.update_player_area_with_locked_in_attack.connect(_on_update_player_area_with_locked_in_attack)
 	MatchState.update_player_area_with_locked_in_defense.connect(_on_update_player_area_with_locked_in_defense)
+	MatchState.player_updated.connect(_on_player_updated)
 	
 	check_Command_Line()
 	
@@ -394,6 +395,10 @@ func read_p2p_packet() -> void:
 							readable_data["target_steam_id"],
 							readable_data["defense_cards"]
 						)
+				"PLAYER_UPDATED":
+					if readable_data.has("player_data"):
+						print("Received player update: ", readable_data["player_data"])
+						matchUi.update_player_indicator_in_list(readable_data["player_data"])
 
 func send_p2p_packet(this_target: int, packet_data: Dictionary):
 	print("Sending P2P packet")
@@ -523,4 +528,11 @@ func _on_update_player_area_with_locked_in_defense(steam_id: int, target_steam_i
 		"steam_id": steam_id,
 		"target_steam_id": target_steam_id,
 		"defense_cards": defense_cards
+	})
+
+func _on_player_updated(player_data: Dictionary):
+	print("Sending player update packet")
+	send_p2p_packet(0, {
+		"message": "PLAYER_UPDATED",
+		"player_data": player_data
 	})
