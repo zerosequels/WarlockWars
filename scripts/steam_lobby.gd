@@ -531,8 +531,12 @@ func _on_update_player_area_with_locked_in_defense(steam_id: int, target_steam_i
 	})
 
 func _on_player_updated(player_data: Dictionary):
+	print("\n=== Steam Lobby: Player Update ===")
+	print("Is host: ", MatchState.is_host)
+	print("Received player data: ", player_data)
 	print("Sending player update packet")
 	send_p2p_packet(0, {
 		"message": "PLAYER_UPDATED",
 		"player_data": player_data
 	})
+	print("=== Player Update Packet Sent ===\n")

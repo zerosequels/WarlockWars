@@ -491,14 +491,21 @@ func can_defend_against_attack(attack_element: String, defense_element: String) 
 
 func apply_damage_to_player(player_id: int, damage: int):
 	if not is_host:
+		print("Non-host machine, skipping damage application")
 		return
 		
+	print("\n=== Applying Damage ===")
+	print("Target player_id: ", player_id)
+	print("Current players dictionary: ", players)
+	
 	# Search through all players to find the matching one
 	var target_player = null
 	for player_key in players:
 		var player = players[player_key]
+		print("Checking player with steam_id: ", player["steam_id"]["steam_id"])
 		if player["steam_id"]["steam_id"] == player_id:
 			target_player = player
+			print("Found matching player: ", player)
 			break
 	
 	if target_player == null:
@@ -506,6 +513,7 @@ func apply_damage_to_player(player_id: int, damage: int):
 		return
 		
 	target_player["vigor"] -= damage
+	print("Updated vigor to: ", target_player["vigor"])
 	
 	# Check if player is eliminated
 	if target_player["vigor"] <= 0:
@@ -513,5 +521,7 @@ func apply_damage_to_player(player_id: int, damage: int):
 		target_player["eliminated"] = true
 		print("Player ", player_id, " has been eliminated!")
 	
+	print("Emitting player_updated signal with data: ", target_player)
 	# Emit signal to update player data
 	emit_signal("player_updated", target_player)
+	print("=== Damage Application Complete ===\n")
