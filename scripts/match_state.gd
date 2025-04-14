@@ -327,10 +327,49 @@ func process_attack_and_defense():
 	print("Attack Cards: ", attack_cards_data)
 	print("Defense Cards: ", defense_cards_data)
 	
-	# Calculate attack element
-	var attack_element = calculate_attack_element(attack_cards_data)
-	print("Attack Element Type: ", attack_element)
+	# Handle case where no defense cards are played
+	if defense_cards_data.is_empty():
+		var attack_element = calculate_attack_element(attack_cards_data)
+		var total_damage = 0
+		for card in attack_cards_data:
+			if card.has("atk"):
+				total_damage += card["atk"]
+		print("Defender accepts attack")
+		print("Attack deals ", total_damage, " ", attack_element, " damage")
+		return
 	
+	# Calculate attack and defense elements
+	var attack_element = calculate_attack_element(attack_cards_data)
+	var defense_element = calculate_defense_element(defense_cards_data)
+	print("Attack Element Type: ", attack_element)
+	print("Defense Element Type: ", defense_element)
+	
+	if can_defend_against_attack(attack_element, defense_element):
+		# Calculate total attack and defense values
+		var total_attack = 0
+		var total_defense = 0
+		
+		for card in attack_cards_data:
+			if card.has("atk"):
+				total_attack += card["atk"]
+				
+		for card in defense_cards_data:
+			if card.has("def"):
+				total_defense += card["def"]
+		
+		var final_damage = total_attack - total_defense
+		if final_damage <= 0:
+			print("Attack was completely blocked!")
+		else:
+			print("Attack deals ", final_damage, " ", attack_element, " damage after defense")
+	else:
+		# If defense can't block the attack, calculate total damage
+		var total_damage = 0
+		for card in attack_cards_data:
+			if card.has("atk"):
+				total_damage += card["atk"]
+		print("Defense ineffective! Attack deals ", total_damage, " ", attack_element, " damage")
+		
 	# Clear the variables after processing
 	attacker = -1
 	defender = -1
@@ -366,6 +405,35 @@ func calculate_attack_element(cards: Array) -> String:
 	
 	return element
 
+func calculate_defense_element(cards: Array) -> String:
+	# Determine defense element type
+	var defense_elements = []
+	for card in cards:
+		if card.has("element"):
+			defense_elements.append(card["element"])
+	
+	var element = "Non-element"  # Default to Non-element
+	
+	if defense_elements.size() == 1:
+		# Single element defense
+		element = defense_elements[0]
+	elif defense_elements.size() > 1:
+		# Check if all elements are the same
+		var all_same = true
+		var first_element = defense_elements[0]
+		for defense_element in defense_elements:
+			if defense_element != first_element:
+				all_same = false
+				break
+		
+		if all_same:
+			element = first_element
+		else:
+			# Mixed elements result in Non-element
+			element = "Non-element"
+	
+	return element
+
 # Redistribute stats (1:1:1 ratio)
 func redistribute_stats(steam_id: int, vigor: int, arcane_flux: int, treasure: int):
 	if not is_host:
@@ -381,3 +449,29 @@ func redistribute_stats(steam_id: int, vigor: int, arcane_flux: int, treasure: i
 		emit_signal("player_updated", player)
 	else:
 		printerr("Invalid stat redistribution for Player ", steam_id)
+
+func can_defend_against_attack(attack_element: String, defense_element: String) -> bool:
+	# Non-element can be defended by any element
+	if attack_element == "Non-element":
+		return true
+	
+	# Holy cannot be defended by any element
+	if attack_element == "Holy":
+		return false
+	
+	# Check element matchups
+	match attack_element:
+		"Fire":
+			return defense_element == "Water"
+		"Water":
+			return defense_element == "Fire"
+		"Earth":
+			return defense_element == "Air"
+		"Air":
+			return defense_element == "Earth"
+		"Necromancy":
+			# Necromancy can be defended by any element
+			return true
+		_:
+			# Default case (shouldn't happen with current elements)
+			return false
