@@ -332,7 +332,7 @@ func _on_defense_button_pressed():
 	is_defense_locked = true
 	MatchState.lock_in_defense(Globals.STEAM_ID, current_target, hand_data)
 
-func update_attack_and_defend_area_by_attack_lock_in(steam_id: int, target_steam_id: int, hand_data: Array):
+func update_attack_area_by_attack_lock_in(steam_id: int, target_steam_id: int, hand_data: Array):
 	# Update the attacker and defender labels with personalized names
 	attacker_label.text = Steam.getFriendPersonaName(steam_id)
 	defender_label.text = Steam.getFriendPersonaName(target_steam_id)
@@ -350,7 +350,17 @@ func update_attack_and_defend_area_by_attack_lock_in(steam_id: int, target_steam
 		add_card_to_attack(card_effect_instance)
 
 func _on_update_player_area_with_locked_in_attack(steam_id: int, target_steam_id: int, attack_cards: Array):
-	update_attack_and_defend_area_by_attack_lock_in(steam_id, target_steam_id, attack_cards)
+	update_attack_area_by_attack_lock_in(steam_id, target_steam_id, attack_cards)
+
+func update_defense_area_by_defense_lock_in(steam_id: int, target_steam_id: int, hand_data: Array):
+	# Clear any existing cards in the defense area
+	clear_defense_area()
+	
+	# Create and add new card effects for each card in hand_data
+	for card_data in hand_data:
+		var card_effect_instance = card_effect.instantiate()
+		card_effect_instance.set_card_data(card_data)
+		add_card_to_defense(card_effect_instance)
 
 func _on_update_player_area_with_locked_in_defense(steam_id: int, target_steam_id: int, defense_cards: Array):
-	update_attack_and_defend_area_by_attack_lock_in(steam_id, target_steam_id, defense_cards)
+	update_defense_area_by_defense_lock_in(steam_id, target_steam_id, defense_cards)

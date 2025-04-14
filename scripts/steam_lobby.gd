@@ -43,6 +43,7 @@ func _ready():
 	MatchState.forward_attack_lock_in_to_host.connect(_on_forward_attack_lock_in_to_host)
 	MatchState.forward_defense_lock_in_to_host.connect(_on_forward_defense_lock_in_to_host)
 	MatchState.update_player_area_with_locked_in_attack.connect(_on_update_player_area_with_locked_in_attack)
+	MatchState.update_player_area_with_locked_in_defense.connect(_on_update_player_area_with_locked_in_defense)
 	
 	check_Command_Line()
 	
@@ -385,6 +386,14 @@ func read_p2p_packet() -> void:
 							readable_data["target_steam_id"],
 							readable_data["attack_cards"]
 						)
+				"UPDATE_PLAYER_AREA_ON_DEFENSE":
+					if readable_data.has("steam_id") and readable_data.has("target_steam_id") and readable_data.has("defense_cards"):
+						print("Updating player area with defense data")
+						matchUi._on_update_player_area_with_locked_in_defense(
+							readable_data["steam_id"],
+							readable_data["target_steam_id"],
+							readable_data["defense_cards"]
+						)
 
 func send_p2p_packet(this_target: int, packet_data: Dictionary):
 	print("Sending P2P packet")
@@ -502,6 +511,15 @@ func _on_forward_defense_lock_in_to_host(steam_id: int, target_steam_id: int, de
 	print("Forwarding defense lock-in to host")
 	send_p2p_packet(0, {
 		"message": "FORWARD_DEFENSE_LOCK_IN",
+		"steam_id": steam_id,
+		"target_steam_id": target_steam_id,
+		"defense_cards": defense_cards
+	})
+
+func _on_update_player_area_with_locked_in_defense(steam_id: int, target_steam_id: int, defense_cards: Array):
+	print("Sending update player area packet for defense")
+	send_p2p_packet(0, {
+		"message": "UPDATE_PLAYER_AREA_ON_DEFENSE",
 		"steam_id": steam_id,
 		"target_steam_id": target_steam_id,
 		"defense_cards": defense_cards
