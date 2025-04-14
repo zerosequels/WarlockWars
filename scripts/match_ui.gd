@@ -366,13 +366,16 @@ func _on_update_player_area_with_locked_in_defense(steam_id: int, target_steam_i
 	update_defense_area_by_defense_lock_in(steam_id, target_steam_id, defense_cards)
 
 func update_player_indicator_in_list(player_data: Dictionary):
-	var steam_id = player_data["steam_id"]["steam_id"]
+	var target_steam_id = player_data["steam_id"]["steam_id"]
+	print("Looking for player with steam_id: ", target_steam_id)
 	
 	# Search through all children of player_list_container
 	for child in player_list_container.get_children():
 		# Check if this child has the player_indicator_ui script
 		if child.has_method("set_player_id"):
+			print("Found player indicator with steam_id: ", child.player_steam_id)
 			# If the steam_id matches, update the indicator
-			if child.player_steam_id == steam_id:
+			if child.player_steam_id == target_steam_id:
+				print("Updating matching player indicator")
 				child.update_player_indicator(player_data)
 				break

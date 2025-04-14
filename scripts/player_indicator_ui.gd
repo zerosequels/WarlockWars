@@ -47,6 +47,7 @@ func _ready():
 
 func update_player_indicator(player_data: Dictionary):
 	print("Updating player indicator with: " + str(player_data))
+	print("Previous player data: " + str(current_player_data))
 	current_player_data = player_data
 	# Add null checks
 	if !player_name || !vigor_label || !flux_label || !fort_label:
