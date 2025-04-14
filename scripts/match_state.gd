@@ -327,11 +327,44 @@ func process_attack_and_defense():
 	print("Attack Cards: ", attack_cards_data)
 	print("Defense Cards: ", defense_cards_data)
 	
+	# Calculate attack element
+	var attack_element = calculate_attack_element(attack_cards_data)
+	print("Attack Element Type: ", attack_element)
+	
 	# Clear the variables after processing
 	attacker = -1
 	defender = -1
 	attack_cards_data.clear()
 	defense_cards_data.clear()
+
+func calculate_attack_element(cards: Array) -> String:
+	# Determine attack element type
+	var attack_elements = []
+	for card in cards:
+		if card.has("element"):
+			attack_elements.append(card["element"])
+	
+	var element = "Non-element"  # Default to Non-element
+	
+	if attack_elements.size() == 1:
+		# Single element attack
+		element = attack_elements[0]
+	elif attack_elements.size() > 1:
+		# Check if all elements are the same
+		var all_same = true
+		var first_element = attack_elements[0]
+		for attack_element in attack_elements:
+			if attack_element != first_element:
+				all_same = false
+				break
+		
+		if all_same:
+			element = first_element
+		else:
+			# Mixed elements result in Non-element
+			element = "Non-element"
+	
+	return element
 
 # Redistribute stats (1:1:1 ratio)
 func redistribute_stats(steam_id: int, vigor: int, arcane_flux: int, treasure: int):
