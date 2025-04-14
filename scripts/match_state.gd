@@ -493,18 +493,25 @@ func apply_damage_to_player(player_id: int, damage: int):
 	if not is_host:
 		return
 		
-	if not player_id in players:
+	# Search through all players to find the matching one
+	var target_player = null
+	for player_key in players:
+		var player = players[player_key]
+		if player["steam_id"]["steam_id"] == player_id:
+			target_player = player
+			break
+	
+	if target_player == null:
 		printerr("Player ID not found: ", player_id)
 		return
 		
-	var player = players[player_id]
-	player["vigor"] -= damage
+	target_player["vigor"] -= damage
 	
 	# Check if player is eliminated
-	if player["vigor"] <= 0:
-		player["vigor"] = 0
-		player["eliminated"] = true
+	if target_player["vigor"] <= 0:
+		target_player["vigor"] = 0
+		target_player["eliminated"] = true
 		print("Player ", player_id, " has been eliminated!")
 	
 	# Emit signal to update player data
-	emit_signal("player_updated", player)
+	emit_signal("player_updated", target_player)
