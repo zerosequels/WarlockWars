@@ -398,7 +398,7 @@ func read_p2p_packet() -> void:
 				"PLAYER_UPDATED":
 					if readable_data.has("player_data"):
 						print("Received player update: ", readable_data["player_data"])
-						matchUi.update_player_indicator_in_list(readable_data["player_data"])
+						matchUi._on_player_updated(readable_data["player_data"])
 
 func send_p2p_packet(this_target: int, packet_data: Dictionary):
 	print("Sending P2P packet")
