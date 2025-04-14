@@ -15,6 +15,12 @@ var cantrips_played := {}  # Tracks Cantrips played this turn per player
 var match_started: bool = false
 var is_host: bool = false  # Tracks if this player is the host of the current match
 
+# Attack/Defense tracking
+var attacker: int = -1
+var defender: int = -1
+var attack_cards_data: Array = []
+var defense_cards_data: Array = []
+
 # Signals
 signal populate_player_list(players: Dictionary, turn_order: Array)
 signal player_updated(player_data: Dictionary)
@@ -288,6 +294,10 @@ func lock_in_attack(steam_id: int, target_steam_id: int, attack_cards: Array):
 		return
 		
 	print("Locking in attack for player ", steam_id, " targeting player ", target_steam_id)
+	attacker = steam_id
+	defender = target_steam_id
+	attack_cards_data = attack_cards
+	
 	# Process the attack cards here
 	# This is where we'll handle the attack logic
 	# For now, just print the cards
@@ -303,12 +313,25 @@ func lock_in_defense(steam_id: int, target_steam_id: int, defense_cards: Array):
 		return
 		
 	print("Locking in defense for player ", steam_id, " targeting player ", target_steam_id)
-	# Process the defense cards here
-	# This is where we'll handle the defense logic
-	# For now, just print the cards
-	print("Defense cards: ", defense_cards)
+	defense_cards_data = defense_cards
+	
 	# Emit the new signal to update the UI
 	emit_signal("update_player_area_with_locked_in_defense", steam_id, target_steam_id, defense_cards)
+	
+	# Process the attack and defense
+	process_attack_and_defense()
+
+func process_attack_and_defense():
+	print("Attacker ID: ", attacker)
+	print("Defender ID: ", defender)
+	print("Attack Cards: ", attack_cards_data)
+	print("Defense Cards: ", defense_cards_data)
+	
+	# Clear the variables after processing
+	attacker = -1
+	defender = -1
+	attack_cards_data.clear()
+	defense_cards_data.clear()
 
 # Redistribute stats (1:1:1 ratio)
 func redistribute_stats(steam_id: int, vigor: int, arcane_flux: int, treasure: int):
