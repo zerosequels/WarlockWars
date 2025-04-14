@@ -451,11 +451,15 @@ func redistribute_stats(steam_id: int, vigor: int, arcane_flux: int, treasure: i
 		printerr("Invalid stat redistribution for Player ", steam_id)
 
 func can_defend_against_attack(attack_element: String, defense_element: String) -> bool:
+	# Holy defense can block any attack
+	if defense_element == "Holy":
+		return true
+		
 	# Non-element can be defended by any element
 	if attack_element == "Non-element":
 		return true
 	
-	# Holy cannot be defended by any element
+	# Holy cannot be defended by any element (except Holy defense)
 	if attack_element == "Holy":
 		return false
 	
