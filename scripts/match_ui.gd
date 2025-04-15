@@ -306,7 +306,7 @@ func _on_attack_area_button_pressed():
 	print("Attack area cards: ", hand_data)
 	print("Total attack damage: ", attack_damage_value)
 	
-	is_attack_locked = true
+	set_is_attack_locked(true)
 	MatchState.lock_in_attack(Globals.STEAM_ID, current_target, hand_data)
 
 func _on_defense_button_pressed():
@@ -330,7 +330,7 @@ func _on_defense_button_pressed():
 	print("Defense area cards: ", hand_data)
 	print("Total defense block: ", defense_block_value)
 	
-	is_defense_locked = true
+	set_is_defense_locked(true)
 	MatchState.lock_in_defense(Globals.STEAM_ID, current_target, hand_data)
 
 func update_attack_area_by_attack_lock_in(steam_id: int, target_steam_id: int, hand_data: Array):
@@ -393,3 +393,27 @@ func clear_play_area():
 	# Clear labels
 	attacker_label.text = ""
 	defender_label.text = ""
+
+func set_is_attack_locked(value: bool):
+	is_attack_locked = value
+	if value:
+		# When locking attack, remove the cards from hand
+		for card_effect in attack_cards_container.get_children():
+			var hand_index = card_effect.hand_order_index
+			# Find and remove the card from hand with matching index
+			for hand_card in hand_container.get_children():
+				if hand_card.hand_order_index == hand_index:
+					remove_card_from_hand(hand_card)
+					break
+
+func set_is_defense_locked(value: bool):
+	is_defense_locked = value
+	if value:
+		# When locking defense, remove the cards from hand
+		for card_effect in defend_cards_container.get_children():
+			var hand_index = card_effect.hand_order_index
+			# Find and remove the card from hand with matching index
+			for hand_card in hand_container.get_children():
+				if hand_card.hand_order_index == hand_index:
+					remove_card_from_hand(hand_card)
+					break
