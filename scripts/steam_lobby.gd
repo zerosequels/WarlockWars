@@ -45,6 +45,7 @@ func _ready():
 	MatchState.update_player_area_with_locked_in_attack.connect(_on_update_player_area_with_locked_in_attack)
 	MatchState.update_player_area_with_locked_in_defense.connect(_on_update_player_area_with_locked_in_defense)
 	MatchState.player_updated.connect(_on_player_updated)
+	MatchState.update_damage_indicator.connect(_on_update_damage_indicator)
 	
 	check_Command_Line()
 	
@@ -399,6 +400,9 @@ func read_p2p_packet() -> void:
 					if readable_data.has("player_data"):
 						print("Received player update: ", readable_data["player_data"])
 						matchUi._on_player_updated(readable_data["player_data"])
+				"UPDATE_DAMAGE_INDICATOR":
+					if readable_data.has("attack_value") and readable_data.has("attack_type"):
+						print("Received damage indicator update: ", readable_data["attack_value"], " ", readable_data["attack_type"], " damage")
 
 func send_p2p_packet(this_target: int, packet_data: Dictionary):
 	print("Sending P2P packet")
@@ -540,3 +544,11 @@ func _on_player_updated(player_data: Dictionary):
 		"player_data": player_data
 	})
 	print("=== Player Update Packet Sent ===\n")
+
+func _on_update_damage_indicator(attack_value: int, attack_type: String):
+	print("Sending damage indicator update to all players")
+	send_p2p_packet(0, {
+		"message": "UPDATE_DAMAGE_INDICATOR",
+		"attack_value": attack_value,
+		"attack_type": attack_type
+	})
