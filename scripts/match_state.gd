@@ -11,7 +11,6 @@ const MAX_HAND_SIZE_ABSOLUTE: int = 18  # Absolute maximum to prevent hand overf
 var players := {}
 var current_turn := 0  # Index in turn_order
 var turn_order := []   # Array of Steam IDs from LOBBY_MEMBERS
-var cantrips_played := {}  # Tracks Cantrips played this turn per player
 var match_started: bool = false
 var is_host: bool = false  # Tracks if this player is the host of the current match
 
@@ -72,7 +71,6 @@ func reset_match():
 	players.clear()
 	turn_order.clear()
 	current_turn = 0
-	cantrips_played.clear()
 	
 	# Use LOBBY_MEMBERS from Globals to initialize players
 	if Globals.LOBBY_MEMBERS.is_empty():
@@ -138,8 +136,6 @@ func next_turn():
 	current_turn = (current_turn + 1) % turn_order.size()
 	while players[turn_order[current_turn]]["eliminated"]:
 		current_turn = (current_turn + 1) % turn_order.size()
-	# Reset Cantrips played for the new turn
-	cantrips_played[get_current_player()["steam_id"]] = 0
 	# Replenish hand
 	replenish_hand(get_current_player())
 	# Emit current player's turn
@@ -156,14 +152,6 @@ func play_card(steam_id: int, card_id: String, target_steam_id: int = -1):
 	if card_id not in player["hand"]:
 		printerr("Card ", card_id, " not in player ", steam_id, "'s hand")
 		return false
-	
-	# Special check for Cantrips: 1 per turn limit
-	if card_data["type"] == "cantrip":
-		if not steam_id in cantrips_played:
-			cantrips_played[steam_id] = 0
-		if cantrips_played[steam_id] >= 1 and not card_data.get("combo", false):
-			printerr("Only 1 non-combo Cantrip allowed per turn")
-			return false
 	
 	# Check costs (only deduct if > 0)
 	if card_data["treasure_cost"] > 0 and player["treasure"] < card_data["treasure_cost"]:
@@ -183,7 +171,6 @@ func play_card(steam_id: int, card_id: String, target_steam_id: int = -1):
 	match card_data["type"]:
 		"cantrip":
 			_apply_attack(steam_id, target_steam_id, card_data)
-			cantrips_played[steam_id] = cantrips_played.get(steam_id, 0) + 1
 		"abjuration":
 			printerr("Abjuration cards are played defensively, not proactively")
 			return false
