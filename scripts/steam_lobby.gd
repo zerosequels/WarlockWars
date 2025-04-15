@@ -562,3 +562,5 @@ func _on_clear_play_area():
 	send_p2p_packet(0, {
 		"message": "CLEAR_PLAY_AREA"
 	})
+	# Also clear the host's play area
+	matchUi.clear_play_area()
