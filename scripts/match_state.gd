@@ -31,6 +31,7 @@ signal update_player_area_with_locked_in_attack(steam_id: int, target_steam_id: 
 signal forward_defense_lock_in_to_host(steam_id: int, target_steam_id: int, defense_cards: Array)
 signal update_player_area_with_locked_in_defense(steam_id: int, target_steam_id: int, defense_cards: Array)
 signal update_damage_indicator(attack_value: int, attack_type: String)
+signal clear_play_area()  # New signal to clear play area
 
 # Called when singleton is initialized
 func _ready():
@@ -384,6 +385,7 @@ func process_attack_and_defense():
 	defender = -1
 	attack_cards_data.clear()
 	defense_cards_data.clear()
+	emit_signal("clear_play_area")
 
 func calculate_attack_element(cards: Array) -> String:
 	# Determine attack element type

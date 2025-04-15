@@ -382,3 +382,14 @@ func _on_player_updated(player_data: Dictionary):
 				child.update_player_indicator(player_data)
 				break
 	print("=== Player Update Complete ===\n")
+
+func clear_play_area():
+	print("Clearing play area")
+	clear_attack_area()
+	clear_defense_area()
+	# Reset attack/defense lock states
+	is_attack_locked = false
+	is_defense_locked = false
+	# Clear labels
+	attacker_label.text = ""
+	defender_label.text = ""
