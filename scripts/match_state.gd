@@ -136,8 +136,6 @@ func next_turn():
 	current_turn = (current_turn + 1) % turn_order.size()
 	while players[turn_order[current_turn]]["eliminated"]:
 		current_turn = (current_turn + 1) % turn_order.size()
-	# Replenish hand
-	replenish_hand(get_current_player())
 	# Emit current player's turn
 	emit_signal("current_player_turn", turn_order[current_turn])
 
@@ -367,7 +365,16 @@ func process_attack_and_defense():
 		emit_signal("update_damage_indicator", total_damage, attack_element)
 		apply_damage_to_player(defender, total_damage)
 		
+	# Replenish hands for both players
+	for player_key in players:
+		var player = players[player_key]
+		if player["steam_id"]["steam_id"] == attacker or player["steam_id"]["steam_id"] == defender:
+			replenish_hand(player)
+	
 	# Clear the variables after processing
+	_clear_attack_defense_state()
+
+func _clear_attack_defense_state():
 	attacker = -1
 	defender = -1
 	attack_cards_data.clear()
